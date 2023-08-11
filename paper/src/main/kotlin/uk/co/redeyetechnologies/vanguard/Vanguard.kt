@@ -1,4 +1,9 @@
 package uk.co.redeyetechnologies.vanguard
 
-class Vanguard {
+import org.bukkit.plugin.java.JavaPlugin
+
+class Vanguard : JavaPlugin() {
+
+
+
 }
