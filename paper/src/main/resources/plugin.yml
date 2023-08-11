@@ -1,0 +1,4 @@
+name: vanguard
+version: '${version}'
+main: uk.co.redeyetechnologies.vanguard.Vanguard
+api-version: '1.20'
