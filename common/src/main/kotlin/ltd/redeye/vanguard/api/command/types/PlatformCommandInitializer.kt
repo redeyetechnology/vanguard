@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.api.command
+package ltd.redeye.vanguard.api.command.types
 
 import cloud.commandframework.CommandManager
 import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler

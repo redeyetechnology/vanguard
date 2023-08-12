@@ -26,6 +26,8 @@ import cloud.commandframework.arguments.standard.StringArgument
 import cloud.commandframework.meta.CommandMeta
 import cloud.commandframework.meta.SimpleCommandMeta
 import cloud.commandframework.minecraft.extras.MinecraftHelp
+import ltd.redeye.vanguard.api.command.types.PlatformCommandInitializer
+import ltd.redeye.vanguard.api.command.types.VanguardCommandSource
 import net.kyori.adventure.text.format.TextColor
 
 /**
