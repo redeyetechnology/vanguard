@@ -46,10 +46,7 @@ class VanguardPlayerManager(private val core: VanguardCore) {
     }
 
     fun shouldPreventLogin(uuid: UUID): Component? {
-        val activeBan = core.punishmentManager.getActiveBan(uuid)
-        if (activeBan == null) {
-            return null
-        }
+        val activeBan = core.punishmentManager.getActiveBan(uuid) ?: return null
 
         val message = core.messages.disallowedLoginBanned
         val noReasonProvided = core.messages.noReasonProvided

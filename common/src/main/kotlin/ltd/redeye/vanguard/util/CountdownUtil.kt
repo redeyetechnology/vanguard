@@ -21,18 +21,19 @@ package ltd.redeye.vanguard.util
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class CountdownUtil {
-    companion object {
-        fun countdownString(from: Date, to: Date): String {
-            if (from.after(to)) return "Invalid"
+object CountdownUtil {
 
-            val diff = to.time - from.time
+    fun countdownString(from: Date, to: Date): String {
+        if (from.after(to)) return "Invalid"
 
-            val days = TimeUnit.MILLISECONDS.toDays(diff)
-            val hours = TimeUnit.MILLISECONDS.toHours(diff) - TimeUnit.DAYS.toHours(days)
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(diff))
+        val diff = to.time - from.time
 
-            return "${days}d ${hours}h ${minutes}m"
-        }
+        val days = TimeUnit.MILLISECONDS.toDays(diff)
+        val hours = TimeUnit.MILLISECONDS.toHours(diff) - TimeUnit.DAYS.toHours(days)
+        val minutes =
+            TimeUnit.MILLISECONDS.toMinutes(diff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(diff))
+
+        return "${days}d ${hours}h ${minutes}m"
     }
+
 }
