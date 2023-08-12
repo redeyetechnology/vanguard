@@ -16,19 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.api.command.types
+package ltd.redeye.vanguard.command.lib.types
+
+import net.kyori.adventure.audience.ForwardingAudience
 
 /**
- * Represents a source of a command that is a player.
- * @param PLAYER The type of player.
- * @see VanguardCommandSource - The base command source.
+ * Represents a source of a command.
+ * This can be a player or the console
  */
-interface VanguardPlayerCommandSource<Player>: VanguardCommandSource<Player> {
+interface VanguardCommandSource<Source>: ForwardingAudience.Single {
 
     /**
-     * Gets the player associated with this source.
-     * @return The player.
+     * Checks if the source has the given permission.
+     * @param permission The permission to check.
+     * @return `true` if the source has the permission, `false` otherwise.
      */
-    fun player(): Player
+    fun hasPermission(permission: String): Boolean
+
+    /**
+     * Checks if the source is the console.
+     * @return `true` if the source is the console, `false` otherwise.
+     */
+    fun isConsole(): Boolean
 
 }

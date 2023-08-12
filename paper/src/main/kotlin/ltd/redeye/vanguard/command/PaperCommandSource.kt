@@ -18,12 +18,10 @@
 
 package ltd.redeye.vanguard.command
 
-import ltd.redeye.vanguard.api.command.types.VanguardCommandSource
-import ltd.redeye.vanguard.api.command.types.VanguardPlayerCommandSource
+import ltd.redeye.vanguard.command.lib.types.VanguardCommandSource
 import net.kyori.adventure.audience.Audience
 import org.bukkit.command.CommandSender
 import org.bukkit.command.ConsoleCommandSender
-import org.bukkit.entity.Player
 
 open class PaperCommandSource(val sender: CommandSender): VanguardCommandSource<CommandSender> {
 

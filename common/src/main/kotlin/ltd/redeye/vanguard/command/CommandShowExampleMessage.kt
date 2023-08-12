@@ -21,7 +21,7 @@ package ltd.redeye.vanguard.command
 import cloud.commandframework.annotations.CommandDescription
 import cloud.commandframework.annotations.CommandMethod
 import cloud.commandframework.annotations.CommandPermission
-import ltd.redeye.vanguard.api.command.types.VanguardCommandSource
+import ltd.redeye.vanguard.command.lib.types.VanguardCommandSource
 import ltd.redeye.vanguard.command.lib.VanguardCommand
 
 class CommandShowExampleMessage : VanguardCommand() {

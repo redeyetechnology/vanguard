@@ -19,7 +19,7 @@
 package ltd.redeye.vanguard.command.lib
 
 import ltd.redeye.vanguard.VanguardCore
-import ltd.redeye.vanguard.api.command.types.VanguardCommandSource
+import ltd.redeye.vanguard.command.lib.types.VanguardCommandSource
 import ltd.redeye.vanguard.config.file.MessagesConfig
 import ltd.redeye.vanguard.config.file.VanguardConfig
 import net.kyori.adventure.text.Component

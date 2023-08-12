@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.api.command
+package ltd.redeye.vanguard.command.lib
 
 import cloud.commandframework.CommandManager
 import cloud.commandframework.annotations.AnnotationParser
@@ -26,8 +26,8 @@ import cloud.commandframework.arguments.standard.StringArgument
 import cloud.commandframework.meta.CommandMeta
 import cloud.commandframework.meta.SimpleCommandMeta
 import cloud.commandframework.minecraft.extras.MinecraftHelp
-import ltd.redeye.vanguard.api.command.types.PlatformCommandInitializer
-import ltd.redeye.vanguard.api.command.types.VanguardCommandSource
+import ltd.redeye.vanguard.command.lib.types.PlatformCommandInitializer
+import ltd.redeye.vanguard.command.lib.types.VanguardCommandSource
 import net.kyori.adventure.text.format.TextColor
 
 /**
