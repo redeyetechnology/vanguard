@@ -15,6 +15,7 @@ configurate = "4.1.2"
 
 # Storage Drivers
 morphia = "2.3.6"
+gson = "2.8.9"
 
 # Networking
 redisson = "3.23.2"
@@ -50,6 +51,7 @@ morphia-kotlin = { module = "dev.morphia.morphia:morphia-kotlin", version.ref = 
 
 # Networking
 redisson = { module = "org.redisson:redisson", version.ref="redisson" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }

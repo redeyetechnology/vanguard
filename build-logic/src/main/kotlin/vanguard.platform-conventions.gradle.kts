@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.configurate.extra.kotlin)
 
     implementation(libs.redisson)
+    implementation(libs.gson)
 
     compileOnly(libs.slf4j.api)
 }

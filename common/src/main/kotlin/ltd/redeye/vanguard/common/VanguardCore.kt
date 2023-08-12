@@ -38,10 +38,10 @@ import java.io.File
  */
 class VanguardCore(
     val playerAdapter: VanguardPlayerAdapter<*>,
+    val logger: Logger,
     val version: String,
     pluginDirectory: File,
-    commandInitializer: PlatformCommandInitializer,
-    logger: Logger
+    commandInitializer: PlatformCommandInitializer
 ) {
     companion object {
         lateinit var instance: VanguardCore
