@@ -18,6 +18,8 @@
 
 package ltd.redeye.vanguard.common
 
+import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
+import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
 import ltd.redeye.vanguard.common.config.ConfigManager
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
@@ -37,7 +39,8 @@ class VanguardCore(
     pluginDirectory: File,
     val playerAdapter: VanguardPlayerAdapter<*>,
     logger: Logger,
-    val version: String
+    val version: String,
+    commandInitializer: PlatformCommandInitializer
 ) {
     val punishmentManager = VanguardPunishmentManager(this)
     val playerManager = VanguardPlayerManager(this)
@@ -53,6 +56,7 @@ class VanguardCore(
         }
 
     val storageDriver: VanguardStorageDriver
+    val commandManager: VanguardCommandManager = VanguardCommandManager(commandInitializer)
 
     companion object {
         lateinit var instance: VanguardCore
