@@ -48,6 +48,6 @@ class PaperVanguardPlayerAdapter : VanguardPlayerAdapter<Player> {
     override fun isOnline(vanguardPlayer: VanguardPlayer): Boolean {
         val player = adapt(vanguardPlayer)
 
-        return player.isOnline()
+        return player?.isOnline ?: false
     }
 }
