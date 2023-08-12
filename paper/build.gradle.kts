@@ -1,5 +1,5 @@
 plugins {
-    id("vanguard.base-conventions")
+    id("vanguard.platform-conventions")
 }
 
 repositories {
@@ -8,6 +8,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(project(":common"))
+    implementation(project(":api"))
+    implementation(project(":common"))
     compileOnly(libs.paper.api)
 }

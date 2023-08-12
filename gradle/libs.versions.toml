@@ -6,6 +6,7 @@ version = "1.0"
 kotlin = "1.7.10"
 indra = "3.1.2"
 licenser = "0.6.1"
+shadow = "8.1.1"
 
 # Common Dependencies
 adventure = "4.14.0"
@@ -24,6 +25,7 @@ indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "in
 [libraries]
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 licenser = { module = "gradle.plugin.org.cadixdev.gradle:licenser", version.ref = "licenser" }
+shadow = { module = "com.github.johnrengelman:shadow", version.ref = "shadow" }
 
 # build
 indra = { module = "net.kyori:indra-common", version.ref = "indra" }

@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.indra.sonatype)
 
     implementation(libs.licenser)
+    implementation(libs.shadow)
 
     compileOnly(files(libs::class.java.protectionDomain.codeSource.location))
 }
