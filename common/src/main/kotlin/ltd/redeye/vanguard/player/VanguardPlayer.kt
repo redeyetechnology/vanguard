@@ -29,8 +29,8 @@ import java.util.UUID
 data class VanguardPlayer(
     @Id
     val uuid: UUID,
-    val knownNames: MutableList<String> = mutableListOf(),
-    val knownIps: MutableList<String> = mutableListOf(),
+    val knownNames: MutableSet<String> = mutableSetOf(),
+    val knownIps: MutableSet<String> = mutableSetOf(),
     val lastKnownName: String? = null,
 ) {
 
