@@ -8,6 +8,8 @@ indra = "3.1.2"
 licenser = "0.6.1"
 
 # Common Dependencies
+adventure = "4.14.0"
+cloud = "1.8.3"
 
 # platform: paper
 paper = "1.20.1-R0.1-SNAPSHOT"
@@ -24,6 +26,8 @@ indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 indra-sonatype = { module = "net.kyori:indra-publishing-sonatype", version.ref = "indra" }
 
 # Common Dependencies
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+cloud-core = { module = "cloud.commandframework:cloud-core", version.ref = "cloud" }
 
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
