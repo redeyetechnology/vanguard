@@ -7,4 +7,6 @@ plugins {
 dependencies {
     compileOnly(libs.adventure.api)
     compileOnly(libs.cloud.core)
+    compileOnly(libs.cloud.annotations)
+    compileOnly(libs.cloud.minecraft.extras)
 }

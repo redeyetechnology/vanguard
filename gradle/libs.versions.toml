@@ -28,6 +28,8 @@ indra-sonatype = { module = "net.kyori:indra-publishing-sonatype", version.ref =
 # Common Dependencies
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 cloud-core = { module = "cloud.commandframework:cloud-core", version.ref = "cloud" }
+cloud-minecraft-extras = { module = "cloud.commandframework:cloud-minecraft-extras", version.ref = "cloud" }
+cloud-annotations = { module = "cloud.commandframework:cloud-annotations", version.ref = "cloud" }
 
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
