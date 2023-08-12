@@ -22,6 +22,10 @@ import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import java.net.InetAddress
 import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.Kick
+import ltd.redeye.vanguard.common.punishment.type.Mute
+import ltd.redeye.vanguard.common.punishment.type.Warning
+import java.util.UUID
 
 interface VanguardApi {
     /*
@@ -40,22 +44,23 @@ interface VanguardApi {
      */
     fun getCurrentBan(player: VanguardPlayer): Ban?
     fun ban(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
-    fun unban(player: VanguardPlayer, origin: VanguardOrigin?)
-    fun banIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?)
-    fun banIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?)
-    fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin?)
-    fun unbanIp(address: InetAddress, origin: VanguardOrigin?)
-    fun kick(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?)
+    fun unban(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
+    fun banIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
+    fun banIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
+    fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
+    fun unbanIp(address: InetAddress, origin: VanguardOrigin?): Boolean
+    fun kick(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?): Kick
     fun kickAll(origin: VanguardOrigin?, reason: String?)
     fun isMuted(player: VanguardPlayer): Boolean
-    fun getCurrentMute(player: VanguardPlayer): Void
-    fun mute(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?)
-    fun unmute(player: VanguardPlayer, origin: VanguardOrigin?)
-    fun muteIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?)
-    fun muteIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?)
-    fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin?)
-    fun unmuteIp(address: InetAddress, origin: VanguardOrigin?)
-    fun warn(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?)
+    fun getCurrentMute(player: VanguardPlayer): Mute?
+    fun mute(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute
+    fun unmute(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
+    fun muteIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute?
+    fun muteIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute?
+    fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
+    fun unmuteIp(address: InetAddress, origin: VanguardOrigin?): Boolean
+    fun warn(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?): Warning
     fun addNote(player: VanguardPlayer, origin: VanguardOrigin, note: String)
     fun addNoteIp(address: InetAddress, origin: VanguardOrigin, note: String)
+    fun getPlayer(uuid: UUID): VanguardPlayer?
 }

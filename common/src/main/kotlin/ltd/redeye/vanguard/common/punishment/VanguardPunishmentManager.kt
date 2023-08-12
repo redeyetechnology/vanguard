@@ -18,9 +18,12 @@
 
 package ltd.redeye.vanguard.common.punishment
 
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.type.Ban
 import ltd.redeye.vanguard.common.punishment.type.Punishment
+import java.time.Duration
+import java.util.Date
 import java.util.UUID
 
 class VanguardPunishmentManager(private val core: ltd.redeye.vanguard.common.VanguardCore) {
@@ -31,5 +34,34 @@ class VanguardPunishmentManager(private val core: ltd.redeye.vanguard.common.Van
 
     fun getActiveBan(uniqueId: UUID): Ban? {
         return core.storageDriver.getActiveBan(uniqueId)
+    }
+
+    fun isBanned(vanguardPlayer: VanguardPlayer): Boolean {
+        val activeBan = getActiveBan(vanguardPlayer.uuid)
+        return activeBan != null
+    }
+
+    fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin, duration: Duration?) {
+
+        val expires: Date = if (duration != null) {
+            Date.from(java.time.Instant.now().plus(duration))
+        } else {
+            Date(0)
+        }
+
+        val ban = Ban(
+            id = UUID.randomUUID(),
+            target = vanguardPlayer.uuid.toString(),
+            targetName = vanguardPlayer.knownNames.first(),
+            reason = reason,
+            source = source.toString(),
+            created = Date(),
+            updated = Date(),
+            expires = expires,
+            ip = false,
+            active = true
+        )
+
+        core.storageDriver.addPunishment(ban)
     }
 }

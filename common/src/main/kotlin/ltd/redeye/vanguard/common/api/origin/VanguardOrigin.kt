@@ -28,5 +28,9 @@ import java.util.UUID
  * @param name The display name/affiliated name of the origin.
  */
 class VanguardOrigin(val uuid: UUID, val name: String) {
+    companion object {
+        val CONSOLE = VanguardOrigin(UUID(0, 0), "CONSOLE")
+    }
+
     constructor(name: String) : this(UUID(0, 0), name)
 }

@@ -20,6 +20,7 @@ package ltd.redeye.vanguard.common.player
 
 import dev.morphia.annotations.Entity
 import dev.morphia.annotations.Id
+import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.punishment.type.Punishment
 import net.kyori.adventure.audience.Audience
 import java.util.UUID
@@ -32,6 +33,10 @@ data class VanguardPlayer(
     val knownIps: MutableSet<String> = mutableSetOf(),
     val lastKnownName: String? = null,
 ) {
+    val banned: Boolean
+        get() {
+            return VanguardCore.instance.punishmentManager.isBanned(this)
+        }
 
     fun isOnline(): Boolean {
         return ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.isOnline(this)

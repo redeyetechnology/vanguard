@@ -18,6 +18,7 @@
 
 package ltd.redeye.vanguard.common
 
+import ltd.redeye.vanguard.common.api.VanguardApiImpl
 import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
@@ -36,53 +37,36 @@ import java.io.File
  * platform-specific implementation of Vanguard.
  */
 class VanguardCore(
-    pluginDirectory: File,
     val playerAdapter: VanguardPlayerAdapter<*>,
-    logger: Logger,
     val version: String,
-    commandInitializer: PlatformCommandInitializer
+    pluginDirectory: File,
+    commandInitializer: PlatformCommandInitializer,
+    logger: Logger
 ) {
-    val punishmentManager = VanguardPunishmentManager(this)
-    val playerManager = VanguardPlayerManager(this)
-    val configManager: ConfigManager
-
-    val config: VanguardConfig
-        get() {
-            return configManager.getConfig(VanguardConfig::class)
-        }
-    val messages: MessagesConfig
-        get() {
-            return configManager.getConfig(MessagesConfig::class)
-        }
-
-    val storageDriver: VanguardStorageDriver
-    val commandManager: VanguardCommandManager = VanguardCommandManager(commandInitializer)
-
     companion object {
         lateinit var instance: VanguardCore
     }
 
-    init {
-        instance = this
-
+    // Configurations
+    private val configManager: ConfigManager = ConfigManager(pluginDirectory.toPath(), logger).apply {
         if (!pluginDirectory.exists()) {
             pluginDirectory.mkdirs()
         }
-
-        configManager = ConfigManager(pluginDirectory.toPath(), logger)
-        configManager.initConfigs(
-            VanguardConfig::class,
-            MessagesConfig::class
-        )
+        initConfigs(VanguardConfig::class, MessagesConfig::class)
     }
 
-    init {
-        if (config.database.driver == VanguardStorageDriver.DriverType.MONGO) {
-            storageDriver = MongoStorageDriver()
-        } else {
-            throw RuntimeException("Unsupported database driver: ${config.database.driver}")
-        }
+    val config: VanguardConfig get() = configManager.getConfig(VanguardConfig::class)
+    val messages: MessagesConfig get() = configManager.getConfig(MessagesConfig::class)
 
-        storageDriver.initialise()
+    val punishmentManager = VanguardPunishmentManager(this)
+    val playerManager = VanguardPlayerManager(this)
+    val commandManager = VanguardCommandManager(commandInitializer)
+    val storageDriver: VanguardStorageDriver = when (config.database.driver) {
+        VanguardStorageDriver.DriverType.MONGO -> MongoStorageDriver().apply { initialise() }
+    }
+    val api = VanguardApiImpl(this)
+
+    init {
+        instance = this
     }
 }
