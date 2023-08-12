@@ -18,5 +18,5 @@
 
 name: vanguard
 version: '${version}'
-main: ltd.redeye.vanguard.Vanguard
+main: ltd.redeye.vanguard.paper.VanguardPlugin
 api-version: '1.20'
