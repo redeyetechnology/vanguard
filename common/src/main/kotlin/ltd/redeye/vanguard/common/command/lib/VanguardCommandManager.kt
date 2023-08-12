@@ -63,7 +63,7 @@ class VanguardCommandManager(
         )
 
         help.helpColors = MinecraftHelp.HelpColors.of(
-            TextColor.color(240, 81, 226), // Primary
+            TextColor.color(203, 213, 225), // Primary
             TextColor.color(9, 147, 232), // Highlight
             TextColor.color(86, 198, 232), //alternateHighlight
             TextColor.color(142, 195, 207),
@@ -75,7 +75,8 @@ class VanguardCommandManager(
 
         // Define the '/vanguard help' command.
         commandManager.command(
-            commandManager.commandBuilder("help")
+            commandManager.commandBuilder("vanguard")
+                .literal("help")
                 .argument(StringArgument.optional("query", StringArgument.StringMode.GREEDY))
                 .handler { context -> help.queryCommands(context.getOrDefault("query", "")!!, context.sender) }
                 .build()

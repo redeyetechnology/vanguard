@@ -19,13 +19,14 @@
 package ltd.redeye.vanguard.common.command
 
 import cloud.commandframework.annotations.CommandMethod
+import cloud.commandframework.annotations.ProxiedBy
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.command.lib.VanguardCommand
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
 
 class CommandInfo : VanguardCommand() {
 
-    @CommandMethod("vanguard|vanguard info")
+    @CommandMethod("vanguard")
     fun info(sender: VanguardCommandSource<*>) {
         val version = VanguardCore.instance.version
         message(sender, "Running <#22D3EE>Vanguard</#22D3EE> <white>${version}</white> by <#22D3EE>RedEye Technologies</#22D3EE>")
