@@ -19,7 +19,6 @@
 package ltd.redeye.vanguard.common.command
 
 import cloud.commandframework.annotations.CommandMethod
-import cloud.commandframework.annotations.ProxiedBy
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.command.lib.VanguardCommand
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
