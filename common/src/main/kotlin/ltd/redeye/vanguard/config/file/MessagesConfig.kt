@@ -26,7 +26,13 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
 
 @ConfigSerializable
-class MessagesConfig(
+data class ExpiryPlaceholders(
+    var temporary: String = "<date> (<countdown>)",
+    var permanent: String = "no expiry (permanent)"
+)
+
+@ConfigSerializable
+data class MessagesConfig(
     @Comment("This is an example message, it demonstrates how each message in this configuration file is formatted. Each section ('chat', 'actionbar', etc) is optional, and can be entirely omitted. Each text component uses the MiniMessage messaging format to format text. You can see this message in-game by running /vanguard showexamplemessage")
     var exampleMessage: VanguardMessage = VanguardMessage(
         chat = mutableListOf("<red>Message One", "<#00ff00><bold>Message Two", "<gradient:red:blue>Message Three"),
@@ -34,5 +40,17 @@ class MessagesConfig(
         MessageTitle("Example Title", "Example Subtitle", 10, 10, 10),
         MessageBossBar("Example Bossbar", "blue", "notched_20", 1.0F),
         MessageSound("minecraft:entity.experience_orb.pickup", 1.0F, 1.0F)
-    )
+    ),
+
+    @Comment("This formats how the <expiry> placeholder is displayed. You can use the following placeholders: <date>, <countdown>. If a permanent ban is set, then the <expiry> placeholder will be replaced with the 'permanent' value.")
+    var expiryPlaceholders: ExpiryPlaceholders = ExpiryPlaceholders(),
+
+    @Comment("This formats the <reason> if no reason is provided when banning, kicking, warning or muting a player.")
+    var noReasonProvided: String = "No reason provided",
+
+    @Comment("When a name is unknown for any reason, it is displayed as below.")
+    var unknown: String = "Unknown",
+
+    @Comment("This is the message displayed when a player attempts to login while banned. Placeholders: <reason>, <expiry>")
+    var disallowedLoginBanned: List<String> = mutableListOf("<red>You are unable to login because you are banned.", "", "<gray>Reason: <white><reason>", "<gray>Expires: <white><expiry>"),
 )

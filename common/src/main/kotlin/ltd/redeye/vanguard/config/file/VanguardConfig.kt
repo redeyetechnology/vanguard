@@ -29,4 +29,7 @@ data class VanguardConfig(
 
     @Comment("You must have a database driver to use Vanguard. The default is MongoDB, but you can use MySQL or flatfile.")
     val database: DatabaseConfig = DatabaseConfig(),
+
+    @Comment("The date format used for punishments.")
+    val dateFormat: String = "dd/MM/yyyy HH:mm:ss",
 )

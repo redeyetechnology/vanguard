@@ -19,8 +19,87 @@
 package ltd.redeye.vanguard.player
 
 import ltd.redeye.vanguard.VanguardCore
+import ltd.redeye.vanguard.util.CountdownUtil
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.JoinConfiguration
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.Tag
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class VanguardPlayerManager(private val core: VanguardCore) {
+    val serverCache = mutableMapOf<UUID, VanguardPlayer>()
+
+    fun playerJoined(uuid: UUID, name: String, ip: String) {
+        val vanguardPlayer = core.storageDriver.loadPlayer(uuid)
+        vanguardPlayer.knownNames.add(name)
+        vanguardPlayer.knownIps.add(ip)
+    }
+
+    fun playerLeft(uuid: UUID) {
+        if (!serverCache.containsKey(uuid)) return
+
+        core.storageDriver.savePlayer(serverCache[uuid]!!)
+        serverCache.remove(uuid)
+    }
+
+    fun shouldPreventLogin(uuid: UUID): Component? {
+        val activeBan = core.punishmentManager.getActiveBan(uuid)
+        if (activeBan == null) {
+            return null
+        }
+
+        val message = core.messages.disallowedLoginBanned
+        val noReasonProvided = core.messages.noReasonProvided
+
+        val originPlayer = core.playerManager.getPlayerName(activeBan.source)
+
+        val expiresTextRaw =
+            if (activeBan.expires == Date(0)) core.messages.expiryPlaceholders.permanent
+            else core.messages.expiryPlaceholders.temporary
+
+        val dateTimeFormat = DateTimeFormatter.ofPattern(core.config.dateFormat)
+        val formattedDate = dateTimeFormat.format(LocalDateTime.from(activeBan.expires.toInstant()))
+        val countdown = CountdownUtil.countdownString(Date(), activeBan.expires)
+
+        val expiresTagResolver = TagResolver.builder()
+            .tag("date", Tag.inserting(Component.text(formattedDate)))
+            .tag("countdown", Tag.inserting(Component.text(countdown)))
+            .build()
+
+        val expiresTag = MiniMessage.miniMessage().deserialize(expiresTextRaw, expiresTagResolver)
+
+        val tagResolver = TagResolver.builder()
+            .tag("reason", Tag.inserting(Component.text(activeBan.reason ?: noReasonProvided)))
+            .tag("origin", Tag.inserting(Component.text(originPlayer)))
+            .tag("expires", Tag.inserting(expiresTag))
+            .build()
+
+        val miniMessage = MiniMessage.miniMessage()
+
+        val components = mutableListOf<Component>()
+        message.forEach {
+            components.add(miniMessage.deserialize(it, tagResolver))
+        }
+
+        return Component.join(JoinConfiguration.newlines(), components)
+    }
+
+    private fun getPlayerName(source: String?): String {
+        if (source == null) {
+            return core.messages.unknown
+        }
+
+        return try {
+            val uuid = UUID.fromString(source)
+            val vanguardPlayer = core.storageDriver.loadPlayer(uuid)
+            vanguardPlayer.knownNames.lastOrNull() ?: core.messages.unknown
+        } catch (e: IllegalArgumentException) {
+            core.messages.unknown
+        }
+    }
 
     fun getCachedOnlinePlayers(): List<VanguardPlayer> {
         return listOf()

@@ -127,6 +127,15 @@ interface VanguardStorageDriver {
     fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban?
 
     /**
+     * Retrieves the currently active ban, if any, associated with a player. This specific method is used on a prejoin
+     * event, where the player has not yet been loaded into the Vanguard system.
+     *
+     * @param uuid The player in question.
+     * @return An optional [Ban] object representing the active ban for the specified player, or null if none is present.
+     */
+    fun getActiveBan(uuid: UUID): Ban?
+
+    /**
      * Retrieves the currently active mute, if any, associated with a player.
      *
      * @param vanguardPlayer The player in question.

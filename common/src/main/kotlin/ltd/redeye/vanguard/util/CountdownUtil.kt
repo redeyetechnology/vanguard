@@ -16,23 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard
+package ltd.redeye.vanguard.util
 
-import ltd.redeye.vanguard.adapter.PaperVanguardPlayerAdapter
-import ltd.redeye.vanguard.listener.PlayerPaperEvents
-import org.bukkit.plugin.java.JavaPlugin
+import java.util.*
+import java.util.concurrent.TimeUnit
 
-class VanguardPlugin : JavaPlugin() {
+class CountdownUtil {
+    companion object {
+        fun countdownString(from: Date, to: Date): String {
+            if (from.after(to)) return "Invalid"
 
-    lateinit var vanguard: VanguardCore
+            val diff = to.time - from.time
 
-    override fun onEnable() {
-        vanguard = VanguardCore(dataFolder, PaperVanguardPlayerAdapter())
+            val days = TimeUnit.MILLISECONDS.toDays(diff)
+            val hours = TimeUnit.MILLISECONDS.toHours(diff) - TimeUnit.DAYS.toHours(days)
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(diff))
 
-        server.pluginManager.registerEvents(PlayerPaperEvents(), this)
+            return "${days}d ${hours}h ${minutes}m"
+        }
     }
-
-    override fun onDisable() {
-    }
-
 }

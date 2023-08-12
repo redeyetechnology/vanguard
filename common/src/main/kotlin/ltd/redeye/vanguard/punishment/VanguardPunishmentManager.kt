@@ -20,11 +20,17 @@ package ltd.redeye.vanguard.punishment
 
 import ltd.redeye.vanguard.VanguardCore
 import ltd.redeye.vanguard.player.VanguardPlayer
+import ltd.redeye.vanguard.punishment.type.Ban
 import ltd.redeye.vanguard.punishment.type.Punishment
+import java.util.UUID
 
 class VanguardPunishmentManager(private val core: VanguardCore) {
     fun getPunishments(vanguardPlayer: VanguardPlayer): List<Punishment> {
         val punishments = core.storageDriver.getPunishments(vanguardPlayer)
         return punishments.sortedBy { it.created }
+    }
+
+    fun getActiveBan(uniqueId: UUID): Ban? {
+        return core.storageDriver.getActiveBan(uniqueId)
     }
 }

@@ -19,9 +19,8 @@
 package ltd.redeye.vanguard.punishment.type
 
 import dev.morphia.annotations.Id
-import ltd.redeye.vanguard.punishment.type.ActivePunishment
-import ltd.redeye.vanguard.punishment.type.Punishment
-import java.util.*
+import java.util.UUID
+import java.util.Date
 
 data class Ban(
     val ip: Boolean,
