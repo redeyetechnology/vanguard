@@ -119,6 +119,10 @@ class MongoStorageDriver : VanguardStorageDriver {
             .filter(Filters.eq("source", operator.uuid), Filters.eq("target", vanguardPlayer.uuid)).toList()
     }
 
+    override fun savePunishment(punishment: Punishment) {
+        datastore.save(punishment)
+    }
+
     override fun getBans(vanguardPlayer: VanguardPlayer): Set<Ban> {
         return datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toSet()
     }
@@ -155,6 +159,11 @@ class MongoStorageDriver : VanguardStorageDriver {
     override fun getActiveBan(uuid: UUID): Ban? {
         return datastore.find(Ban::class.java)
             .filter(Filters.eq("target", uuid), Filters.eq("active", true)).first()
+    }
+
+    override fun getActiveBan(address: String): Ban? {
+        return datastore.find(Ban::class.java)
+            .filter(Filters.eq("target", address), Filters.eq("active", true)).first()
     }
 
     override fun getActiveMute(vanguardPlayer: VanguardPlayer): Mute? {

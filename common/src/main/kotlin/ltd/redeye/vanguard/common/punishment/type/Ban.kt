@@ -26,14 +26,14 @@ import java.util.Date
 @Entity
 data class Ban(
     val ip: Boolean,
-    override val expires: Date,
-    override val active: Boolean,
+    override var expires: Date,
+    override var active: Boolean,
     @Id
-    override val id: UUID,
-    override val target: String,
-    override val targetName: String,
-    override val reason: String?,
-    override val source: String?,
-    override val created: Date,
-    override val updated: Date,
+    override var id: UUID,
+    override var target: String,
+    override var targetName: String,
+    override var reason: String?,
+    override var source: String?,
+    override var created: Date,
+    override var updated: Date,
 ) : ActivePunishment, Punishment

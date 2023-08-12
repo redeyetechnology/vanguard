@@ -176,4 +176,19 @@ interface VanguardStorageDriver {
      * @return The audit log for the given operator and player.
      */
     fun getAuditLog(operator: VanguardOrigin, vanguardPlayer: VanguardPlayer): List<Punishment>
+
+    /**
+     * Retrieves any ban on the specified IP address.
+     *
+     * @param address The IP address in question.
+     * @return The [Ban] object representing the ban on the given IP address, or null if none is present.
+     */
+    fun getActiveBan(address: String): Ban?
+
+    /**
+     * Save a pre-existing punishment to the storage system.
+     *
+     * @param punishment The [Punishment] object to be saved.
+     */
+    fun savePunishment(punishment: Punishment)
 }
