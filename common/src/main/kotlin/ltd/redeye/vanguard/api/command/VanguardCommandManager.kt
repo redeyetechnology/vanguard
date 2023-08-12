@@ -1,62 +1,89 @@
+/*
+ * Vanguard
+ * Copyright (C) 2023 RedEye Technologies Limited
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package ltd.redeye.vanguard.api.command
 
 import cloud.commandframework.CommandManager
 import cloud.commandframework.annotations.AnnotationParser
 import cloud.commandframework.arguments.parser.ParserParameters
 import cloud.commandframework.arguments.parser.StandardParameters
+import cloud.commandframework.arguments.standard.StringArgument
 import cloud.commandframework.meta.CommandMeta
-import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler
-import io.leangen.geantyref.TypeToken
+import cloud.commandframework.meta.SimpleCommandMeta
+import cloud.commandframework.minecraft.extras.MinecraftHelp
+import net.kyori.adventure.text.format.TextColor
 
-interface PlatformCommandInitializer<S : VanguardCommandSource<S>> {
-
-    /**
-     * Creates a command manager from the platform implementation
-     * @return The command manager.
-     */
-    fun createCommandManager(): CommandManager<S>
-
-    /**
-     * Creates an exception handler from the platform implementation. By default, all platforms use the same
-     * exception handler, but this can be overridden if needed.
-     * @param commandManager The command manager to apply the exception handler to.
-     * @return The exception handler.
-     */
-    fun createExceptionHandler(commandManager: CommandManager<S>): MinecraftExceptionHandler<S> {
-        return MinecraftExceptionHandler<S>().apply {
-            withInvalidSenderHandler()
-            withNoPermissionHandler()
-            withArgumentParsingHandler()
-            withCommandExecutionHandler()
-            apply(commandManager) { source -> source }
-        }
-    }
-
-}
-
-class VanguardCommandManager<S : VanguardCommandSource<S>>(
-    commandInitializer: PlatformCommandInitializer<S>
+/**
+ * The Command Manager for Vanguard.
+ * @param commandInitializer The command initializer for the platform. This is registered in the platform module
+ */
+class VanguardCommandManager(
+    commandInitializer: PlatformCommandInitializer
 ) {
+    private val commandManager: CommandManager<VanguardCommandSource<*>>
+    private val annotationParser: AnnotationParser<VanguardCommandSource<*>>
 
-    val commandManager: CommandManager<S>
-    val annotationParser: AnnotationParser<VanguardCommandSource<S>>
-
-    init {
-
-        commandManager = commandInitializer.createCommandManager()
-        commandInitializer.createExceptionHandler(commandManager)
-
-        annotationParser = AnnotationParser<S>(
-            commandManager,
-            TypeToken.get(VanguardCommandSource::class.java)
-        ) { params: ParserParameters ->
+    private fun buildAnnotationParser(commandManager: CommandManager<VanguardCommandSource<*>>): AnnotationParser<VanguardCommandSource<*>> {
+        val commandMetaFunction: (ParserParameters) -> SimpleCommandMeta = { params: ParserParameters ->
             CommandMeta.simple()
                 .with(CommandMeta.DESCRIPTION, params.get(StandardParameters.DESCRIPTION, "No description provided"))
                 .build()
         }
 
-
+        return AnnotationParser(
+            commandManager,
+            VanguardCommandSource::class.java,
+            commandMetaFunction
+        )
     }
 
+    private fun defineHelpCommand() {
+        val help = MinecraftHelp(
+            "/vanguard help",
+            { source -> source },
+            this.commandManager
+        )
 
+        help.helpColors = MinecraftHelp.HelpColors.of(
+            TextColor.color(240, 81, 226), // Primary
+            TextColor.color(9, 147, 232), // Highlight
+            TextColor.color(86, 198, 232), //alternateHighlight
+            TextColor.color(142, 195, 207),
+            TextColor.color(73, 252, 255) // accent
+        )
+
+        // Set commands per page
+        help.setMaxResultsPerPage(8)
+
+        // Define the '/vanguard help' command.
+        commandManager.command(
+            commandManager.commandBuilder("help")
+                .argument(StringArgument.optional("query", StringArgument.StringMode.GREEDY))
+                .handler { context -> help.queryCommands(context.getOrDefault("query", "")!!, context.sender) }
+                .build()
+        )
+    }
+
+    init {
+        commandManager = commandInitializer.createCommandManager()
+        commandInitializer.createExceptionHandler(commandManager)
+        annotationParser = buildAnnotationParser(commandManager)
+
+        defineHelpCommand()
+    }
 }
