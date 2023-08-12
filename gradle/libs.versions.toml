@@ -1,0 +1,22 @@
+[metadata]
+version = "1.0"
+
+[versions]
+# Gradle Plugins/Deps
+kotlin = "1.7.10"
+
+# Common Dependencies
+
+# platform: paper
+paper = "1.20.1-R0.1-SNAPSHOT"
+
+[plugins]
+
+
+[libraries]
+kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
+
+# Common Dependencies
+
+# platform: paper
+paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
