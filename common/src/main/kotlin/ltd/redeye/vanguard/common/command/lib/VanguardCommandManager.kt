@@ -26,6 +26,7 @@ import cloud.commandframework.arguments.standard.StringArgument
 import cloud.commandframework.meta.CommandMeta
 import cloud.commandframework.meta.SimpleCommandMeta
 import cloud.commandframework.minecraft.extras.MinecraftHelp
+import ltd.redeye.vanguard.common.command.CommandRegistry
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
 import net.kyori.adventure.text.format.TextColor
@@ -81,11 +82,18 @@ class VanguardCommandManager(
         )
     }
 
+    fun registerCommands(vararg command: VanguardCommand) {
+        command.forEach { cmd ->
+            annotationParser.parse(cmd)
+        }
+    }
+
     init {
         commandManager = commandInitializer.createCommandManager()
         commandInitializer.createExceptionHandler(commandManager)
         annotationParser = buildAnnotationParser(commandManager)
 
         defineHelpCommand()
+        CommandRegistry.registerCommands(this)
     }
 }

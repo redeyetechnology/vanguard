@@ -33,15 +33,24 @@ import java.io.File
  * The VanguardCore is a shared class which contains all the core functionality of Vanguard. It's constructed by each
  * platform-specific implementation of Vanguard.
  */
-class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapter<*>, logger: Logger) {
+class VanguardCore(
+    pluginDirectory: File,
+    val playerAdapter: VanguardPlayerAdapter<*>,
+    logger: Logger,
+    val version: String
+) {
     val punishmentManager = VanguardPunishmentManager(this)
     val playerManager = VanguardPlayerManager(this)
     val configManager: ConfigManager
 
     val config: VanguardConfig
-        get() { return configManager.getConfig(VanguardConfig::class) }
+        get() {
+            return configManager.getConfig(VanguardConfig::class)
+        }
     val messages: MessagesConfig
-        get() { return configManager.getConfig(MessagesConfig::class) }
+        get() {
+            return configManager.getConfig(MessagesConfig::class)
+        }
 
     val storageDriver: VanguardStorageDriver
 
@@ -52,7 +61,7 @@ class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapt
     init {
         instance = this
 
-        if(!pluginDirectory.exists()) {
+        if (!pluginDirectory.exists()) {
             pluginDirectory.mkdirs()
         }
 

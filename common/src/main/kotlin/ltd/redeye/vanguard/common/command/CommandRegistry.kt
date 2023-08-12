@@ -16,25 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.paper
+package ltd.redeye.vanguard.common.command
 
-import ltd.redeye.vanguard.common.VanguardCore
-import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
-import ltd.redeye.vanguard.paper.command.PaperCommandInitializer
-import ltd.redeye.vanguard.paper.listener.PlayerPaperEvents
-import org.bukkit.plugin.java.JavaPlugin
+import ltd.redeye.vanguard.common.command.CommandInfo
+import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
 
-class VanguardPlugin : JavaPlugin() {
-
-    lateinit var vanguard: VanguardCore
-
-    override fun onEnable() {
-        vanguard = VanguardCore(dataFolder, PaperVanguardPlayerAdapter(), slF4JLogger, pluginMeta.version)
-
-        server.pluginManager.registerEvents(PlayerPaperEvents(), this)
+object CommandRegistry {
+    fun registerCommands(commandManager: VanguardCommandManager) {
+        commandManager.registerCommands(
+            CommandInfo(),
+        )
     }
-
-    override fun onDisable() {
-    }
-
 }
