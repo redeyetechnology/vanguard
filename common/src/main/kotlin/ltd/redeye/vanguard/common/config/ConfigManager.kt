@@ -18,34 +18,69 @@
 
 package ltd.redeye.vanguard.common.config
 
-import org.spongepowered.configurate.loader.ConfigurationLoader
-import org.spongepowered.configurate.objectmapping.ObjectMapper
-import org.spongepowered.configurate.objectmapping.meta.NodeResolver
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader
+import org.slf4j.Logger
+import org.spongepowered.configurate.ConfigurateException
+import org.spongepowered.configurate.reactive.Subscriber
+import java.io.Closeable
+import java.io.File
 import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.WatchEvent
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.reflect.KClass
 
-class ConfigManager {
-    private fun createLoader(source: Path): ConfigurationLoader<*> {
-        val factory = ObjectMapper.factoryBuilder()
-            .addNodeResolver(NodeResolver.onlyWithSetting())
-            .build()
+class ConfigManager(val dir: Path, val logger: Logger) : Closeable {
 
-        return YamlConfigurationLoader.builder()
-            .path(source)
-            .defaultOptions { options -> options.serializers { build -> build.registerAnnotatedObjects(factory) } }
-            .build()
+    companion object {
+        private val configs: MutableMap<Class<*>, ConfigHandler<*>> = ConcurrentHashMap()
     }
 
-    fun <T> loadConfig(source: Path, clazz: Class<T>, saveOnLoad: Boolean = true): T {
-        val loader = createLoader(source)
-        val loaded = loader.load()
+    fun getFilePath(plugin: Path, fileName: String): Path {
+        return Paths.get(plugin.toString() + File.separator + fileName)
+    }
 
-        // Save the config to ensure all fields are present
-        if (saveOnLoad) {
-            loader.save(loaded)
+    override fun close() {
+        for (configHandler in configs.values) {
+            try {
+                configHandler.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+    }
 
-        return loaded.get(clazz)!!
+    fun saveConfig(config: Class<*>) {
+        try {
+            configs[config]!!.saveToFile()
+        } catch (e: ConfigurateException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun initConfigs(vararg configs: KClass<*>) = configs.forEach { initConfig(it) }
+
+    fun initConfig(config: Class<*>) {
+        logger.info("Initialising Configuration: {}", config.simpleName)
+        val fileName = "${config.simpleName.lowercase().replace("config", "")}.yml"
+        configs[config] = ConfigHandler(dir, fileName, config, logger)
+    }
+
+    fun initConfig(config: KClass<*>) {
+        initConfig(config.java)
+    }
+
+    fun <T : Any> getConfig(config: KClass<T>): T = getConfig(config.java)
+
+    fun <T> getConfig(config: Class<T>): T {
+        return configs[config]!!.getConfig() as T
+    }
+
+    fun <T : Any> addListener(config: KClass<T>, listener: Subscriber<WatchEvent<*>>) {
+        configs[config.java]!!.addListener(listener)
+    }
+
+    fun <T> addListener(config: Class<T>, listener: Subscriber<WatchEvent<*>>) {
+        configs[config]!!.addListener(listener)
     }
 
 }

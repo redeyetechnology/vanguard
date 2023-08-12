@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.configurate.yaml)
     implementation(libs.configurate.extra.kotlin)
 
+    compileOnly(libs.slf4j.api)
 }
 
 tasks {

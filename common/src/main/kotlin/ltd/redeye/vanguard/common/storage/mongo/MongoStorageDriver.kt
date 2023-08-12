@@ -18,6 +18,8 @@
 
 package ltd.redeye.vanguard.common.storage.mongo
 
+import com.mongodb.ConnectionString
+import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClients
 import dev.morphia.Datastore
 import dev.morphia.Morphia
@@ -26,6 +28,7 @@ import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.type.*
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
+import org.bson.UuidRepresentation
 import java.util.UUID
 
 class MongoStorageDriver : VanguardStorageDriver {
@@ -39,13 +42,18 @@ class MongoStorageDriver : VanguardStorageDriver {
             ""
         }
 
-        val connectionString = "mongodb://${credentials}${config.host}:${config.port}?authSource=${config.authSource}"
+        val connectionString = "mongodb://${credentials}${config.host}:${config.port}/?authSource=${config.authSource}"
 
-        datastore = Morphia.createDatastore(MongoClients.create(connectionString))
+        val mongoClientSettings = MongoClientSettings.builder()
+            .uuidRepresentation(UuidRepresentation.STANDARD)
+            .applyConnectionString(ConnectionString(connectionString))
+            .build()
 
-        // We're using a deprecated statement here due to the configuration requirements for a plugin.
-        @Suppress("removal", "DEPRECATION")
+        val client = MongoClients.create(mongoClientSettings)
+        datastore = Morphia.createDatastore(client, config.database)
+
         datastore.mapper.mapPackage("ltd.redeye.vanguard")
+        datastore.ensureIndexes()
     }
 
     override fun shutdown() {

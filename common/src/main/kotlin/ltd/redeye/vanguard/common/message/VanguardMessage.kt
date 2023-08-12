@@ -36,6 +36,8 @@ data class VanguardMessage(
     var sound: MessageSound?
 ) : Serializable, VanguardMessageBag() {
 
+    constructor() : this(null, null, null, null, null)
+
     fun send(target: Audience, tagResolver: TagResolver? = null) {
         if (chat != null && chat!!.size > 0) {
             for (message in chat!!) {

@@ -14,7 +14,7 @@ cloud = "1.8.3"
 configurate = "4.1.2"
 
 # Storage Drivers
-morphia = "2.4.0"
+morphia = "2.3.6"
 
 # platform: paper
 paper = "1.20.1-R0.1-SNAPSHOT"
@@ -39,6 +39,7 @@ cloud-minecraft-extras = { module = "cloud.commandframework:cloud-minecraft-extr
 cloud-annotations = { module = "cloud.commandframework:cloud-annotations", version.ref = "cloud" }
 configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
 configurate-extra-kotlin = { module = "org.spongepowered:configurate-extra-kotlin", version.ref = "configurate" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version = "2.0.7" }
 
 # Storage Drivers
 morphia-core = { module = "dev.morphia.morphia:morphia-core", version.ref = "morphia" }

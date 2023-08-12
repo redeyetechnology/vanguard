@@ -27,7 +27,7 @@ class VanguardPlugin : JavaPlugin() {
     lateinit var vanguard: ltd.redeye.vanguard.common.VanguardCore
 
     override fun onEnable() {
-        vanguard = ltd.redeye.vanguard.common.VanguardCore(dataFolder, PaperVanguardPlayerAdapter())
+        vanguard = ltd.redeye.vanguard.common.VanguardCore(dataFolder, PaperVanguardPlayerAdapter(), slF4JLogger)
 
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
     }

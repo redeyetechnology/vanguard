@@ -26,37 +26,40 @@ import ltd.redeye.vanguard.common.player.VanguardPlayerManager
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
 import ltd.redeye.vanguard.common.storage.mongo.MongoStorageDriver
+import org.slf4j.Logger
 import java.io.File
-import java.nio.file.Path
 
 /**
  * The VanguardCore is a shared class which contains all the core functionality of Vanguard. It's constructed by each
  * platform-specific implementation of Vanguard.
  */
-class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapter<*>) {
+class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapter<*>, logger: Logger) {
     val punishmentManager = VanguardPunishmentManager(this)
     val playerManager = VanguardPlayerManager(this)
+    val configManager: ConfigManager
+
     val config: VanguardConfig
+        get() { return configManager.getConfig(VanguardConfig::class) }
     val messages: MessagesConfig
+        get() { return configManager.getConfig(MessagesConfig::class) }
+
     val storageDriver: VanguardStorageDriver
 
     companion object {
-        lateinit var instance: ltd.redeye.vanguard.common.VanguardCore
+        lateinit var instance: VanguardCore
     }
 
     init {
-        ltd.redeye.vanguard.common.VanguardCore.Companion.instance = this
+        instance = this
 
-        val configManager = ConfigManager()
+        if(!pluginDirectory.exists()) {
+            pluginDirectory.mkdirs()
+        }
 
-        config = configManager.loadConfig(
-            Path.of(pluginDirectory.path.toString(), "config.yml"),
-            VanguardConfig::class.java
-        )
-
-        messages = configManager.loadConfig(
-            Path.of(pluginDirectory.path.toString(), "messages.yml"),
-            MessagesConfig::class.java
+        configManager = ConfigManager(pluginDirectory.toPath(), logger)
+        configManager.initConfigs(
+            VanguardConfig::class,
+            MessagesConfig::class
         )
     }
 
