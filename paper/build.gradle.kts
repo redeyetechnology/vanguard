@@ -8,5 +8,6 @@ repositories {
 }
 
 dependencies {
+    compileOnly(project(":common"))
     compileOnly(libs.paper.api)
 }
