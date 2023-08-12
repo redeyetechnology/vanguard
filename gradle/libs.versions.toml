@@ -4,6 +4,7 @@ version = "1.0"
 [versions]
 # Gradle Plugins/Deps
 kotlin = "1.7.10"
+indra = "3.1.2"
 
 # Common Dependencies
 
@@ -11,10 +12,14 @@ kotlin = "1.7.10"
 paper = "1.20.1-R0.1-SNAPSHOT"
 
 [plugins]
-
+indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 
 [libraries]
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
+
+# build
+indra = { module = "net.kyori:indra-common", version.ref = "indra" }
+indra-sonatype = { module = "net.kyori:indra-publishing-sonatype", version.ref = "indra" }
 
 # Common Dependencies
 
