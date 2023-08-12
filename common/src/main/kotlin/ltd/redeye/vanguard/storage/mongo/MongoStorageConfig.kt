@@ -16,21 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.punishment
+package ltd.redeye.vanguard.storage.mongo
 
-import ltd.redeye.vanguard.punishment.type.ActivePunishment
-import ltd.redeye.vanguard.punishment.type.Punishment
-import java.util.*
+import jdk.jfr.Description
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 
-data class Mute(
-    val ip: Boolean,
-    override val expires: Date,
-    override val active: Boolean,
-    override val id: UUID,
-    override val target: String,
-    override val targetName: String,
-    override val reason: String?,
-    override val source: String?,
-    override val created: Date,
-    override val updated: Date,
-) : ActivePunishment, Punishment
+@ConfigSerializable
+@Description("Configuration for the MonogDB storage driver")
+data class MongoStorageConfig(
+    val host: String = "localhost",
+    val port: Int = 27017,
+    val database: String = "vanguard",
+    val username: String = "",
+    val password: String = "",
+    val authSource: String = "admin"
+)

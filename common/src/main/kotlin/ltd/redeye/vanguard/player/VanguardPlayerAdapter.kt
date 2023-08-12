@@ -18,8 +18,12 @@
 
 package ltd.redeye.vanguard.player
 
+import net.kyori.adventure.audience.Audience
+
 interface VanguardPlayerAdapter<PlayerType> {
     fun adapt(player: PlayerType): VanguardPlayer
     fun adapt(player: VanguardPlayer): PlayerType?
     fun parse(input: String): VanguardPlayer?
+    fun audience(playerType: VanguardPlayer): Audience
+    fun isOnline(vanguardPlayer: VanguardPlayer): Boolean
 }

@@ -16,17 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.punishment
+package ltd.redeye.vanguard.storage
 
-import ltd.redeye.vanguard.punishment.type.Punishment
-import java.util.*
+import ltd.redeye.vanguard.storage.mongo.MongoStorageConfig
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 
-data class Kick(
-    override val id: UUID,
-    override val target: String,
-    override val targetName: String,
-    override val reason: String?,
-    override val source: String?,
-    override val created: Date,
-    override val updated: Date,
-) : Punishment
+@ConfigSerializable
+data class DatabaseConfig(
+    val mongo: MongoStorageConfig = MongoStorageConfig(),
+
+    // We'll put this at the bottom of the file, so that the driver configs are all together and take precedence over
+    // the type, which is less likely to be changed.
+    val driver: VanguardStorageDriver.DriverType = VanguardStorageDriver.DriverType.MONGO
+)

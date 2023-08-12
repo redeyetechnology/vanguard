@@ -21,7 +21,7 @@ package ltd.redeye.vanguard.api
 import ltd.redeye.vanguard.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.player.VanguardPlayer
 import java.net.InetAddress
-import ltd.redeye.vanguard.punishment.Ban
+import ltd.redeye.vanguard.punishment.type.Ban
 
 interface VanguardApi {
     /*

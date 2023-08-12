@@ -20,6 +20,7 @@ package ltd.redeye.vanguard.adapter
 
 import ltd.redeye.vanguard.player.VanguardPlayer
 import ltd.redeye.vanguard.player.VanguardPlayerAdapter
+import net.kyori.adventure.audience.Audience
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -38,5 +39,15 @@ class PaperVanguardPlayerAdapter : VanguardPlayerAdapter<Player> {
 
     override fun parse(input: String): VanguardPlayer? {
         TODO("Not yet implemented")
+    }
+
+    override fun audience(playerType: VanguardPlayer): Audience {
+        return adapt(playerType)!!
+    }
+
+    override fun isOnline(vanguardPlayer: VanguardPlayer): Boolean {
+        val player = adapt(vanguardPlayer)
+
+        return player.isOnline()
     }
 }

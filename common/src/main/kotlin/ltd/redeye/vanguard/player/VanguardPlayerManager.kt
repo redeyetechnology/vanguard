@@ -20,10 +20,17 @@ package ltd.redeye.vanguard.player
 
 import ltd.redeye.vanguard.VanguardCore
 
-class VanguardPlayerManager(val core: VanguardCore) {
+class VanguardPlayerManager(private val core: VanguardCore) {
 
     fun getCachedOnlinePlayers(): List<VanguardPlayer> {
         return listOf()
+    }
+
+    fun isOnline(vanguardPlayer: VanguardPlayer): Boolean {
+        return core.playerAdapter.isOnline(vanguardPlayer)
+
+        // TODO: Check if player is online via Redis
+
     }
 
 }

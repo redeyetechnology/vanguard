@@ -18,18 +18,32 @@
 
 package ltd.redeye.vanguard.player
 
+import dev.morphia.annotations.Entity
+import dev.morphia.annotations.Id
+import ltd.redeye.vanguard.VanguardCore
+import ltd.redeye.vanguard.punishment.type.Punishment
 import net.kyori.adventure.audience.Audience
 import java.util.UUID
 
-abstract class VanguardPlayer(
+@Entity
+data class VanguardPlayer(
+    @Id
     val uuid: UUID,
     val knownNames: MutableList<String> = mutableListOf(),
     val knownIps: MutableList<String> = mutableListOf(),
     val lastKnownName: String? = null,
 ) {
 
-    abstract fun isOnline(): Boolean
-    abstract fun audience(): Audience
+    fun isOnline(): Boolean {
+        return VanguardCore.instance.playerManager.isOnline(this)
+    }
+    fun audience(): Audience {
+        return VanguardCore.instance.playerAdapter.audience(this)
+    }
+
+    fun punishments(): List<Punishment> {
+        return VanguardCore.instance.punishmentManager.getPunishments(this)
+    }
 
     companion object {
         fun parse(input: String): VanguardPlayer? {

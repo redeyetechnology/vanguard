@@ -18,11 +18,15 @@
 
 package ltd.redeye.vanguard.config.file
 
+import ltd.redeye.vanguard.storage.DatabaseConfig
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
 
 @ConfigSerializable
-data class VanguardConfig (
+data class VanguardConfig(
     @Comment("This is the prefix used for any admin commands. If you set it to blank, then nothing will be shown.")
-    val prefix: String = "<#22D3EE><bold>Vanguard</bold></#22D3EE> <#64748B>»</#64748B> <#D6D3D1>"
+    val prefix: String = "<#22D3EE><bold>Vanguard</bold></#22D3EE> <#64748B>»</#64748B> <#D6D3D1>",
+
+    @Comment("You must have a database driver to use Vanguard. The default is MongoDB, but you can use MySQL or flatfile.")
+    val database: DatabaseConfig = DatabaseConfig(),
 )

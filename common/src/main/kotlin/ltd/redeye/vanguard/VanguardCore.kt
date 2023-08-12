@@ -23,6 +23,9 @@ import ltd.redeye.vanguard.config.ConfigManager
 import ltd.redeye.vanguard.config.file.MessagesConfig
 import ltd.redeye.vanguard.config.file.VanguardConfig
 import ltd.redeye.vanguard.player.VanguardPlayerManager
+import ltd.redeye.vanguard.punishment.VanguardPunishmentManager
+import ltd.redeye.vanguard.storage.VanguardStorageDriver
+import ltd.redeye.vanguard.storage.mongo.MongoStorageDriver
 import java.io.File
 import java.nio.file.Path
 
@@ -31,9 +34,11 @@ import java.nio.file.Path
  * platform-specific implementation of Vanguard.
  */
 class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapter<*>) {
+    val punishmentManager = VanguardPunishmentManager(this)
     val playerManager = VanguardPlayerManager(this)
     val config: VanguardConfig
     val messages: MessagesConfig
+    val storageDriver: VanguardStorageDriver
 
     companion object {
         lateinit var instance: VanguardCore
@@ -53,5 +58,15 @@ class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapt
             Path.of(pluginDirectory.path.toString(), "messages.yml"),
             MessagesConfig::class.java
         )
+    }
+
+    init {
+        if (config.database.driver == VanguardStorageDriver.DriverType.MONGO) {
+            storageDriver = MongoStorageDriver()
+        } else {
+            throw RuntimeException("Unsupported database driver: ${config.database.driver}")
+        }
+
+        storageDriver.initialise()
     }
 }

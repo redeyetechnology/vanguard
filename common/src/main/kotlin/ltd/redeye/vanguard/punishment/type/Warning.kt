@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.punishment
+package ltd.redeye.vanguard.punishment.type
 
 import ltd.redeye.vanguard.punishment.type.Punishment
 import java.util.*
