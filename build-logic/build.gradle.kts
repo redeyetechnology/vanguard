@@ -11,8 +11,11 @@ repositories {
 
 dependencies {
     implementation(libs.kotlin)
+    
     implementation(libs.indra)
     implementation(libs.indra.sonatype)
+
+    implementation(libs.licenser)
 
     compileOnly(files(libs::class.java.protectionDomain.codeSource.location))
 }

@@ -4,6 +4,11 @@ plugins {
     `java-library`
     kotlin("jvm")
     id("net.kyori.indra.publishing")
+    id("org.cadixdev.licenser")
+}
+
+license {
+    header(rootProject.file("HEADER"))
 }
 
 repositories {
