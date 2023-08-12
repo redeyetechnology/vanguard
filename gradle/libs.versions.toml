@@ -16,6 +16,9 @@ configurate = "4.1.2"
 # Storage Drivers
 morphia = "2.3.6"
 
+# Networking
+redisson = "3.23.2"
+
 # platform: paper
 paper = "1.20.1-R0.1-SNAPSHOT"
 
@@ -44,6 +47,9 @@ slf4j-api = { module = "org.slf4j:slf4j-api", version = "2.0.7" }
 # Storage Drivers
 morphia-core = { module = "dev.morphia.morphia:morphia-core", version.ref = "morphia" }
 morphia-kotlin = { module = "dev.morphia.morphia:morphia-kotlin", version.ref = "morphia" }
+
+# Networking
+redisson = { module = "org.redisson:redisson", version.ref="redisson" }
 
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }

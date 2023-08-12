@@ -25,6 +25,8 @@ dependencies {
     implementation(libs.configurate.yaml)
     implementation(libs.configurate.extra.kotlin)
 
+    implementation(libs.redisson)
+
     compileOnly(libs.slf4j.api)
 }
 
@@ -50,7 +52,8 @@ tasks {
             "org.jetbrains.annotations",
             "org.jsoup",
             "org.objectweb.asm",
-            "org.yaml.snakeyaml"
+            "org.yaml.snakeyaml",
+            "org.redisson"
         ).forEach(::reloc)
     }
     build {

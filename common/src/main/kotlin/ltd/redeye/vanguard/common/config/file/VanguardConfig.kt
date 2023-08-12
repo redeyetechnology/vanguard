@@ -18,6 +18,7 @@
 
 package ltd.redeye.vanguard.common.config.file
 
+import ltd.redeye.vanguard.common.network.NetworkConfig
 import ltd.redeye.vanguard.common.storage.DatabaseConfig
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
@@ -29,6 +30,9 @@ data class VanguardConfig(
 
     @Comment("You must have a database driver to use Vanguard. The default is MongoDB, but you can use MySQL or flatfile.")
     val database: DatabaseConfig = DatabaseConfig(),
+
+    @Comment("For cross-server communication, you can configure Redis for instantaneous and reliable communication.")
+    val network: NetworkConfig = NetworkConfig(),
 
     @Comment("The date format used for punishments.")
     val dateFormat: String = "dd/MM/yyyy HH:mm:ss",
