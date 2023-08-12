@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation(libs.kotlin)
+    implementation(libs.licenser)
 
     compileOnly(files(libs::class.java.protectionDomain.codeSource.location))
 }
