@@ -22,7 +22,7 @@ import cloud.commandframework.captions.CaptionVariable
 import cloud.commandframework.captions.StandardCaptionKeys
 import cloud.commandframework.context.CommandContext
 import cloud.commandframework.exceptions.parsing.ParserException
-import ltd.redeye.vanguard.command.lib.type.VanguardPlayerParser
+import ltd.redeye.vanguard.command.lib.VanguardPlayerParser
 
 class VanguardPlayerParseException(input: String, context: CommandContext<*>) : ParserException(
     VanguardPlayerParser::class.java,

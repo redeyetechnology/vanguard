@@ -19,7 +19,6 @@
 package ltd.redeye.vanguard
 
 import ltd.redeye.vanguard.player.VanguardPlayerAdapter
-import ltd.redeye.vanguard.command.lib.type.VanguardPlayerParser
 import ltd.redeye.vanguard.config.ConfigManager
 import ltd.redeye.vanguard.config.file.MessagesConfig
 import ltd.redeye.vanguard.config.file.VanguardConfig
