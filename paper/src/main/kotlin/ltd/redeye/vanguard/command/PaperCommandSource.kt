@@ -40,12 +40,6 @@ open class PaperCommandSource(val sender: CommandSender): VanguardCommandSource<
     }
 
     companion object {
-        fun from(sender: CommandSender): PaperCommandSource {
-            if(sender is Player) {
-                return PaperPlayerCommandSource(sender)
-            }
-            return PaperCommandSource(sender)
-        }
     }
 
 }

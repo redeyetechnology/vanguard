@@ -23,9 +23,9 @@ import ltd.redeye.vanguard.player.VanguardPlayerAdapter
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class PaperVanguardPlayerManager : VanguardPlayerAdapter<Player> {
+class PaperVanguardPlayerAdapter : VanguardPlayerAdapter<Player> {
     companion object {
-        val instance = PaperVanguardPlayerManager()
+        val instance = PaperVanguardPlayerAdapter()
     }
 
     override fun adapt(player: Player): VanguardPlayer {
@@ -34,5 +34,9 @@ class PaperVanguardPlayerManager : VanguardPlayerAdapter<Player> {
 
     override fun adapt(player: VanguardPlayer): Player? {
         return Bukkit.getOfflinePlayer(player.uuid).player
+    }
+
+    override fun parse(input: String): VanguardPlayer? {
+        TODO("Not yet implemented")
     }
 }

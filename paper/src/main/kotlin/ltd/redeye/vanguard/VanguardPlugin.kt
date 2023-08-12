@@ -18,6 +18,7 @@
 
 package ltd.redeye.vanguard
 
+import ltd.redeye.vanguard.adapter.PaperVanguardPlayerAdapter
 import org.bukkit.plugin.java.JavaPlugin
 
 class VanguardPlugin : JavaPlugin() {
@@ -25,7 +26,7 @@ class VanguardPlugin : JavaPlugin() {
     lateinit var vanguard: VanguardCore
 
     override fun onEnable() {
-        vanguard = VanguardCore(dataFolder)
+        vanguard = VanguardCore(dataFolder, PaperVanguardPlayerAdapter())
     }
 
     override fun onDisable() {
