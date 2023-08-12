@@ -47,3 +47,4 @@ morphia-kotlin = { module = "dev.morphia.morphia:morphia-kotlin", version.ref = 
 
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+cloud-paper = { module = "cloud.commandframework:cloud-paper", version.ref = "cloud" }

@@ -18,5 +18,15 @@
 
 package ltd.redeye.vanguard.paper.command
 
-class PaperPlayerCommandSource {
+import ltd.redeye.vanguard.common.command.lib.types.VanguardPlayerCommandSource
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+
+class PaperPlayerCommandSource(private val player: Player) : PaperCommandSource(player),
+    VanguardPlayerCommandSource<CommandSender> {
+
+    override fun player(): Player {
+        return this.player
+    }
+
 }

@@ -22,8 +22,9 @@ import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
 import net.kyori.adventure.audience.Audience
 import org.bukkit.command.CommandSender
 import org.bukkit.command.ConsoleCommandSender
+import org.bukkit.entity.Player
 
-open class PaperCommandSource(val sender: CommandSender): VanguardCommandSource<CommandSender> {
+open class PaperCommandSource(val sender: CommandSender) : VanguardCommandSource<CommandSender> {
 
     override fun hasPermission(permission: String): Boolean {
         return this.sender.hasPermission(permission)
@@ -38,6 +39,13 @@ open class PaperCommandSource(val sender: CommandSender): VanguardCommandSource<
     }
 
     companion object {
+        fun from(sender: CommandSender): PaperCommandSource {
+            return if (sender is Player) {
+                PaperPlayerCommandSource(sender)
+            } else {
+                PaperCommandSource(sender)
+            }
+        }
     }
 
 }
