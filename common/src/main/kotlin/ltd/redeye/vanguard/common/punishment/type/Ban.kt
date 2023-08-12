@@ -18,10 +18,12 @@
 
 package ltd.redeye.vanguard.common.punishment.type
 
+import dev.morphia.annotations.Entity
 import dev.morphia.annotations.Id
 import java.util.UUID
 import java.util.Date
 
+@Entity
 data class Ban(
     val ip: Boolean,
     override val expires: Date,

@@ -18,16 +18,17 @@
 
 package ltd.redeye.vanguard.paper
 
+import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
 import ltd.redeye.vanguard.paper.listener.PlayerPaperEvents
 import org.bukkit.plugin.java.JavaPlugin
 
 class VanguardPlugin : JavaPlugin() {
 
-    lateinit var vanguard: ltd.redeye.vanguard.common.VanguardCore
+    lateinit var vanguard: VanguardCore
 
     override fun onEnable() {
-        vanguard = ltd.redeye.vanguard.common.VanguardCore(dataFolder, PaperVanguardPlayerAdapter(), slF4JLogger)
+        vanguard = VanguardCore(dataFolder, PaperVanguardPlayerAdapter(), slF4JLogger)
 
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
     }

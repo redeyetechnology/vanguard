@@ -52,7 +52,13 @@ class MongoStorageDriver : VanguardStorageDriver {
         val client = MongoClients.create(mongoClientSettings)
         datastore = Morphia.createDatastore(client, config.database)
 
-        datastore.mapper.mapPackage("ltd.redeye.vanguard")
+        datastore.mapper.map(
+            VanguardPlayer::class.java,
+            Ban::class.java,
+//            Mute::class.java,
+//            Warning::class.java,
+//            Kick::class.java
+        )
         datastore.ensureIndexes()
     }
 
