@@ -1,4 +1,4 @@
-package uk.co.redeyetechnologies.vanguard.punishment.type
+package ltd.redeye.vanguard.punishment.type
 
 import java.util.Date
 import java.util.UUID

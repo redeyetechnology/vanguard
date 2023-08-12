@@ -1,4 +1,4 @@
-package uk.co.redeyetechnologies.vanguard.api
+package ltd.redeye.vanguard.api
 
 import java.net.InetAddress
 import ltd.redeye.vanguard.punishment.Ban

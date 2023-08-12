@@ -1,6 +1,6 @@
-package uk.co.redeyetechnologies.vanguard.punishment
+package ltd.redeye.vanguard.punishment
 
-import uk.co.redeyetechnologies.vanguard.punishment.type.Punishment
+import ltd.redeye.vanguard.punishment.type.Punishment
 import java.util.*
 
 data class Warning(

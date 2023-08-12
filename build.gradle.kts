@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
 }
 
-group = "uk.co.redeyetechnologies"
+group = "ltd.redeye"
 version = "1.0.0"
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
