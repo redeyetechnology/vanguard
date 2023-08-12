@@ -16,16 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.api.player.types
+package ltd.redeye.vanguard.player
 
+import net.kyori.adventure.audience.Audience
 import java.util.UUID
 
-class VanguardPlayer(
+abstract class VanguardPlayer(
     val uuid: UUID,
     val knownNames: MutableList<String> = mutableListOf(),
-    val knownIps: MutableList<String> = mutableListOf()
+    val knownIps: MutableList<String> = mutableListOf(),
+    val lastKnownName: String? = null,
 ) {
-    fun isOnline(): Boolean {
-        return false
+
+    abstract fun isOnline(): Boolean
+    abstract fun audience(): Audience
+
+    companion object {
+        fun parse(input: String): VanguardPlayer? {
+            return null
+        }
     }
 }

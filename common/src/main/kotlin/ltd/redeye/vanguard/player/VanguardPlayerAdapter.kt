@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.api.player.types
+package ltd.redeye.vanguard.player
 
 interface VanguardPlayerAdapter<PlayerType> {
     fun adapt(player: PlayerType): VanguardPlayer
     fun adapt(player: VanguardPlayer): PlayerType?
+    fun parse(input: String): VanguardPlayer?
 }

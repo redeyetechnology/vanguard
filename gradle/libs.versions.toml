@@ -10,6 +10,7 @@ licenser = "0.6.1"
 # Common Dependencies
 adventure = "4.14.0"
 cloud = "1.8.3"
+configurate = "4.1.2"
 
 # platform: paper
 paper = "1.20.1-R0.1-SNAPSHOT"
@@ -18,7 +19,7 @@ paper = "1.20.1-R0.1-SNAPSHOT"
 indra-sonatype = { id = "net.kyori.indra.publishing.sonatype", version.ref = "indra" }
 
 [libraries]
-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
+kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 licenser = { module = "gradle.plugin.org.cadixdev.gradle:licenser", version.ref = "licenser" }
 
 # build
@@ -27,9 +28,12 @@ indra-sonatype = { module = "net.kyori:indra-publishing-sonatype", version.ref =
 
 # Common Dependencies
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+adventure-text-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 cloud-core = { module = "cloud.commandframework:cloud-core", version.ref = "cloud" }
 cloud-minecraft-extras = { module = "cloud.commandframework:cloud-minecraft-extras", version.ref = "cloud" }
 cloud-annotations = { module = "cloud.commandframework:cloud-annotations", version.ref = "cloud" }
+configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
+configurate-extra-kotlin = { module = "org.spongepowered:configurate-extra-kotlin", version.ref = "configurate" }
 
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }

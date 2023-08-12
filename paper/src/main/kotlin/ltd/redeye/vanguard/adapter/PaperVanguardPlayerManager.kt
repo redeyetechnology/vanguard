@@ -18,8 +18,8 @@
 
 package ltd.redeye.vanguard.adapter
 
-import ltd.redeye.vanguard.api.player.types.VanguardPlayer
-import ltd.redeye.vanguard.api.player.types.VanguardPlayerAdapter
+import ltd.redeye.vanguard.player.VanguardPlayer
+import ltd.redeye.vanguard.player.VanguardPlayerAdapter
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

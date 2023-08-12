@@ -18,15 +18,14 @@
 
 package ltd.redeye.vanguard
 
-import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 class VanguardPlugin : JavaPlugin() {
 
-    lateinit var vanguard: VanguardCore<Player>
+    lateinit var vanguard: VanguardCore
 
     override fun onEnable() {
-        vanguard = VanguardCore()
+        vanguard = VanguardCore(dataFolder)
     }
 
     override fun onDisable() {

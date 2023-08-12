@@ -18,9 +18,41 @@
 
 package ltd.redeye.vanguard
 
+import ltd.redeye.vanguard.player.VanguardPlayerAdapter
+import ltd.redeye.vanguard.command.lib.type.VanguardPlayerParser
+import ltd.redeye.vanguard.config.ConfigManager
+import ltd.redeye.vanguard.config.file.MessagesConfig
+import ltd.redeye.vanguard.config.file.VanguardConfig
+import ltd.redeye.vanguard.player.VanguardPlayerManager
+import java.io.File
+import java.nio.file.Path
+
 /**
  * The VanguardCore is a shared class which contains all the core functionality of Vanguard. It's constructed by each
  * platform-specific implementation of Vanguard.
  */
-class VanguardCore<CommandSenderType> {
+class VanguardCore(pluginDirectory: File, val playerAdapter: VanguardPlayerAdapter<*>) {
+    val playerManager = VanguardPlayerManager(this)
+    val config: VanguardConfig
+    val messages: MessagesConfig
+
+    companion object {
+        lateinit var instance: VanguardCore
+    }
+
+    init {
+        instance = this
+
+        val configManager = ConfigManager()
+
+        config = configManager.loadConfig(
+            Path.of(pluginDirectory.path.toString(), "config.yml"),
+            VanguardConfig::class.java
+        )
+
+        messages = configManager.loadConfig(
+            Path.of(pluginDirectory.path.toString(), "messages.yml"),
+            MessagesConfig::class.java
+        )
+    }
 }

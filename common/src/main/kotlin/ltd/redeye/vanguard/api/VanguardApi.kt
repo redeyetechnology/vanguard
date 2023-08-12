@@ -18,17 +18,19 @@
 
 package ltd.redeye.vanguard.api
 
+import ltd.redeye.vanguard.api.origin.VanguardOrigin
+import ltd.redeye.vanguard.player.VanguardPlayer
 import java.net.InetAddress
 import ltd.redeye.vanguard.punishment.Ban
 
-interface VanguardApi<Player, OriginSource> {
-    /**
+interface VanguardApi {
+    /*
      * Checks if the player is banned.
      *
      * @param player The player to check.
      * @return `true` if the player is banned, `false` otherwise.
      */
-    fun isBanned(player: Player): Boolean
+    fun isBanned(player: VanguardPlayer): Boolean
 
     /**
      * Gets the current ban for the player.
@@ -36,24 +38,24 @@ interface VanguardApi<Player, OriginSource> {
      * @param player The player to check.
      * @return The current ban, or `null` if the player is not banned.
      */
-    fun getCurrentBan(player: Player): Ban?
-    fun ban(player: Player, origin: OriginSource?, reason: String?, duration: Long?): Ban
-    fun unban(player: Player, origin: OriginSource?)
-    fun banIp(player: Player, origin: OriginSource?, reason: String?, duration: Long?)
-    fun banIp(address: InetAddress, origin: OriginSource?, reason: String?, duration: Long?)
-    fun unbanIp(player: Player, origin: OriginSource?)
-    fun unbanIp(address: InetAddress, origin: OriginSource?)
-    fun kick(player: Player, origin: OriginSource?, reason: String?)
-    fun kickAll(origin: OriginSource?, reason: String?)
-    fun isMuted(player: Player): Boolean
-    fun getCurrentMute(player: Player): Void
-    fun mute(player: Player, origin: OriginSource?, reason: String?, duration: Long?)
-    fun unmute(player: Player, origin: OriginSource?)
-    fun muteIp(player: Player, origin: OriginSource?, reason: String?, duration: Long?)
-    fun muteIp(address: InetAddress, origin: OriginSource?, reason: String?, duration: Long?)
-    fun unmuteIp(player: Player, origin: OriginSource?)
-    fun unmuteIp(address: InetAddress, origin: OriginSource?)
-    fun warn(player: Player, origin: OriginSource?, reason: String?)
-    fun addNote(player: Player, origin: OriginSource, note: String)
-    fun addNoteIp(address: InetAddress, origin: OriginSource, note: String)
+    fun getCurrentBan(player: VanguardPlayer): Ban?
+    fun ban(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
+    fun unban(player: VanguardPlayer, origin: VanguardOrigin?)
+    fun banIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?)
+    fun banIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?)
+    fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin?)
+    fun unbanIp(address: InetAddress, origin: VanguardOrigin?)
+    fun kick(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?)
+    fun kickAll(origin: VanguardOrigin?, reason: String?)
+    fun isMuted(player: VanguardPlayer): Boolean
+    fun getCurrentMute(player: VanguardPlayer): Void
+    fun mute(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?)
+    fun unmute(player: VanguardPlayer, origin: VanguardOrigin?)
+    fun muteIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?)
+    fun muteIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?)
+    fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin?)
+    fun unmuteIp(address: InetAddress, origin: VanguardOrigin?)
+    fun warn(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?)
+    fun addNote(player: VanguardPlayer, origin: VanguardOrigin, note: String)
+    fun addNoteIp(address: InetAddress, origin: VanguardOrigin, note: String)
 }
