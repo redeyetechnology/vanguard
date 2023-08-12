@@ -25,6 +25,8 @@ import org.spongepowered.configurate.objectmapping.meta.Comment
 
 @ConfigSerializable
 data class VanguardConfig(
+    val serverName: String = "server",
+
     @Comment("This is the prefix used for any admin commands. If you set it to blank, then nothing will be shown.")
     val prefix: String = "<#22D3EE><bold>Vanguard</bold></#22D3EE> <#64748B>»</#64748B> <#D6D3D1>",
 

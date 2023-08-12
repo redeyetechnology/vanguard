@@ -18,15 +18,21 @@
 
 package ltd.redeye.vanguard.common.network
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import ltd.redeye.vanguard.common.VanguardCore
+import ltd.redeye.vanguard.common.network.messaging.RedisChannel
+import ltd.redeye.vanguard.common.network.messaging.RedisChannelImpl
 import org.redisson.Redisson
 import org.redisson.api.RedissonClient
 import org.redisson.client.codec.StringCodec
 import org.redisson.config.Config
+import kotlin.reflect.KClass
 
 class NetworkManager {
 
     val redisson: RedissonClient
+    val gson: Gson = GsonBuilder().create()
 
     init {
         val networkConfig = VanguardCore.instance.config.network
@@ -40,6 +46,14 @@ class NetworkManager {
         config.codec = StringCodec()
 
         redisson = Redisson.create(config)
+    }
+
+    fun <T : Any> register(channel: String, type: KClass<T>): RedisChannel<T> {
+        return register(channel, type.java)
+    }
+
+    fun <T : Any> register(channel: String, type: Class<T>): RedisChannel<T> {
+        return RedisChannelImpl(redisson, gson, channel, type)
     }
 
 }
