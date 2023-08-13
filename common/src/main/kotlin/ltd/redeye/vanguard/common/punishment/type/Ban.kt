@@ -20,6 +20,8 @@ package ltd.redeye.vanguard.common.punishment.type
 
 import dev.morphia.annotations.Entity
 import dev.morphia.annotations.Id
+import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
+import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.util.UUID
 import java.util.Date
 

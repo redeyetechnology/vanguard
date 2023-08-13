@@ -18,6 +18,8 @@
 
 package ltd.redeye.vanguard.common.punishment.type
 
+import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
+import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.util.*
 
 data class Mute(

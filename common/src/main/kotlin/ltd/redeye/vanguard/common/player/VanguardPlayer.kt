@@ -21,7 +21,7 @@ package ltd.redeye.vanguard.common.player
 import dev.morphia.annotations.Entity
 import dev.morphia.annotations.Id
 import ltd.redeye.vanguard.common.VanguardCore
-import ltd.redeye.vanguard.common.punishment.type.Punishment
+import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import net.kyori.adventure.audience.Audience
 import java.util.UUID
 
