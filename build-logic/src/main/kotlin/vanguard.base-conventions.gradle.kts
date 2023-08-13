@@ -9,6 +9,7 @@ plugins {
 
 license {
     header(rootProject.file("HEADER"))
+    exclude("**/paper-plugin.yml")
 }
 
 repositories {

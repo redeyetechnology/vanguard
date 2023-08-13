@@ -1,5 +1,6 @@
 plugins {
     id("vanguard.platform-conventions")
+    id("net.minecrell.plugin-yml.paper") version "0.6.0"
 }
 
 repositories {
@@ -12,4 +13,14 @@ dependencies {
     implementation(project(":common"))
     compileOnly(libs.paper.api)
     implementation(libs.cloud.paper)
+}
+
+paper {
+    name = "Vanguard"
+    main = "ltd.redeye.vanguard.paper.VanguardPlugin"
+    apiVersion = "1.20"
+    version = "${project.version}"
+    description = "Manage your server's punishments with ease."
+    authors = listOf("RedEye Technologies", "FawksX", "PhilTheSkid")
+    website = "https://vanguard.redeyetechnologies.co.uk"
 }

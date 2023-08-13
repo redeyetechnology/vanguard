@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.archivesName
+
 val libs = extensions.getByType(org.gradle.accessors.dm.LibrariesForLibs::class)
 
 plugins {
@@ -17,9 +19,11 @@ dependencies {
 
     implementation(libs.morphia.core) {
         exclude("org.slf4j", "slf4j-api")
+        exclude("org.testcontainers", "mongodb")
     }
     implementation(libs.morphia.kotlin){
         exclude("org.slf4j", "slf4j-api")
+        exclude("org.testcontainers", "mongodb")
     }
 
     implementation(libs.configurate.yaml)
@@ -56,6 +60,8 @@ tasks {
             "org.yaml.snakeyaml",
             "org.redisson"
         ).forEach(::reloc)
+
+        archiveFileName.set("vanguard-${project.name}-${project.version}.jar")
     }
     build {
         dependsOn(shadowJar)
