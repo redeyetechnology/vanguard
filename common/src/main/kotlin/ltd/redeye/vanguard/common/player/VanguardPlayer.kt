@@ -39,14 +39,14 @@ data class VanguardPlayer(
         }
 
     fun isOnline(): Boolean {
-        return ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.isOnline(this)
+        return VanguardCore.instance.playerManager.isOnline(this)
     }
     fun audience(): Audience {
-        return ltd.redeye.vanguard.common.VanguardCore.instance.playerAdapter.audience(this)
+        return VanguardCore.instance.playerAdapter.audience(this)
     }
 
     fun punishments(): List<Punishment> {
-        return ltd.redeye.vanguard.common.VanguardCore.instance.punishmentManager.getPunishments(this)
+        return VanguardCore.instance.punishmentManager.getPunishments(this)
     }
 
     companion object {
