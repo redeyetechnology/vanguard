@@ -18,18 +18,14 @@
 
 package ltd.redeye.vanguard.common.config.file
 
+import ltd.redeye.vanguard.common.config.file.messages.AlertsMessages
+import ltd.redeye.vanguard.common.config.file.messages.ExpiryPlaceholders
 import ltd.redeye.vanguard.common.message.VanguardMessage
 import ltd.redeye.vanguard.common.message.section.MessageBossBar
 import ltd.redeye.vanguard.common.message.section.MessageSound
 import ltd.redeye.vanguard.common.message.section.MessageTitle
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
-
-@ConfigSerializable
-data class ExpiryPlaceholders(
-    var temporary: String = "<date> (<countdown>)",
-    var permanent: String = "no expiry (permanent)"
-)
 
 @ConfigSerializable
 data class MessagesConfig(
@@ -44,6 +40,9 @@ data class MessagesConfig(
 
     @Comment("This formats how the <expiry> placeholder is displayed. You can use the following placeholders: <date>, <countdown>. If a permanent ban is set, then the <expiry> placeholder will be replaced with the 'permanent' value.")
     var expiryPlaceholders: ExpiryPlaceholders = ExpiryPlaceholders(),
+
+    @Comment("Messages shown to server operators when a Vanguard event occurs.")
+    var alerts: AlertsMessages = AlertsMessages(),
 
     @Comment("This formats the <reason> if no reason is provided when banning, kicking, warning or muting a player.")
     var noReasonProvided: String = "No reason provided",

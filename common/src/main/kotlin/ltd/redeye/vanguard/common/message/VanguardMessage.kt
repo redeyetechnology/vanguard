@@ -37,6 +37,7 @@ data class VanguardMessage(
 ) : Serializable, VanguardMessageBag() {
 
     constructor() : this(null, null, null, null, null)
+    constructor(basicMessage: String) : this(mutableListOf(basicMessage), null, null, null, null)
 
     fun send(target: Audience, tagResolver: TagResolver? = null) {
         if (chat != null && chat!!.size > 0) {
