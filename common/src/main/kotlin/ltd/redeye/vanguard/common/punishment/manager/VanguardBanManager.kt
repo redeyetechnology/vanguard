@@ -27,8 +27,8 @@ import java.time.Duration
 import java.util.*
 
 class VanguardBanManager(val core: VanguardCore) : BanManager {
-    fun getActiveBan(uniqueId: UUID): Ban? {
-        return core.storageDriver.getActiveBan(uniqueId)
+    override fun getActiveBan(uuid: UUID): Ban? {
+        return core.storageDriver.getActiveBan(uuid)
     }
 
     override fun isBanned(vanguardPlayer: VanguardPlayer): Boolean {

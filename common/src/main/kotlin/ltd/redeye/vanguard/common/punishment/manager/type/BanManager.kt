@@ -22,6 +22,7 @@ import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.type.Ban
 import java.time.Duration
+import java.util.*
 
 interface BanManager {
     fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?)
@@ -43,4 +44,5 @@ interface BanManager {
     fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban?
 
     fun getActiveBan(address: String): Ban?
+    fun getActiveBan(uuid: UUID): Ban?
 }

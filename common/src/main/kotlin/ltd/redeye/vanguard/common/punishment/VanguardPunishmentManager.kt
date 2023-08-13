@@ -26,6 +26,7 @@ import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.time.Duration
+import java.util.*
 
 class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
     fun getPunishments(vanguardPlayer: VanguardPlayer): List<Punishment> {
@@ -79,5 +80,13 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
 
     override fun getActiveBan(address: String): Ban? {
         return banManager.getActiveBan(address)
+    }
+
+    /**
+     * WARNING: This method blocks the thread it is called on, as it is designed for use in a player join event. You
+     * should consider using the [VanguardPlayer] version of this method instead.
+     */
+    override fun getActiveBan(uuid: UUID): Ban? {
+        return banManager.getActiveBan(uuid)
     }
 }

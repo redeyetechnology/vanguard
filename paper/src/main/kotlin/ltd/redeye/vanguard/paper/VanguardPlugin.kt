@@ -29,7 +29,7 @@ class VanguardPlugin : JavaPlugin() {
     lateinit var vanguard: VanguardCore
 
     override fun onEnable() {
-        vanguard = VanguardCore(dataFolder, PaperVanguardPlayerAdapter(), slF4JLogger, pluginMeta.version, PaperCommandInitializer(this))
+        vanguard = VanguardCore(PaperVanguardPlayerAdapter(), slF4JLogger, pluginMeta.version, dataFolder, PaperCommandInitializer(this))
 
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
     }
