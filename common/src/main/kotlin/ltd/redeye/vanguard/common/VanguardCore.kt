@@ -47,6 +47,10 @@ class VanguardCore(
         lateinit var instance: VanguardCore
     }
 
+    init {
+        instance = this
+    }
+
     // Configurations
     private val configManager: ConfigManager = ConfigManager(pluginDirectory.toPath(), logger).apply {
         if (!pluginDirectory.exists()) {
@@ -65,8 +69,4 @@ class VanguardCore(
         VanguardStorageDriver.DriverType.MONGO -> MongoStorageDriver().apply { initialise() }
     }
     val api = VanguardApiImpl(this)
-
-    init {
-        instance = this
-    }
 }
