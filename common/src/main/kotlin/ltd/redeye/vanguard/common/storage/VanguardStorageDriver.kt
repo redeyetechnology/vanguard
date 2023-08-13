@@ -21,6 +21,8 @@ package ltd.redeye.vanguard.common.storage
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.type.*
+import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
+import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.util.UUID
 
 /**

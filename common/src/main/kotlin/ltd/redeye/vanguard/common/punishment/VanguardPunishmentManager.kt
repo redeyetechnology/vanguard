@@ -24,7 +24,7 @@ import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.VanguardBanManager
 import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
-import ltd.redeye.vanguard.common.punishment.type.Punishment
+import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.time.Duration
 
 class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
@@ -33,7 +33,8 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
         return punishments.sortedBy { it.created }
     }
 
-    val banManager = VanguardBanManager(core)
+    private val banManager = VanguardBanManager(core)
+
     override fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?) {
         banManager.ban(vanguardPlayer, reason, source, duration)
     }

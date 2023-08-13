@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.common.punishment.type
+package ltd.redeye.vanguard.common.punishment.type.impl
 
 import java.util.Date
 import java.util.UUID
