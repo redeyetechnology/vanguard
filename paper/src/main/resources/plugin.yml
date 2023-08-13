@@ -16,7 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-name: vanguard
-version: '${version}'
-main: ltd.redeye.vanguard.paper.VanguardPlugin
-api-version: '1.20'
+name: Vanguard
+description: 'This plugin is not supported on your server version.'
+version: 0.0.0
+main: ltd.redeye.vanguard.paper.spigot.UnsupportedSpigotPlugin
+website: https://vanguard.redeyetechnologies.co.uk
