@@ -19,6 +19,7 @@
 package ltd.redeye.vanguard.common.message.section
 
 import ltd.redeye.vanguard.common.message.VanguardMessageBag
+import ltd.redeye.vanguard.common.message.serialization.SerializedMessageTitle
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import net.kyori.adventure.title.Title
@@ -48,5 +49,15 @@ data class MessageTitle(
                 )
             )
         }
+    }
+
+    fun serialize(tagResolver: TagResolver): SerializedMessageTitle {
+        return SerializedMessageTitle(
+            if(title!!.isNotEmpty()) parseToGson(title!!, tagResolver) else "",
+            if(subtitle!!.isNotEmpty()) parseToGson(subtitle!!, tagResolver) else "",
+            fadeIn!!,
+            stay!!,
+            fadeOut!!
+        )
     }
 }

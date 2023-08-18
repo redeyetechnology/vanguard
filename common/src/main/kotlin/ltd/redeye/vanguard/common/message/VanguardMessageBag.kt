@@ -22,6 +22,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 
 abstract class VanguardMessageBag {
     fun deserialize(message: String, tagResolver: TagResolver?): Component {
@@ -34,5 +35,14 @@ abstract class VanguardMessageBag {
                 .deserialize(message)
                 .decoration(TextDecoration.ITALIC, false)
         }
+    }
+
+    fun parseToGson(message: String, tagResolver: TagResolver?): String {
+        val parsed = deserialize(message, tagResolver)
+        return GsonComponentSerializer.gson().serialize(parsed)
+    }
+
+    fun deserializeGson(message: String): Component {
+        return GsonComponentSerializer.gson().deserialize(message)
     }
 }

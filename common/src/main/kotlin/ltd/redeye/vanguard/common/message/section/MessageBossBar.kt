@@ -19,6 +19,7 @@
 package ltd.redeye.vanguard.common.message.section
 
 import ltd.redeye.vanguard.common.message.VanguardMessageBag
+import ltd.redeye.vanguard.common.message.serialization.SerializedMessageBossBar
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -28,8 +29,8 @@ import java.io.Serializable
 @ConfigSerializable
 data class MessageBossBar(
     var title: String? = null,
-    var color: String? = "blue",
-    var style: String? = "progress",
+    var color: BossBar.Color? = BossBar.Color.BLUE,
+    var style: BossBar.Overlay? = BossBar.Overlay.PROGRESS,
     var progress: Float? = 1.0F,
 ) : Serializable, VanguardMessageBag() {
     fun send(target: Audience, tagResolver: TagResolver?) {
@@ -39,9 +40,18 @@ data class MessageBossBar(
             BossBar.bossBar(
                 title,
                 progress!!,
-                BossBar.Color.valueOf(color!!.uppercase()),
-                BossBar.Overlay.valueOf(style!!.uppercase())
+                color!!,
+                style!!
             )
+        )
+    }
+
+    fun serialize(tagResolver: TagResolver): SerializedMessageBossBar {
+        return SerializedMessageBossBar(
+            if(title!!.isNotEmpty()) parseToGson(title.orEmpty(), tagResolver) else "",
+            progress!!,
+            style!!,
+            color!!
         )
     }
 }
