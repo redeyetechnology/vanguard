@@ -19,7 +19,6 @@
 package ltd.redeye.vanguard.common.message
 
 import ltd.redeye.vanguard.common.player.VanguardPlayer
-import ltd.redeye.vanguard.common.message.section.MessageBossBar
 import ltd.redeye.vanguard.common.message.section.MessageSound
 import ltd.redeye.vanguard.common.message.section.MessageTitle
 import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
@@ -33,12 +32,10 @@ data class VanguardMessage(
     var chat: MutableList<String>? = mutableListOf(""),
     var actionbar: String?,
     var title: MessageTitle?,
-    var bossbar: MessageBossBar?,
     var sound: MessageSound?
 ) : Serializable, VanguardMessageBag() {
 
-    constructor() : this(null, null, null, null, null)
-    constructor(basicMessage: String) : this(mutableListOf(basicMessage), null, null, null, null)
+    constructor() : this(null, null, null, null)
 
     fun send(target: Audience, tagResolver: TagResolver? = null) {
         if (chat != null && chat!!.size > 0) {
@@ -53,10 +50,6 @@ data class VanguardMessage(
 
         if (title != null) {
             title!!.send(target, tagResolver)
-        }
-
-        if (bossbar != null) {
-            bossbar!!.send(target, tagResolver)
         }
 
         if (sound != null) {
