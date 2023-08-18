@@ -33,6 +33,8 @@ data class VanguardPlayer(
     val knownIps: MutableSet<String> = mutableSetOf(),
     val lastKnownName: String? = null,
 ) {
+    constructor(uuid: UUID) : this(uuid, mutableSetOf(), mutableSetOf(), null)
+
     val banned: Boolean
         get() {
             return VanguardCore.instance.punishmentManager.isBanned(this)

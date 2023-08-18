@@ -33,7 +33,6 @@ object PaperSingleMessagingProxy : MessagingProxy {
 
     override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?) {
         val player = Bukkit.getPlayer(uuid)
-        if (player != null) {
             message.send(player, placeholders)
         }
     }

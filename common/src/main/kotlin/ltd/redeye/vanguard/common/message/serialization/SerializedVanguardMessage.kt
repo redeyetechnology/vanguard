@@ -29,7 +29,6 @@ data class SerializedVanguardMessage(
     var chat: MutableList<String>,
     var actionBar: String,
     var title: SerializedMessageTitle,
-    var bossBar: SerializedMessageBossBar,
     var sound: SerializedMessageSound
 ) : VanguardMessageBag() {
 
@@ -46,9 +45,7 @@ data class SerializedVanguardMessage(
         }
 
         title.send(audience)
-        bossBar.send(audience)
         sound.send(audience)
-
     }
 
     companion object {

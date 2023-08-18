@@ -1,12 +1,17 @@
 ![RedEye Image](https://assets.redeyetechnologies.co.uk/vanguard/vanguard-masthead.png)
 
+![GitHub Issues](https://img.shields.io/github/issues/redeyetechnology/vanguard?style=for-the-badge&logo=github)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/redeyetechnology/vanguard?style=for-the-badge&logo=github)
+![GitHub](https://img.shields.io/github/license/redeyetechnology/vanguard?style=for-the-badge&logo=github)
+
+
 # Vanguard
 
 Vanguard is an advanced, open-source, lightweight and easy to use Minecraft punishment and enforcement plugin.
 
 It allows server operators to easily manage punishments, without any hassle and works on servers of all sizes.
 
-## Development Notice
+## ⚠️ Development Notice
 
 Vanguard is currently in development and is not ready for production use. Please do not use Vanguard on a production
 server until it is ready for release.
