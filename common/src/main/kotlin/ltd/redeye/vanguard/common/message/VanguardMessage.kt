@@ -22,6 +22,7 @@ import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.message.section.MessageBossBar
 import ltd.redeye.vanguard.common.message.section.MessageSound
 import ltd.redeye.vanguard.common.message.section.MessageTitle
+import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
@@ -65,5 +66,18 @@ data class VanguardMessage(
 
     fun send(target: VanguardPlayer, tagResolver: TagResolver? = null) {
         send(target.audience(), tagResolver)
+    }
+
+    fun serialize(tagResolver: TagResolver): SerializedVanguardMessage {
+
+        val chat = this.chat.orEmpty().map { parseToGson(it, tagResolver) }.toCollection(ArrayList())
+
+        return SerializedVanguardMessage(
+            chat,
+            parseToGson(this.actionbar.orEmpty(), tagResolver),
+            title!!.serialize(tagResolver),
+            bossbar!!.serialize(tagResolver),
+            sound!!.serialize()
+        )
     }
 }

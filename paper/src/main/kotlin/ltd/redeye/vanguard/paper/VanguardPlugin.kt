@@ -19,22 +19,57 @@
 package ltd.redeye.vanguard.paper
 
 import ltd.redeye.vanguard.common.VanguardCore
+import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
+import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
+import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
+import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
 import ltd.redeye.vanguard.paper.command.PaperCommandInitializer
 import ltd.redeye.vanguard.paper.listener.PlayerPaperEvents
+import ltd.redeye.vanguard.paper.network.PaperSingleMessagingProxy
 import org.bukkit.plugin.java.JavaPlugin
+import org.slf4j.Logger
+import java.io.File
 
-class VanguardPlugin : JavaPlugin() {
+class VanguardPlugin : JavaPlugin(), VanguardPlugin {
 
     lateinit var vanguard: VanguardCore
 
     override fun onEnable() {
-        vanguard = VanguardCore(PaperVanguardPlayerAdapter(), slF4JLogger, pluginMeta.version, dataFolder, PaperCommandInitializer(this))
+        vanguard = VanguardCore(this)
 
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
     }
 
     override fun onDisable() {
+    }
+
+    override fun createVanguardPlayerAdapter(): VanguardPlayerAdapter<*> {
+        return PaperVanguardPlayerAdapter()
+    }
+
+    override fun slf4jLogger(): Logger {
+        return slF4JLogger
+    }
+
+    override fun version(): String {
+        return pluginMeta.version
+    }
+
+    override fun dataFolder(): File {
+        return dataFolder
+    }
+
+    override fun createPlatformCommandInitializer(): PlatformCommandInitializer {
+        return PaperCommandInitializer(this)
+    }
+
+    override fun defaultMessagingProxy(): MessagingProxy {
+        return PaperSingleMessagingProxy
+    }
+
+    override fun createRedisMessagingProxy(): MessagingProxy {
+        TODO("Not yet implemented")
     }
 
 }

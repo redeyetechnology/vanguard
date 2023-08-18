@@ -18,6 +18,7 @@
 
 package ltd.redeye.vanguard.common.message.section
 
+import ltd.redeye.vanguard.common.message.serialization.SerializedMessageSound
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
@@ -25,11 +26,11 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import java.io.Serializable
 
 @ConfigSerializable
-data class MessageSound (
+data class MessageSound(
     var sound: String = "experience_orb.pickup",
     var pitch: Float = 1.0F,
     var volume: Float = 1.0F
-): Serializable {
+) : Serializable {
     fun send(target: Audience) {
         target.playSound(
             Sound.sound(
@@ -39,5 +40,9 @@ data class MessageSound (
                 pitch
             ),
         )
+    }
+
+    fun serialize(): SerializedMessageSound {
+        return SerializedMessageSound(sound, pitch, volume)
     }
 }

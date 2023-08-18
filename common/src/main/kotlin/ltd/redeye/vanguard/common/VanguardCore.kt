@@ -20,29 +20,22 @@ package ltd.redeye.vanguard.common
 
 import ltd.redeye.vanguard.common.api.VanguardApiImpl
 import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
-import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
-import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
 import ltd.redeye.vanguard.common.config.ConfigManager
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
+import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerManager
+import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
 import ltd.redeye.vanguard.common.storage.mongo.MongoStorageDriver
-import org.slf4j.Logger
-import java.io.File
 
 /**
  * The VanguardCore is a shared class which contains all the core functionality of Vanguard. It's constructed by each
  * platform-specific implementation of Vanguard.
  */
-class VanguardCore(
-    val playerAdapter: VanguardPlayerAdapter<*>,
-    val logger: Logger,
-    val version: String,
-    pluginDirectory: File,
-    commandInitializer: PlatformCommandInitializer
-) {
+class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
+
     companion object {
         lateinit var instance: VanguardCore
     }
@@ -51,10 +44,14 @@ class VanguardCore(
         instance = this
     }
 
+    val playerAdapter = vanguardPlugin.createVanguardPlayerAdapter()
+    val logger = vanguardPlugin.slf4jLogger()
+    val version = vanguardPlugin.version()
+
     // Configurations
-    private val configManager: ConfigManager = ConfigManager(pluginDirectory.toPath(), logger).apply {
-        if (!pluginDirectory.exists()) {
-            pluginDirectory.mkdirs()
+    private val configManager: ConfigManager = ConfigManager(vanguardPlugin.dataFolder().toPath(), logger).apply {
+        if (!vanguardPlugin.dataFolder().exists()) {
+            vanguardPlugin.dataFolder().mkdirs()
         }
         initConfigs(VanguardConfig::class, MessagesConfig::class)
     }
@@ -64,9 +61,18 @@ class VanguardCore(
 
     val punishmentManager = VanguardPunishmentManager(this)
     val playerManager = VanguardPlayerManager(this)
-    val commandManager = VanguardCommandManager(commandInitializer)
+    val commandManager = VanguardCommandManager(vanguardPlugin.createPlatformCommandInitializer())
     val storageDriver: VanguardStorageDriver = when (config.database.driver) {
         VanguardStorageDriver.DriverType.MONGO -> MongoStorageDriver().apply { initialise() }
     }
     val api = VanguardApiImpl(this)
+
+    val messagingProxy = selectMessagingProxy()
+
+    // todo -> Make this check if there is another message broker set in the config
+    // todo -> such as redis. For now we will focus on using the default (single) broker
+    private fun selectMessagingProxy(): MessagingProxy {
+        return vanguardPlugin.defaultMessagingProxy()
+    }
+
 }

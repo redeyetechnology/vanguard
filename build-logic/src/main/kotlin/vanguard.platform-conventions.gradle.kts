@@ -10,6 +10,7 @@ plugins {
 dependencies {
     compileOnly(libs.adventure.api)
     compileOnly(libs.adventure.text.minimessage)
+    compileOnly(libs.adventure.text.serializer.gson)
 
     implementation(libs.cloud.core)
     implementation(libs.cloud.annotations)
