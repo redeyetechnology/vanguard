@@ -69,7 +69,6 @@ data class VanguardMessage(
             chat,
             parseToGson(this.actionbar.orEmpty(), tagResolver),
             title!!.serialize(tagResolver),
-            bossbar!!.serialize(tagResolver),
             sound!!.serialize()
         )
     }
