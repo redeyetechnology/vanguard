@@ -19,7 +19,8 @@
 package ltd.redeye.vanguard.paper.network
 
 import ltd.redeye.vanguard.common.message.VanguardMessage
-import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
+import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
+import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.util.Permissions
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -31,15 +32,26 @@ import java.util.*
  */
 object PaperSingleMessagingProxy : MessagingProxy {
 
-    override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?) {
+    override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean {
         val player = Bukkit.getPlayer(uuid)
         if (player != null) {
             message.send(player, placeholders)
+            return true
         }
+        return false
     }
 
-    override fun kickPlayer(player: UUID, message: Component) {
-        Bukkit.getPlayer(player)?.kick(message)
+    override fun alertPlayer(uuid: UUID, message: SerializedVanguardMessage) {
+        TODO("Not yet implemented")
+    }
+
+    override fun kickPlayer(player: UUID, message: Component): Boolean {
+        val onlinePlayer = Bukkit.getPlayer(player)
+        if (onlinePlayer != null) {
+            onlinePlayer.kick(message)
+            return true
+        }
+        return false
     }
 
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
@@ -48,6 +60,10 @@ object PaperSingleMessagingProxy : MessagingProxy {
                 message.send(player, placeholders)
             }
         }
+    }
+
+    override fun alertStaff(message: SerializedVanguardMessage) {
+        TODO("Not yet implemented")
     }
 
 }
