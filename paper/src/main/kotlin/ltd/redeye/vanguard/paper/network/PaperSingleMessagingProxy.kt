@@ -25,6 +25,7 @@ import ltd.redeye.vanguard.common.util.Permissions
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import java.util.*
 
 /**
@@ -33,37 +34,45 @@ import java.util.*
 object PaperSingleMessagingProxy : MessagingProxy {
 
     override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean {
-        val player = Bukkit.getPlayer(uuid)
-        if (player != null) {
-            message.send(player, placeholders)
-            return true
+        return ifPlayerOnline(uuid) {
+            message.send(it, placeholders)
         }
-        return false
     }
 
     override fun alertPlayer(uuid: UUID, message: SerializedVanguardMessage) {
-        TODO("Not yet implemented")
+        ifPlayerOnline(uuid) {
+            message.send(it)
+        }
     }
 
     override fun kickPlayer(player: UUID, message: Component): Boolean {
-        val onlinePlayer = Bukkit.getPlayer(player)
-        if (onlinePlayer != null) {
-            onlinePlayer.kick(message)
+        return ifPlayerOnline(player) {
+            it.kick(message)
+        }
+    }
+
+    override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
+        getStaff { staff -> staff.forEach { message.send(it, placeholders) } }
+    }
+
+    override fun alertStaff(message: SerializedVanguardMessage) {
+        getStaff { staff -> staff.forEach { message.send(it) } }
+    }
+
+    private fun ifPlayerOnline(uuid: UUID, online: (Player) -> Unit): Boolean {
+        val player = Bukkit.getPlayer(uuid)
+        if (player != null) {
+            online.invoke(player)
             return true
         }
         return false
     }
 
-    override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            if (player.hasPermission(Permissions.STAFF.permission())) {
-                message.send(player, placeholders)
-            }
+    private fun getStaff(staff: (List<Player>) -> Unit) {
+        val players = Bukkit.getOnlinePlayers().filter { it.hasPermission(Permissions.STAFF.permission()) }
+        if (players.isNotEmpty()) {
+            staff.invoke(players)
         }
-    }
-
-    override fun alertStaff(message: SerializedVanguardMessage) {
-        TODO("Not yet implemented")
     }
 
 }

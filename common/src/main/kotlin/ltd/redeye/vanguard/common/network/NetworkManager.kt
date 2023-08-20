@@ -31,8 +31,8 @@ import kotlin.reflect.KClass
 
 class NetworkManager {
 
-    val redisson: RedissonClient
-    val gson: Gson = GsonBuilder().create()
+    private val redisson: RedissonClient
+    private val gson: Gson = GsonBuilder().create()
 
     init {
         val networkConfig = VanguardCore.instance.config.network

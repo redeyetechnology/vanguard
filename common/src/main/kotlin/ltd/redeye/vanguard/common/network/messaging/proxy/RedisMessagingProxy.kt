@@ -37,7 +37,7 @@ import kotlin.reflect.KClass
  * The RedisMessagingProxy will take serialize the messages and send them to the redis server
  * and send to the DefaultMessagingProxy for processing on the sender server.
  */
-class RedisMessagingProxy(private val default: MessagingProxy): MessagingProxy {
+class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy {
 
     companion object {
         const val ALERT_PLAYER_CHANNEL = "vanguard/alert/player"
@@ -65,7 +65,7 @@ class RedisMessagingProxy(private val default: MessagingProxy): MessagingProxy {
 
     override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean {
         // Alert the player if they are on the origin server
-        if(default.alertPlayer(uuid, message, placeholders)) {
+        if (default.alertPlayer(uuid, message, placeholders)) {
             return true
         }
 
@@ -84,7 +84,7 @@ class RedisMessagingProxy(private val default: MessagingProxy): MessagingProxy {
 
     override fun kickPlayer(player: UUID, message: Component): Boolean {
         // Could not kick the player from the origin server, send across redis
-        if(!default.kickPlayer(player, message)) {
+        if (!default.kickPlayer(player, message)) {
             val serializedMessage = GsonComponentSerializer.gson().serialize(message)
             kickPlayerChannel.send(KickPlayerMessage(player, serializedMessage))
         }
@@ -110,7 +110,7 @@ class RedisMessagingProxy(private val default: MessagingProxy): MessagingProxy {
     /**
      * Registers the channel and sets up a listener for the channel
      */
-    private fun <T: Any> registerAndListen(channel: String, clazz: KClass<T>, listen: (T) -> Unit): RedisChannel<T> {
+    private fun <T : Any> registerAndListen(channel: String, clazz: KClass<T>, listen: (T) -> Unit): RedisChannel<T> {
         val redisChannel = networkManager.register(channel, clazz.java)
         redisChannel.listen { message ->
             listen.invoke(message.message)
