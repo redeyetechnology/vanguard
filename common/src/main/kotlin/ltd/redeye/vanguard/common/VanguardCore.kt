@@ -25,11 +25,15 @@ import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
 import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.network.messaging.proxy.RedisMessagingProxy
+import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.player.VanguardPlayerManager
 import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
 import ltd.redeye.vanguard.common.storage.mongo.MongoStorageDriver
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 
 /**
  * The VanguardCore is a shared class which contains all the core functionality of Vanguard. It's constructed by each
@@ -77,11 +81,15 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
     }
 
     private fun selectMessagingProxy(): MessagingProxy {
-        return if(config.network.enabled) {
+        return if (config.network.enabled) {
             RedisMessagingProxy(vanguardPlugin.defaultMessagingProxy())
         } else {
             vanguardPlugin.defaultMessagingProxy()
         }
+    }
+
+    fun getVanguardPlayer(uuid: UUID): CompletableFuture<VanguardPlayer> {
+        return CompletableFuture.supplyAsync { this.storageDriver.loadPlayer(uuid) }
     }
 
 }
