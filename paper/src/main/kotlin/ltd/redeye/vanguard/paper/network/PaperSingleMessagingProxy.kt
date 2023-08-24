@@ -19,10 +19,13 @@
 package ltd.redeye.vanguard.paper.network
 
 import ltd.redeye.vanguard.common.message.VanguardMessage
-import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
+import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
+import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.util.Permissions
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import java.util.*
 
 /**
@@ -30,22 +33,45 @@ import java.util.*
  */
 object PaperSingleMessagingProxy : MessagingProxy {
 
-    override fun alertPlayer(uuid: UUID, message: VanguardMessage) {
-        val player = Bukkit.getPlayer(uuid)
-        if (player != null) {
-            message.send(player)
+    override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean {
+        return ifPlayerOnline(uuid) {
+            message.send(it, placeholders)
         }
     }
 
-    override fun kickPlayer(player: UUID, message: Component) {
-        Bukkit.getPlayer(player)?.kick(message)
+    override fun alertPlayer(uuid: UUID, message: SerializedVanguardMessage) {
+        ifPlayerOnline(uuid) {
+            message.send(it)
+        }
     }
 
-    override fun alertStaff(message: VanguardMessage) {
-        Bukkit.getOnlinePlayers().forEach { player ->
-            if (player.hasPermission(Permissions.STAFF.permission())) {
-                message.send(player)
-            }
+    override fun kickPlayer(player: UUID, message: Component): Boolean {
+        return ifPlayerOnline(player) {
+            it.kick(message)
+        }
+    }
+
+    override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
+        getStaff { staff -> staff.forEach { message.send(it, placeholders) } }
+    }
+
+    override fun alertStaff(message: SerializedVanguardMessage) {
+        getStaff { staff -> staff.forEach { message.send(it) } }
+    }
+
+    private fun ifPlayerOnline(uuid: UUID, online: (Player) -> Unit): Boolean {
+        val player = Bukkit.getPlayer(uuid)
+        if (player != null) {
+            online.invoke(player)
+            return true
+        }
+        return false
+    }
+
+    private fun getStaff(staff: (List<Player>) -> Unit) {
+        val players = Bukkit.getOnlinePlayers().filter { it.hasPermission(Permissions.STAFF.permission()) }
+        if (players.isNotEmpty()) {
+            staff.invoke(players)
         }
     }
 

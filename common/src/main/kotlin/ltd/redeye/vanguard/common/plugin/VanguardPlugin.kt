@@ -19,7 +19,7 @@
 package ltd.redeye.vanguard.common.plugin
 
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
-import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
+import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
 
 /**
@@ -34,6 +34,5 @@ interface VanguardPlugin {
     fun dataFolder(): java.io.File
     fun createPlatformCommandInitializer(): PlatformCommandInitializer
     fun defaultMessagingProxy(): MessagingProxy
-    fun createRedisMessagingProxy(): MessagingProxy
 
 }

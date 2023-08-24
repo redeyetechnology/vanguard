@@ -21,8 +21,10 @@ package ltd.redeye.vanguard.common.config.file
 import ltd.redeye.vanguard.common.config.file.messages.AlertsMessages
 import ltd.redeye.vanguard.common.config.file.messages.ExpiryPlaceholders
 import ltd.redeye.vanguard.common.message.VanguardMessage
+import ltd.redeye.vanguard.common.message.section.MessageBossBar
 import ltd.redeye.vanguard.common.message.section.MessageSound
 import ltd.redeye.vanguard.common.message.section.MessageTitle
+import net.kyori.adventure.bossbar.BossBar
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
 
@@ -33,6 +35,7 @@ data class MessagesConfig(
         chat = mutableListOf("<red>Message One", "<#00ff00><bold>Message Two", "<gradient:red:blue>Message Three"),
         "Example Actionbar",
         MessageTitle("Example Title", "Example Subtitle", 10, 10, 10),
+        MessageBossBar("Example Bossbar", BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20, 1.0F),
         MessageSound("minecraft:entity.experience_orb.pickup", 1.0F, 1.0F)
     ),
 

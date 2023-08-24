@@ -19,45 +19,39 @@
 package ltd.redeye.vanguard.common.message.section
 
 import ltd.redeye.vanguard.common.message.VanguardMessageBag
-import ltd.redeye.vanguard.common.message.serialization.SerializedMessageTitle
+import ltd.redeye.vanguard.common.message.serialization.SerializedMessageBossBar
 import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
-import net.kyori.adventure.title.Title
-import net.kyori.adventure.util.Ticks
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import java.io.Serializable
 
 @ConfigSerializable
-data class MessageTitle(
+data class MessageBossBar(
     var title: String? = null,
-    var subtitle: String? = null,
-    var fadeIn: Long? = 20,
-    var stay: Long? = 60,
-    var fadeOut: Long? = 20
+    var color: BossBar.Color? = BossBar.Color.BLUE,
+    var style: BossBar.Overlay? = BossBar.Overlay.PROGRESS,
+    var progress: Float? = 1.0F,
 ) : Serializable, VanguardMessageBag() {
-    fun send(target: Audience, tagResolver: TagResolver? = null) {
-        if (title != null) {
-            target.showTitle(
-                Title.title(
-                    deserialize(title!!, tagResolver),
-                    deserialize(subtitle!!, tagResolver),
-                    Title.Times.times(
-                        Ticks.duration(fadeIn!!),
-                        Ticks.duration(stay!!),
-                        Ticks.duration(fadeOut!!)
-                    )
-                )
+    fun send(target: Audience, tagResolver: TagResolver?) {
+        val title = deserialize(title!!, tagResolver)
+
+        target.showBossBar(
+            BossBar.bossBar(
+                title,
+                progress!!,
+                color!!,
+                style!!
             )
-        }
+        )
     }
 
-    fun serialize(tagResolver: TagResolver?): SerializedMessageTitle {
-        return SerializedMessageTitle(
-            if(title!!.isNotEmpty()) parseToGson(title!!, tagResolver) else "",
-            if(subtitle!!.isNotEmpty()) parseToGson(subtitle!!, tagResolver) else "",
-            fadeIn!!,
-            stay!!,
-            fadeOut!!
+    fun serialize(tagResolver: TagResolver?): SerializedMessageBossBar {
+        return SerializedMessageBossBar(
+            if(title!!.isNotEmpty()) parseToGson(title.orEmpty(), tagResolver) else "",
+            progress!!,
+            style!!,
+            color!!
         )
     }
 }

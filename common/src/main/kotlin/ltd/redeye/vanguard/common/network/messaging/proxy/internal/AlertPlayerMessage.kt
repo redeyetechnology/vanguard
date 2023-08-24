@@ -16,18 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.common.network.messaging
+package ltd.redeye.vanguard.common.network.messaging.proxy.internal
 
-import ltd.redeye.vanguard.common.message.VanguardMessage
-import net.kyori.adventure.text.Component
-import java.util.UUID
+import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
+import org.jetbrains.annotations.ApiStatus.Internal
+import java.util.*
 
-interface MessagingProxy {
-
-    fun alertPlayer(uuid: UUID, message: VanguardMessage)
-
-    fun kickPlayer(player: UUID, message: Component)
-
-    fun alertStaff(message: VanguardMessage)
-
-}
+@Internal
+data class AlertPlayerMessage(val uuid: UUID, val vanguardMessage: SerializedVanguardMessage)

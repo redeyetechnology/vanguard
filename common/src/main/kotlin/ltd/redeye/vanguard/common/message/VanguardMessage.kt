@@ -61,7 +61,7 @@ data class VanguardMessage(
         send(target.audience(), tagResolver)
     }
 
-    fun serialize(tagResolver: TagResolver): SerializedVanguardMessage {
+    fun serialize(tagResolver: TagResolver?): SerializedVanguardMessage {
 
         val chat = this.chat.orEmpty().map { parseToGson(it, tagResolver) }.toCollection(ArrayList())
 

@@ -23,7 +23,9 @@ import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
 import ltd.redeye.vanguard.common.config.ConfigManager
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
-import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
+import ltd.redeye.vanguard.common.network.NetworkManager
+import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
+import ltd.redeye.vanguard.common.network.messaging.proxy.RedisMessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerManager
 import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
@@ -69,10 +71,12 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
 
     val messagingProxy = selectMessagingProxy()
 
-    // todo -> Make this check if there is another message broker set in the config
-    // todo -> such as redis. For now we will focus on using the default (single) broker
     private fun selectMessagingProxy(): MessagingProxy {
-        return vanguardPlugin.defaultMessagingProxy()
+        return if(config.network.enabled) {
+            RedisMessagingProxy(vanguardPlugin.defaultMessagingProxy())
+        } else {
+            vanguardPlugin.defaultMessagingProxy()
+        }
     }
 
 }
