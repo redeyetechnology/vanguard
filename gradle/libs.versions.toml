@@ -20,6 +20,9 @@ gson = "2.8.9"
 # Networking
 redisson = "3.23.2"
 
+# Statistics and Monitoring
+bstats = "3.0.2"
+
 # platform: paper
 paper = "1.20.1-R0.1-SNAPSHOT"
 
@@ -57,3 +60,4 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 # platform: paper
 paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 cloud-paper = { module = "cloud.commandframework:cloud-paper", version.ref = "cloud" }
+bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }

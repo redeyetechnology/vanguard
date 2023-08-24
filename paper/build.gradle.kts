@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":common"))
     compileOnly(libs.paper.api)
     implementation(libs.cloud.paper)
+    implementation(libs.bstats.bukkit)
 }
 
 paper {
