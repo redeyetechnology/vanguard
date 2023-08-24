@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.archivesName
-
 val libs = extensions.getByType(org.gradle.accessors.dm.LibrariesForLibs::class)
 
 plugins {
@@ -17,6 +15,8 @@ dependencies {
     implementation(libs.cloud.minecraft.extras) {
         isTransitive = false
     }
+    implementation(libs.cloud.brigadier)
+    implementation(libs.commodore)
 
     implementation(libs.morphia.core) {
         exclude("org.slf4j", "slf4j-api")
@@ -38,6 +38,9 @@ dependencies {
 
 tasks {
     shadowJar {
+        dependencies {
+            exclude(dependency("com.mojang:brigadier"))
+        }
 
         listOf(
             "cloud.commandframework",
@@ -48,6 +51,7 @@ tasks {
             "io.smallrye",
             "org.spongepowered",
             "edu.umd.cs",
+            "me.lucko",
             "javax.annotation",
             "net.bytebuddy",
             "nonapi.io.github.classgraph",

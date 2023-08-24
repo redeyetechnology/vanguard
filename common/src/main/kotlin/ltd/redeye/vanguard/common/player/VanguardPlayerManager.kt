@@ -35,6 +35,7 @@ class VanguardPlayerManager(private val core: ltd.redeye.vanguard.common.Vanguar
         val vanguardPlayer = core.storageDriver.loadPlayer(uuid)
         vanguardPlayer.knownNames.add(name)
         vanguardPlayer.knownIps.add(ip)
+        core.storageDriver.savePlayer(vanguardPlayer)
     }
 
     fun playerLeft(uuid: UUID) {

@@ -22,6 +22,7 @@ import cloud.commandframework.arguments.parser.ArgumentParseResult
 import cloud.commandframework.arguments.parser.ArgumentParser
 import cloud.commandframework.context.CommandContext
 import cloud.commandframework.exceptions.parsing.NoInputProvidedException
+import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.exception.VanguardPlayerParseException
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import java.util.*
@@ -34,26 +35,29 @@ class VanguardPlayerParser<C> : ArgumentParser<C, VanguardPlayer> {
         val input = inputQueue.peek()
             ?: return ArgumentParseResult.failure(
                 NoInputProvidedException(
-                    ltd.redeye.vanguard.common.command.lib.VanguardPlayerParser::class.java,
+                    VanguardPlayerParser::class.java,
                     commandContext
                 )
             )
 
-        val player = VanguardPlayer.parse(input)
-
+        val player = VanguardCore.instance.getVanguardPlayer(input).get()
         return if (player == null) {
-            ArgumentParseResult.failure(VanguardPlayerParseException(input, commandContext))
+            ArgumentParseResult.failure(
+                VanguardPlayerParseException(
+                    input,
+                    commandContext
+                )
+            )
         } else {
+            inputQueue.remove()
             ArgumentParseResult.success(player)
         }
+
     }
 
     override fun suggestions(commandContext: CommandContext<C>, input: String): MutableList<String> {
-        val playerManager = ltd.redeye.vanguard.common.VanguardCore.instance.playerManager
-        val onlinePlayers = playerManager.getCachedOnlinePlayers()
+        val onThisServer = VanguardCore.instance.playerAdapter.getOnlinePlayerNames()
 
-        return onlinePlayers.map {
-            it.lastKnownName ?: it.uuid.toString()
-        }.toMutableList()
+        return onThisServer.filter { it.startsWith(input, true) }.toMutableList()
     }
 }

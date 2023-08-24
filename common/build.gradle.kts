@@ -7,6 +7,7 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven { url = uri("https://libraries.minecraft.net/") }
 }
 kotlin {
     jvmToolchain(11)

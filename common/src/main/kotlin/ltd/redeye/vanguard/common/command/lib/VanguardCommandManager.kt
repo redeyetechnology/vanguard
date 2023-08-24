@@ -26,9 +26,11 @@ import cloud.commandframework.arguments.standard.StringArgument
 import cloud.commandframework.meta.CommandMeta
 import cloud.commandframework.meta.SimpleCommandMeta
 import cloud.commandframework.minecraft.extras.MinecraftHelp
+import io.leangen.geantyref.TypeToken
 import ltd.redeye.vanguard.common.command.CommandRegistry
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
+import ltd.redeye.vanguard.common.player.VanguardPlayer
 import net.kyori.adventure.text.format.TextColor
 
 /**
@@ -91,6 +93,11 @@ class VanguardCommandManager(
 
     init {
         commandManager = commandInitializer.createCommandManager()
+
+        commandManager.parserRegistry().registerParserSupplier(
+            TypeToken.get(VanguardPlayer::class.java)
+        ) { VanguardPlayerParser() }
+
         commandInitializer.createExceptionHandler(commandManager)
         annotationParser = buildAnnotationParser(commandManager)
 

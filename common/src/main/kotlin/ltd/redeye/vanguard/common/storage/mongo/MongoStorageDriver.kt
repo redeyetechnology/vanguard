@@ -26,12 +26,15 @@ import dev.morphia.Morphia
 import dev.morphia.query.filters.Filters
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
-import ltd.redeye.vanguard.common.punishment.type.*
+import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.Kick
+import ltd.redeye.vanguard.common.punishment.type.Mute
+import ltd.redeye.vanguard.common.punishment.type.Warning
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
 import org.bson.UuidRepresentation
-import java.util.UUID
+import java.util.*
 
 class MongoStorageDriver : VanguardStorageDriver {
     private lateinit var datastore: Datastore
@@ -78,6 +81,10 @@ class MongoStorageDriver : VanguardStorageDriver {
         }
 
         return player
+    }
+
+    override fun loadPlayer(name: String): VanguardPlayer? {
+        return datastore.find(VanguardPlayer::class.java).filter(Filters.`in`("knownNames", listOf(name))).first()
     }
 
     override fun savePlayer(player: VanguardPlayer) {
