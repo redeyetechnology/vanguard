@@ -95,9 +95,15 @@ class MongoStorageDriver : VanguardStorageDriver {
     override fun getPunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<Punishment> {
         val punishments = mutableSetOf<Punishment>()
 
-        val bans = datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toList()
-        val mutes = datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toList()
-        val warns = datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toList()
+        val bans =
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+                .toList()
+        val mutes =
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+                .toList()
+        val warns =
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+                .toList()
 
         punishments.addAll(bans)
         punishments.addAll(mutes)
@@ -130,19 +136,23 @@ class MongoStorageDriver : VanguardStorageDriver {
     }
 
     override fun getBans(vanguardPlayer: VanguardPlayer, scope: String): Set<Ban> {
-        return datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
+        return datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            .toSet()
     }
 
     override fun getMutes(vanguardPlayer: VanguardPlayer, scope: String): Set<Mute> {
-        return datastore.find(Mute::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
+        return datastore.find(Mute::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            .toSet()
     }
 
     override fun getKicks(vanguardPlayer: VanguardPlayer, scope: String): Set<Kick> {
-        return datastore.find(Kick::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
+        return datastore.find(Kick::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            .toSet()
     }
 
     override fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning> {
-        return datastore.find(Warning::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
+        return datastore.find(Warning::class.java)
+            .filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
     }
 
     override fun getActivePunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<ActivePunishment> {

@@ -42,6 +42,7 @@ data class VanguardPlayer(
     fun isOnline(): Boolean {
         return VanguardCore.instance.playerManager.isOnline(this)
     }
+
     fun audience(): Audience {
         return VanguardCore.instance.playerAdapter.audience(this)
     }

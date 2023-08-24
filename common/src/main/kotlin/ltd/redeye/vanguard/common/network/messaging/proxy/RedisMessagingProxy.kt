@@ -56,7 +56,13 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
     private val kickPlayerChannel = registerAndListen(
         KICK_PLAYER_CHANNEL,
         KickPlayerMessage::class
-    ) { message -> default.kickPlayer(message.uuid, GsonComponentSerializer.gson().deserialize(message.message), message.scope) }
+    ) { message ->
+        default.kickPlayer(
+            message.uuid,
+            GsonComponentSerializer.gson().deserialize(message.message),
+            message.scope
+        )
+    }
 
     private val alertStaffChannel = registerAndListen(
         ALERT_STAFF_CHANNEL,

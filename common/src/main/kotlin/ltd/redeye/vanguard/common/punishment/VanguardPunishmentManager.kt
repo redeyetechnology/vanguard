@@ -41,7 +41,13 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
 
     private val banManager = VanguardBanManager(core)
 
-    override fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String) {
+    override fun ban(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
         banManager.ban(vanguardPlayer, reason, source, duration, scope)
     }
 
@@ -49,7 +55,13 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
         banManager.unban(vanguardPlayer, source, scope)
     }
 
-    override fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String) {
+    override fun banIp(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
         banManager.banIp(vanguardPlayer, reason, source, duration, scope)
     }
 

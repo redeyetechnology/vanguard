@@ -25,15 +25,34 @@ import java.time.Duration
 import java.util.*
 
 interface BanManager {
-    fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String)
+    fun ban(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    )
 
     fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String)
 
-    fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String)
+    fun banIp(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    )
 
     fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String)
 
-    fun banIp(address: String, targetName: String, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String)
+    fun banIp(
+        address: String,
+        targetName: String,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    )
 
     fun unbanIp(address: String, source: VanguardOrigin?, scope: String)
 

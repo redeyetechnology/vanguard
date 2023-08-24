@@ -21,7 +21,6 @@ package ltd.redeye.vanguard.common.punishment.manager
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
-import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
 import java.time.Duration
@@ -50,7 +49,13 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
         return core.storageDriver.getActiveBan(address, scope)
     }
 
-    override fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String) {
+    override fun ban(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
 
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
@@ -84,7 +89,13 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
         }
     }
 
-    override fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String) {
+    override fun banIp(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
         vanguardPlayer.knownIps.forEach {
             banIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration, scope)
         }
