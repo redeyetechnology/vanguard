@@ -25,24 +25,24 @@ import java.time.Duration
 import java.util.*
 
 interface BanManager {
-    fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?)
+    fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String)
 
-    fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?)
+    fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String)
 
-    fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?)
+    fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String)
 
-    fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?)
+    fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String)
 
-    fun banIp(address: String, targetName: String, reason: String?, source: VanguardOrigin?, duration: Duration?)
+    fun banIp(address: String, targetName: String, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String)
 
-    fun unbanIp(address: String, source: VanguardOrigin?)
+    fun unbanIp(address: String, source: VanguardOrigin?, scope: String)
 
-    fun isBanned(vanguardPlayer: VanguardPlayer): Boolean
+    fun isBanned(vanguardPlayer: VanguardPlayer, scope: String): Boolean
 
-    fun isIpBanned(address: String): Boolean
+    fun isIpBanned(address: String, scope: String): Boolean
 
-    fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban?
+    fun getActiveBan(vanguardPlayer: VanguardPlayer, scope: String): Ban?
 
-    fun getActiveBan(address: String): Ban?
-    fun getActiveBan(uuid: UUID): Ban?
+    fun getActiveBan(address: String, scope: String): Ban?
+    fun getActiveBan(uuid: UUID, scope: String): Ban?
 }

@@ -33,4 +33,5 @@ data class Mute(
     override val source: String?,
     override val created: Date,
     override val updated: Date,
+    override val scope: String
 ) : ActivePunishment, Punishment

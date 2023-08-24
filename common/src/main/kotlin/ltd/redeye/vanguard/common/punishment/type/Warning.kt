@@ -29,4 +29,5 @@ data class Warning(
     override val source: String?,
     override val created: Date,
     override val updated: Date,
+    override val scope: String
 ) : Punishment

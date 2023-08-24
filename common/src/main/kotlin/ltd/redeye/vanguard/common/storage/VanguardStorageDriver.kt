@@ -78,7 +78,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return A set of [Punishment] objects.
      */
-    fun getPunishments(vanguardPlayer: VanguardPlayer): Set<Punishment>
+    fun getPunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<Punishment>
 
     /**
      * Retrieves all bans associated with a player.
@@ -86,7 +86,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return A set of [Ban] objects representing all bans tied to the specified player.
      */
-    fun getBans(vanguardPlayer: VanguardPlayer): Set<Ban>
+    fun getBans(vanguardPlayer: VanguardPlayer, scope: String): Set<Ban>
 
     /**
      * Retrieves all mutes associated with a player.
@@ -94,7 +94,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return A set of [Mute] objects representing all mutes tied to the specified player.
      */
-    fun getMutes(vanguardPlayer: VanguardPlayer): Set<Mute>
+    fun getMutes(vanguardPlayer: VanguardPlayer, scope: String): Set<Mute>
 
     /**
      * Retrieves all kicks associated with a player.
@@ -102,7 +102,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return A set of [Kick] objects representing all kicks tied to the specified player.
      */
-    fun getKicks(vanguardPlayer: VanguardPlayer): Set<Kick>
+    fun getKicks(vanguardPlayer: VanguardPlayer, scope: String): Set<Kick>
 
     /**
      * Retrieves all warnings associated with a player.
@@ -110,7 +110,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return A set of [Warning] objects representing all warnings tied to the specified player.
      */
-    fun getWarns(vanguardPlayer: VanguardPlayer): Set<Warning>
+    fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning>
 
     /**
      * Retrieves all currently active punishments associated with a player.
@@ -118,7 +118,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return A set of [ActivePunishment] objects representing all active punishments for the specified player.
      */
-    fun getActivePunishments(vanguardPlayer: VanguardPlayer): Set<ActivePunishment>
+    fun getActivePunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<ActivePunishment>
 
     /**
      * Retrieves the currently active ban, if any, associated with a player.
@@ -126,7 +126,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return An optional [Ban] object representing the active ban for the specified player, or null if none is present.
      */
-    fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban?
+    fun getActiveBan(vanguardPlayer: VanguardPlayer, scope: String): Ban?
 
     /**
      * Retrieves the currently active ban, if any, associated with a player. This specific method is used on a prejoin
@@ -135,7 +135,7 @@ interface VanguardStorageDriver {
      * @param uuid The player in question.
      * @return An optional [Ban] object representing the active ban for the specified player, or null if none is present.
      */
-    fun getActiveBan(uuid: UUID): Ban?
+    fun getActiveBan(uuid: UUID, scope: String): Ban?
 
     /**
      * Retrieves the currently active mute, if any, associated with a player.
@@ -143,7 +143,7 @@ interface VanguardStorageDriver {
      * @param vanguardPlayer The player in question.
      * @return An optional [Mute] object representing the active mute for the specified player, or null if none is present.
      */
-    fun getActiveMute(vanguardPlayer: VanguardPlayer): Mute?
+    fun getActiveMute(vanguardPlayer: VanguardPlayer, scope: String): Mute?
 
 
     /**
@@ -185,7 +185,7 @@ interface VanguardStorageDriver {
      * @param address The IP address in question.
      * @return The [Ban] object representing the ban on the given IP address, or null if none is present.
      */
-    fun getActiveBan(address: String): Ban?
+    fun getActiveBan(address: String, scope: String): Ban?
 
     /**
      * Save a pre-existing punishment to the storage system.

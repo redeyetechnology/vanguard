@@ -56,7 +56,7 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
     private val kickPlayerChannel = registerAndListen(
         KICK_PLAYER_CHANNEL,
         KickPlayerMessage::class
-    ) { message -> default.kickPlayer(message.uuid, GsonComponentSerializer.gson().deserialize(message.message)) }
+    ) { message -> default.kickPlayer(message.uuid, GsonComponentSerializer.gson().deserialize(message.message), message.scope) }
 
     private val alertStaffChannel = registerAndListen(
         ALERT_STAFF_CHANNEL,
@@ -82,11 +82,11 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
         throw IllegalAccessException("Cannot send serialized messages to RedisMessagingProxy")
     }
 
-    override fun kickPlayer(player: UUID, message: Component): Boolean {
+    override fun kickPlayer(player: UUID, message: Component, scope: String): Boolean {
         // Could not kick the player from the origin server, send across redis
-        if (!default.kickPlayer(player, message)) {
+        if (!default.kickPlayer(player, message, scope)) {
             val serializedMessage = GsonComponentSerializer.gson().serialize(message)
-            kickPlayerChannel.send(KickPlayerMessage(player, serializedMessage))
+            kickPlayerChannel.send(KickPlayerMessage(player, serializedMessage, scope))
         }
         return true
     }
