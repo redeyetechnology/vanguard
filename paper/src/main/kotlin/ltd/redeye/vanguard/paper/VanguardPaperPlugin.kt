@@ -26,6 +26,7 @@ import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
 import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
 import ltd.redeye.vanguard.paper.command.PaperCommandInitializer
+import ltd.redeye.vanguard.paper.event.PaperEventBridge
 import ltd.redeye.vanguard.paper.listener.PlayerPaperEvents
 import ltd.redeye.vanguard.paper.network.PaperSingleMessagingProxy
 import org.bstats.bukkit.Metrics
@@ -40,6 +41,7 @@ class VanguardPaperPlugin : JavaPlugin(), VanguardPlugin {
     }
 
     lateinit var vanguard: VanguardCore
+    val eventBridge = PaperEventBridge()
 
     override fun onEnable() {
         instance = this
@@ -53,7 +55,7 @@ class VanguardPaperPlugin : JavaPlugin(), VanguardPlugin {
     }
 
     override fun getEventBridge(): VanguardEventBridge {
-        TODO("Not yet implemented")
+        return eventBridge
     }
 
     override fun onDisable() {
