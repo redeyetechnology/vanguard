@@ -59,7 +59,8 @@ tasks {
             "org.jsoup",
             "org.objectweb.asm",
             "org.yaml.snakeyaml",
-            "org.redisson"
+            "org.redisson",
+            "org.bstats"
         ).forEach(::reloc)
 
         archiveFileName.set("vanguard-${project.name}-${project.version}.jar")

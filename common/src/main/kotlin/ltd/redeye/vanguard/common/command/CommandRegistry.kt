@@ -18,13 +18,15 @@
 
 package ltd.redeye.vanguard.common.command
 
-import ltd.redeye.vanguard.common.command.CommandInfo
+import ltd.redeye.vanguard.common.command.admin.CommandInfo
+import ltd.redeye.vanguard.common.command.admin.CommandShowExampleMessage
 import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
 
 object CommandRegistry {
     fun registerCommands(commandManager: VanguardCommandManager) {
         commandManager.registerCommands(
             CommandInfo(),
+            CommandShowExampleMessage()
         )
     }
 }

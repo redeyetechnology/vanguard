@@ -23,7 +23,6 @@ import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
 import ltd.redeye.vanguard.common.config.ConfigManager
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
-import ltd.redeye.vanguard.common.network.NetworkManager
 import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.network.messaging.proxy.RedisMessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerManager
@@ -70,6 +69,12 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
     val api = VanguardApiImpl(this)
 
     val messagingProxy = selectMessagingProxy()
+
+    init {
+        if (config.sendAnonymousStats) {
+            vanguardPlugin.initMetrics()
+        }
+    }
 
     private fun selectMessagingProxy(): MessagingProxy {
         return if(config.network.enabled) {

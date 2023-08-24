@@ -27,6 +27,7 @@ import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
 import ltd.redeye.vanguard.paper.command.PaperCommandInitializer
 import ltd.redeye.vanguard.paper.listener.PlayerPaperEvents
 import ltd.redeye.vanguard.paper.network.PaperSingleMessagingProxy
+import org.bstats.bukkit.Metrics
 import org.bukkit.plugin.java.JavaPlugin
 import org.slf4j.Logger
 import java.io.File
@@ -39,6 +40,10 @@ class VanguardPlugin : JavaPlugin(), VanguardPlugin {
         vanguard = VanguardCore(this)
 
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
+    }
+
+    override fun initMetrics() {
+        Metrics(this, 19474)
     }
 
     override fun onDisable() {
