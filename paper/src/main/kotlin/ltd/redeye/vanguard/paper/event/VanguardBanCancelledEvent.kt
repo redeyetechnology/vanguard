@@ -29,7 +29,7 @@ import org.bukkit.event.HandlerList
  *
  * @param ban The ban object, which contains all the information about the ban.
  */
-data class VanguardBanEvent(
+data class VanguardBanCancelledEvent(
     val ban: Ban
 ) : VanguardEvent() {
     companion object {

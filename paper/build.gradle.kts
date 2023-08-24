@@ -18,7 +18,7 @@ dependencies {
 
 paper {
     name = "Vanguard"
-    main = "ltd.redeye.vanguard.paper.VanguardPlugin"
+    main = "ltd.redeye.vanguard.paper.VanguardPaperPlugin"
     apiVersion = "1.20"
     version = "${project.version}"
     description = "Manage your server's punishments with ease."

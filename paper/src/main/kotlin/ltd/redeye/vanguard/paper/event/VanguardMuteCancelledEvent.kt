@@ -18,7 +18,7 @@
 
 package ltd.redeye.vanguard.paper.event
 
-import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.Mute
 import org.bukkit.event.HandlerList
 
 /**
@@ -27,10 +27,10 @@ import org.bukkit.event.HandlerList
  * convenience of developers who do not wish to use the common module, and also allows internal mechanisms within
  * Vanguard to subscribe to the event and handle it appropriately.
  *
- * @param ban The ban object, which contains all the information about the ban.
+ * @param mute The mute object, which contains all the information about the mute.
  */
-data class VanguardBanEvent(
-    val ban: Ban
+data class VanguardMuteCancelledEvent(
+    val mute: Mute
 ) : VanguardEvent() {
     companion object {
         val HANDLERS = HandlerList()
