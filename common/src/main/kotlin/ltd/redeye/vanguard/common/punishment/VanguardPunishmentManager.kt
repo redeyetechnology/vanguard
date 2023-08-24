@@ -35,7 +35,7 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
     }
 
     fun getPunishments(vanguardPlayer: VanguardPlayer): List<Punishment> {
-        val punishments = core.storageDriver.getPunishments(vanguardPlayer)
+        val punishments = core.storageDriver.getPunishments(vanguardPlayer, core.config.serverName)
         return punishments.sortedBy { it.created }
     }
 

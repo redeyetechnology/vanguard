@@ -29,7 +29,7 @@ import java.util.*
 
 class VanguardBanManager(val core: VanguardCore) : BanManager {
     override fun getActiveBan(uuid: UUID, scope: String): Ban? {
-        return core.storageDriver.getActiveBan(uuid)
+        return core.storageDriver.getActiveBan(uuid, scope)
     }
 
     override fun isBanned(vanguardPlayer: VanguardPlayer, scope: String): Boolean {
@@ -47,7 +47,7 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
     }
 
     override fun getActiveBan(address: String, scope: String): Ban? {
-        return core.storageDriver.getActiveBan(address)
+        return core.storageDriver.getActiveBan(address, scope)
     }
 
     override fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?, scope: String) {
