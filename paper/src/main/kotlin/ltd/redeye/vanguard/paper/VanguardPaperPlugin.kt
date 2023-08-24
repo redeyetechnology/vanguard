@@ -19,12 +19,14 @@
 package ltd.redeye.vanguard.paper
 
 import ltd.redeye.vanguard.common.VanguardCore
+import ltd.redeye.vanguard.common.api.event.VanguardEventBridge
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
 import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
 import ltd.redeye.vanguard.paper.command.PaperCommandInitializer
+import ltd.redeye.vanguard.paper.event.PaperEventBridge
 import ltd.redeye.vanguard.paper.listener.PlayerPaperEvents
 import ltd.redeye.vanguard.paper.network.PaperSingleMessagingProxy
 import org.bstats.bukkit.Metrics
@@ -32,18 +34,28 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.slf4j.Logger
 import java.io.File
 
-class VanguardPlugin : JavaPlugin(), VanguardPlugin {
+class VanguardPaperPlugin : JavaPlugin(), VanguardPlugin {
+
+    companion object {
+        lateinit var instance: VanguardPaperPlugin
+    }
 
     lateinit var vanguard: VanguardCore
+    val eventBridge = PaperEventBridge()
 
     override fun onEnable() {
-        vanguard = VanguardCore(this)
+        instance = this
 
+        vanguard = VanguardCore(this)
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
     }
 
     override fun initMetrics() {
         Metrics(this, 19474)
+    }
+
+    override fun getEventBridge(): VanguardEventBridge {
+        return eventBridge
     }
 
     override fun onDisable() {

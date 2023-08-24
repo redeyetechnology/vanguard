@@ -18,6 +18,7 @@
 
 package ltd.redeye.vanguard.common.plugin
 
+import ltd.redeye.vanguard.common.api.event.VanguardEventBridge
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
@@ -35,5 +36,6 @@ interface VanguardPlugin {
     fun createPlatformCommandInitializer(): PlatformCommandInitializer
     fun defaultMessagingProxy(): MessagingProxy
     fun initMetrics()
+    fun getEventBridge(): VanguardEventBridge
 
 }

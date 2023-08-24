@@ -18,10 +18,8 @@
 
 package ltd.redeye.vanguard.paper.event
 
-import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
-import ltd.redeye.vanguard.common.player.VanguardPlayer
+import ltd.redeye.vanguard.common.punishment.type.Kick
 import org.bukkit.event.HandlerList
-import java.util.UUID
 
 /**
  * This event is emitted if a player is kicked from the server. Developers should consider subscribing to the event bus
@@ -29,20 +27,10 @@ import java.util.UUID
  * convenience of developers who do not wish to use the common module, and also allows internal mechanisms within
  * Vanguard to subscribe to the event and handle it appropriately.
  *
- * @param uuid The UUID of the player.
- * @param player The VanguardPlayer object of the player, if they are online.
- * @param originName The name of the origin of the kick.
- * @param origin The VanguardOrigin object of the origin of the kick.
- * @param reason The reason for the kick.
- * @param server The server the warning was issued on (as defined in the server's configuration).
+ * @param kick The kick object, which contains all the information about the kick.
  */
 data class VanguardKickEvent(
-    val uuid: UUID,
-    val player: VanguardPlayer?,
-    val originName: String,
-    val origin: VanguardOrigin?,
-    val reason: String,
-    val server: String,
+    val kick: Kick
 ) : VanguardEvent() {
     companion object {
         val HANDLERS = HandlerList()
