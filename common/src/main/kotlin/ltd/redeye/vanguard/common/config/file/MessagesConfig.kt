@@ -21,10 +21,8 @@ package ltd.redeye.vanguard.common.config.file
 import ltd.redeye.vanguard.common.config.file.messages.AlertsMessages
 import ltd.redeye.vanguard.common.config.file.messages.ExpiryPlaceholders
 import ltd.redeye.vanguard.common.message.VanguardMessage
-import ltd.redeye.vanguard.common.message.section.MessageBossBar
 import ltd.redeye.vanguard.common.message.section.MessageSound
 import ltd.redeye.vanguard.common.message.section.MessageTitle
-import net.kyori.adventure.bossbar.BossBar
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
 
@@ -32,10 +30,9 @@ import org.spongepowered.configurate.objectmapping.meta.Comment
 data class MessagesConfig(
     @Comment("This is an example message, it demonstrates how each message in this configuration file is formatted. Each section ('chat', 'actionbar', etc) is optional, and can be entirely omitted. Each text component uses the MiniMessage messaging format to format text. You can see this message in-game by running /vanguard showexamplemessage")
     var exampleMessage: VanguardMessage = VanguardMessage(
-        chat = mutableListOf("<red>Message One", "<#00ff00><bold>Message Two", "<gradient:red:blue>Message Three"),
+        mutableListOf("<red>Message One", "<#00ff00><bold>Message Two", "<gradient:red:blue>Message Three"),
         "Example Actionbar",
         MessageTitle("Example Title", "Example Subtitle", 10, 10, 10),
-        MessageBossBar("Example Bossbar", BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20, 1.0F),
         MessageSound("minecraft:entity.experience_orb.pickup", 1.0F, 1.0F)
     ),
 
