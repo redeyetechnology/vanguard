@@ -23,7 +23,6 @@ import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
 import ltd.redeye.vanguard.common.config.ConfigManager
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
-import ltd.redeye.vanguard.common.network.NetworkManager
 import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.network.messaging.proxy.RedisMessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerManager
