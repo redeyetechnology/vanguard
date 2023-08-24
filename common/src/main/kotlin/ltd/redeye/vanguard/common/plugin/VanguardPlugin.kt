@@ -34,5 +34,6 @@ interface VanguardPlugin {
     fun dataFolder(): java.io.File
     fun createPlatformCommandInitializer(): PlatformCommandInitializer
     fun defaultMessagingProxy(): MessagingProxy
+    fun initMetrics()
 
 }

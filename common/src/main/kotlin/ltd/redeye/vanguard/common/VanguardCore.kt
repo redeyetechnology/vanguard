@@ -71,6 +71,12 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
 
     val messagingProxy = selectMessagingProxy()
 
+    init {
+        if (config.sendAnonymousStats) {
+            vanguardPlugin.initMetrics()
+        }
+    }
+
     private fun selectMessagingProxy(): MessagingProxy {
         return if(config.network.enabled) {
             RedisMessagingProxy(vanguardPlugin.defaultMessagingProxy())

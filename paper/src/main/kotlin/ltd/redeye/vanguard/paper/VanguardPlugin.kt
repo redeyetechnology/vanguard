@@ -40,13 +40,9 @@ class VanguardPlugin : JavaPlugin(), VanguardPlugin {
         vanguard = VanguardCore(this)
 
         server.pluginManager.registerEvents(PlayerPaperEvents(), this)
-
-        if (vanguard.config.sendAnonymousStats) {
-            initMetrics();
-        }
     }
 
-    private fun initMetrics() {
+    override fun initMetrics() {
         Metrics(this, 19474)
     }
 
