@@ -51,7 +51,7 @@ data class MessageTitle(
         }
     }
 
-    fun serialize(tagResolver: TagResolver): SerializedMessageTitle {
+    fun serialize(tagResolver: TagResolver?): SerializedMessageTitle {
         return SerializedMessageTitle(
             if(title!!.isNotEmpty()) parseToGson(title!!, tagResolver) else "",
             if(subtitle!!.isNotEmpty()) parseToGson(subtitle!!, tagResolver) else "",

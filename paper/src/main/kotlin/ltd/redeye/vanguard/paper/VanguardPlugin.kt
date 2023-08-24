@@ -20,7 +20,7 @@ package ltd.redeye.vanguard.paper
 
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
-import ltd.redeye.vanguard.common.network.messaging.MessagingProxy
+import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
 import ltd.redeye.vanguard.common.player.VanguardPlayerAdapter
 import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.paper.adapter.PaperVanguardPlayerAdapter
@@ -66,10 +66,6 @@ class VanguardPlugin : JavaPlugin(), VanguardPlugin {
 
     override fun defaultMessagingProxy(): MessagingProxy {
         return PaperSingleMessagingProxy
-    }
-
-    override fun createRedisMessagingProxy(): MessagingProxy {
-        TODO("Not yet implemented")
     }
 
 }

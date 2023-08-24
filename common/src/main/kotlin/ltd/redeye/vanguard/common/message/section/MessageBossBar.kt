@@ -46,7 +46,7 @@ data class MessageBossBar(
         )
     }
 
-    fun serialize(tagResolver: TagResolver): SerializedMessageBossBar {
+    fun serialize(tagResolver: TagResolver?): SerializedMessageBossBar {
         return SerializedMessageBossBar(
             if(title!!.isNotEmpty()) parseToGson(title.orEmpty(), tagResolver) else "",
             progress!!,
