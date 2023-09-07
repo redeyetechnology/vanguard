@@ -25,13 +25,13 @@ import java.util.*
 data class Mute(
     val ip: Boolean,
     override val expires: Date,
-    override val active: Boolean,
+    override var active: Boolean,
     override val id: UUID,
     override val target: String,
     override val targetName: String,
     override val reason: String?,
     override val source: String?,
     override val created: Date,
-    override val updated: Date,
+    override var updated: Date,
     override val scope: String
 ) : ActivePunishment, Punishment

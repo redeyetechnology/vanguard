@@ -145,6 +145,22 @@ interface VanguardStorageDriver {
      */
     fun getActiveMute(vanguardPlayer: VanguardPlayer, scope: String): Mute?
 
+    /**
+     * Retrieves the currently active mute, if any, associated with an address.
+     *
+     * @param address The address in question.
+     * @return An optional [Mute] object representing the active mute for the specified address, or null if none is present.
+     */
+    fun getActiveMute(address: String, scope: String): Mute?
+
+    /**
+     * Retrieves the currently active mute, if any, associated with a uuid.
+     *
+     * @param uuid The uuid in question.
+     * @return An optional [Mute] object representing the active mute for the specified uuid, or null if none is present.
+     */
+    fun getActiveMute(uuid: UUID, scope: String): Mute?
+
 
     /**
      * Adds a punishment to the storage system.
