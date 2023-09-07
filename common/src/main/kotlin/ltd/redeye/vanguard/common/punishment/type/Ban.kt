@@ -38,4 +38,5 @@ data class Ban(
     override var source: String?,
     override var created: Date,
     override var updated: Date,
+    override val scope: String
 ) : ActivePunishment, Punishment

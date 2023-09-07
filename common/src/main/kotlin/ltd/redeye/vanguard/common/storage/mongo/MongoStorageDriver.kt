@@ -23,9 +23,12 @@ import com.mongodb.MongoClientSettings
 import com.mongodb.client.MongoClients
 import dev.morphia.Datastore
 import dev.morphia.Morphia
+import dev.morphia.query.filters.Filter
 import dev.morphia.query.filters.Filters
+import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
+import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.punishment.type.*
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
@@ -34,9 +37,10 @@ import org.bson.UuidRepresentation
 import java.util.UUID
 
 class MongoStorageDriver : VanguardStorageDriver {
+
     private lateinit var datastore: Datastore
     override fun initialise() {
-        val config = ltd.redeye.vanguard.common.VanguardCore.instance.config.database.mongo
+        val config = VanguardCore.instance.config.database.mongo
 
         val credentials = if (config.username.isNotEmpty()) {
             "${config.username}:${config.password}@"
@@ -88,12 +92,18 @@ class MongoStorageDriver : VanguardStorageDriver {
         return "MongoDB"
     }
 
-    override fun getPunishments(vanguardPlayer: VanguardPlayer): Set<Punishment> {
+    override fun getPunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<Punishment> {
         val punishments = mutableSetOf<Punishment>()
 
-        val bans = datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toList()
-        val mutes = datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toList()
-        val warns = datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toList()
+        val bans =
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+                .toList()
+        val mutes =
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+                .toList()
+        val warns =
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+                .toList()
 
         punishments.addAll(bans)
         punishments.addAll(mutes)
@@ -125,27 +135,31 @@ class MongoStorageDriver : VanguardStorageDriver {
         datastore.save(punishment)
     }
 
-    override fun getBans(vanguardPlayer: VanguardPlayer): Set<Ban> {
-        return datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toSet()
+    override fun getBans(vanguardPlayer: VanguardPlayer, scope: String): Set<Ban> {
+        return datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            .toSet()
     }
 
-    override fun getMutes(vanguardPlayer: VanguardPlayer): Set<Mute> {
-        return datastore.find(Mute::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toSet()
+    override fun getMutes(vanguardPlayer: VanguardPlayer, scope: String): Set<Mute> {
+        return datastore.find(Mute::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            .toSet()
     }
 
-    override fun getKicks(vanguardPlayer: VanguardPlayer): Set<Kick> {
-        return datastore.find(Kick::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toSet()
+    override fun getKicks(vanguardPlayer: VanguardPlayer, scope: String): Set<Kick> {
+        return datastore.find(Kick::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            .toSet()
     }
 
-    override fun getWarns(vanguardPlayer: VanguardPlayer): Set<Warning> {
-        return datastore.find(Warning::class.java).filter(Filters.eq("target", vanguardPlayer.uuid)).toSet()
+    override fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning> {
+        return datastore.find(Warning::class.java)
+            .filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
     }
 
-    override fun getActivePunishments(vanguardPlayer: VanguardPlayer): Set<ActivePunishment> {
+    override fun getActivePunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<ActivePunishment> {
         val activeMutes = datastore.find(Mute::class.java)
-            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true)).toList()
+            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).toList()
         val activeBans = datastore.find(Ban::class.java)
-            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true)).toList()
+            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).toList()
 
         val activePunishments = mutableSetOf<ActivePunishment>()
         activePunishments.addAll(activeMutes)
@@ -154,22 +168,29 @@ class MongoStorageDriver : VanguardStorageDriver {
         return activePunishments
     }
 
-    override fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban? {
-        return getActiveBan(vanguardPlayer.uuid)
+    override fun getActiveBan(vanguardPlayer: VanguardPlayer, scope: String): Ban? {
+        return getActiveBan(vanguardPlayer.uuid, scope)
     }
 
-    override fun getActiveBan(uuid: UUID): Ban? {
+    override fun getActiveBan(uuid: UUID, scope: String): Ban? {
         return datastore.find(Ban::class.java)
-            .filter(Filters.eq("target", uuid), Filters.eq("active", true)).first()
+            .filter(Filters.eq("target", uuid), Filters.eq("active", true), scopeFilters(scope)).first()
     }
 
-    override fun getActiveBan(address: String): Ban? {
+    override fun getActiveBan(address: String, scope: String): Ban? {
         return datastore.find(Ban::class.java)
-            .filter(Filters.eq("target", address), Filters.eq("active", true)).first()
+            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first()
     }
 
-    override fun getActiveMute(vanguardPlayer: VanguardPlayer): Mute? {
+    override fun getActiveMute(vanguardPlayer: VanguardPlayer, scope: String): Mute? {
         return datastore.find(Mute::class.java)
-            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true)).first()
+            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+    }
+
+    private fun scopeFilters(scope: String): Filter {
+        return Filters.or(
+            Filters.eq("scope", VanguardPunishmentManager.GLOBAL_SCOPE),
+            Filters.eq("scope", scope)
+        )
     }
 }
