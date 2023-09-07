@@ -22,13 +22,16 @@ import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.VanguardBanManager
+import ltd.redeye.vanguard.common.punishment.manager.VanguardMuteManager
 import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
+import ltd.redeye.vanguard.common.punishment.manager.type.MuteManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.Mute
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.time.Duration
 import java.util.*
 
-class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
+class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, MuteManager {
 
     companion object {
         const val GLOBAL_SCOPE = "global"
@@ -40,6 +43,7 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
     }
 
     private val banManager = VanguardBanManager(core)
+    private val muteManager = VanguardMuteManager(core)
 
     override fun ban(
         vanguardPlayer: VanguardPlayer,
@@ -106,5 +110,68 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
      */
     override fun getActiveBan(uuid: UUID, scope: String): Ban? {
         return banManager.getActiveBan(uuid, scope)
+    }
+
+    override fun mute(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
+        muteManager.mute(vanguardPlayer, reason, source, duration, scope)
+    }
+
+    override fun unmute(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+        muteManager.unmute(vanguardPlayer, source, scope)
+    }
+
+    override fun muteIp(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
+        muteManager.muteIp(vanguardPlayer, reason, source, duration, scope)
+    }
+
+    override fun muteIp(
+        address: String,
+        targetName: String,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
+        muteManager.muteIp(address, targetName, reason, source, duration, scope)
+    }
+
+    override fun unmuteIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+        muteManager.unmuteIp(vanguardPlayer, source, scope)
+    }
+
+    override fun unmuteIp(address: String, source: VanguardOrigin?, scope: String) {
+        muteManager.unmuteIp(address, source, scope)
+    }
+
+    override fun isMuted(vanguardPlayer: VanguardPlayer, scope: String): Boolean {
+        return muteManager.isMuted(vanguardPlayer, scope)
+    }
+
+    override fun isIpMuted(address: String, scope: String): Boolean {
+        return muteManager.isIpMuted(address, scope)
+    }
+
+    override fun getActiveMute(vanguardPlayer: VanguardPlayer, scope: String): Mute? {
+        return muteManager.getActiveMute(vanguardPlayer, scope)
+    }
+
+    override fun getActiveMute(address: String, scope: String): Mute? {
+        return muteManager.getActiveMute(address, scope)
+    }
+
+    override fun getActiveMute(uuid: UUID, scope: String): Mute? {
+        return muteManager.getActiveMute(uuid, scope)
     }
 }

@@ -25,6 +25,7 @@ import dev.morphia.Datastore
 import dev.morphia.Morphia
 import dev.morphia.query.filters.Filter
 import dev.morphia.query.filters.Filters
+import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
@@ -42,7 +43,7 @@ class MongoStorageDriver : VanguardStorageDriver {
 
     private lateinit var datastore: Datastore
     override fun initialise() {
-        val config = ltd.redeye.vanguard.common.VanguardCore.instance.config.database.mongo
+        val config = VanguardCore.instance.config.database.mongo
 
         val credentials = if (config.username.isNotEmpty()) {
             "${config.username}:${config.password}@"
@@ -191,6 +192,16 @@ class MongoStorageDriver : VanguardStorageDriver {
     override fun getActiveMute(vanguardPlayer: VanguardPlayer, scope: String): Mute? {
         return datastore.find(Mute::class.java)
             .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+    }
+
+    override fun getActiveMute(address: String, scope: String): Mute? {
+        return datastore.find(Mute::class.java)
+            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first()
+    }
+
+    override fun getActiveMute(uuid: UUID, scope: String): Mute? {
+        return datastore.find(Mute::class.java)
+            .filter(Filters.eq("id", uuid), Filters.eq("active", true), scopeFilters(scope)).first()
     }
 
     private fun scopeFilters(scope: String): Filter {
