@@ -37,10 +37,6 @@ class PaperVanguardPlayerAdapter : VanguardPlayerAdapter<Player> {
         return Bukkit.getOfflinePlayer(player.uuid).player
     }
 
-    override fun parse(input: String): VanguardPlayer? {
-        TODO("Not yet implemented")
-    }
-
     override fun audience(playerType: VanguardPlayer): Audience {
         return adapt(playerType)!!
     }
@@ -49,5 +45,9 @@ class PaperVanguardPlayerAdapter : VanguardPlayerAdapter<Player> {
         val player = adapt(vanguardPlayer)
 
         return player?.isOnline ?: false
+    }
+
+    override fun getOnlinePlayerNames(): Set<String> {
+        return Bukkit.getOnlinePlayers().map { it.name }.toSet()
     }
 }

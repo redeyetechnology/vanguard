@@ -18,9 +18,11 @@
 
 package ltd.redeye.vanguard.common.command.lib.types
 
+import java.util.*
+
 /**
  * Represents a source of a command that is a player.
- * @param PLAYER The type of player.
+ * @param Player The type of player.
  * @see VanguardCommandSource - The base command source.
  */
 interface VanguardPlayerCommandSource<Player>: VanguardCommandSource<Player> {
@@ -30,5 +32,9 @@ interface VanguardPlayerCommandSource<Player>: VanguardCommandSource<Player> {
      * @return The player.
      */
     fun player(): Player
+
+    fun uuid(): UUID
+
+    fun name(): String
 
 }

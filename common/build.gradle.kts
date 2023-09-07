@@ -7,6 +7,10 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+    maven { url = uri("https://libraries.minecraft.net/") }
 }
 kotlin {
     jvmToolchain(11)

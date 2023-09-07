@@ -28,5 +28,6 @@ class VanguardPlayerParseException(input: String, context: CommandContext<*>) : 
     VanguardPlayerParser::class.java,
     context,
     StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_STRING,
-    CaptionVariable.of("input", input)
+    CaptionVariable.of("input", input),
+    CaptionVariable.of("stringMode", "player, uuid or IP address")
 )

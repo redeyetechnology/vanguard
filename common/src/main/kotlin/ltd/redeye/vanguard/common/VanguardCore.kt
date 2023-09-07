@@ -31,8 +31,7 @@ import ltd.redeye.vanguard.common.plugin.VanguardPlugin
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
 import ltd.redeye.vanguard.common.storage.mongo.MongoStorageDriver
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -90,6 +89,12 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
 
     fun getVanguardPlayer(uuid: UUID): CompletableFuture<VanguardPlayer> {
         return CompletableFuture.supplyAsync { this.storageDriver.loadPlayer(uuid) }
+    }
+
+    fun getVanguardPlayer(name: String): CompletableFuture<Optional<VanguardPlayer>> {
+        return CompletableFuture.supplyAsync {
+            Optional.ofNullable(this.storageDriver.loadPlayer(name))
+        }
     }
 
 }

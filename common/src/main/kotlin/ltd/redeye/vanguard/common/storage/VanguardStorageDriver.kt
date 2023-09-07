@@ -20,10 +20,13 @@ package ltd.redeye.vanguard.common.storage
 
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
-import ltd.redeye.vanguard.common.punishment.type.*
+import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.Kick
+import ltd.redeye.vanguard.common.punishment.type.Mute
+import ltd.redeye.vanguard.common.punishment.type.Warning
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
-import java.util.UUID
+import java.util.*
 
 /**
  * This interface represents a storage driver for Vanguard.
@@ -59,6 +62,14 @@ interface VanguardStorageDriver {
      * @return The [VanguardPlayer] data associated with the given UUID.
      */
     fun loadPlayer(uuid: UUID): VanguardPlayer
+
+    /**
+     * Loads a player's data from the storage system.
+     *
+     * @param name The name of the player.
+     * @return The [VanguardPlayer] data associated with the given name, or null if none is present.
+     */
+    fun loadPlayer(name: String): VanguardPlayer?
 
     /**
      * Saves a player's data to the storage system.

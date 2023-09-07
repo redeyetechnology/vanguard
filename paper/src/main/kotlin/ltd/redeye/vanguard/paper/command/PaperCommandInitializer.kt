@@ -25,7 +25,7 @@ import ltd.redeye.vanguard.common.command.lib.types.PlatformCommandInitializer
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
 import org.bukkit.plugin.java.JavaPlugin
 
-class PaperCommandInitializer(val plugin: JavaPlugin) : PlatformCommandInitializer {
+class PaperCommandInitializer(private val plugin: JavaPlugin) : PlatformCommandInitializer {
 
     override fun createCommandManager(): CommandManager<VanguardCommandSource<*>> {
 
@@ -36,7 +36,11 @@ class PaperCommandInitializer(val plugin: JavaPlugin) : PlatformCommandInitializ
             { source -> (source as PaperCommandSource).sender }
         )
 
-        commandManager.registerBrigadier()
+        try {
+            commandManager.registerBrigadier()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         return commandManager
 

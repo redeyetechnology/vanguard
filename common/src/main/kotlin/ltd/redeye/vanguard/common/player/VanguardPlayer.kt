@@ -23,16 +23,17 @@ import dev.morphia.annotations.Id
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import net.kyori.adventure.audience.Audience
-import java.util.UUID
+import java.util.*
 
 @Entity
-data class VanguardPlayer(
+class VanguardPlayer(
     @Id
     val uuid: UUID,
     val knownNames: MutableSet<String> = mutableSetOf(),
     val knownIps: MutableSet<String> = mutableSetOf(),
     val lastKnownName: String? = null,
 ) {
+    constructor() : this(UUID(0,0), mutableSetOf(), mutableSetOf(), null) {}
     constructor(uuid: UUID) : this(uuid, mutableSetOf(), mutableSetOf(), null)
 
     fun banned(scope: String): Boolean {
@@ -52,8 +53,5 @@ data class VanguardPlayer(
     }
 
     companion object {
-        fun parse(input: String): VanguardPlayer? {
-            return null
-        }
     }
 }

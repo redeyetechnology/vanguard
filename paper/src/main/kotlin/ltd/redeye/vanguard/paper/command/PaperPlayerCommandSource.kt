@@ -21,12 +21,21 @@ package ltd.redeye.vanguard.paper.command
 import ltd.redeye.vanguard.common.command.lib.types.VanguardPlayerCommandSource
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.*
 
 class PaperPlayerCommandSource(private val player: Player) : PaperCommandSource(player),
     VanguardPlayerCommandSource<CommandSender> {
 
     override fun player(): Player {
         return this.player
+    }
+
+    override fun uuid(): UUID {
+        return this.player.uniqueId
+    }
+
+    override fun name(): String {
+        return this.player.name
     }
 
 }

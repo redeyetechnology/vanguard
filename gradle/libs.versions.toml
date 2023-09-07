@@ -10,7 +10,7 @@ shadow = "8.1.1"
 
 # Common Dependencies
 adventure = "4.14.0"
-cloud = "1.8.3"
+cloud = "1.9.0-SNAPSHOT"
 configurate = "4.1.2"
 
 # Storage Drivers
@@ -45,6 +45,7 @@ adventure-text-serializer-gson = { module = "net.kyori:adventure-text-serializer
 cloud-core = { module = "cloud.commandframework:cloud-core", version.ref = "cloud" }
 cloud-minecraft-extras = { module = "cloud.commandframework:cloud-minecraft-extras", version.ref = "cloud" }
 cloud-annotations = { module = "cloud.commandframework:cloud-annotations", version.ref = "cloud" }
+cloud-brigadier = { module = "cloud.commandframework:cloud-brigadier", version.ref = "cloud" }
 configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
 configurate-extra-kotlin = { module = "org.spongepowered:configurate-extra-kotlin", version.ref = "configurate" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version = "2.0.7" }

@@ -48,16 +48,19 @@ class CommandInfo : VanguardCommand() {
     @CommandPermission("vanguard.command.info")
     fun detailView(sender: VanguardCommandSource<*>) {
         val version = VanguardCore.instance.version
+        val serverName = VanguardCore.instance.config.serverName
+        val dbDriver = VanguardCore.instance.config.database.driver
+        val networkMode = if (VanguardCore.instance.config.network.enabled) "multi-server mode" else "standalone mode"
+        val cacheSize = 0
+        val punishments = 0
 
-        message(sender, "Vanguard Version: <#22D3EE>${version}</#22D3EE>")
-        message(sender, "  DB Driver: <#22D3EE>${VanguardCore.instance.config.database.driver}</#22D3EE>")
-        message(
-            sender,
-            "  Network Mode: <#22D3EE>${if (VanguardCore.instance.config.network.enabled) "Redis Cross-Server" else "Standalone"}</#22D3EE>"
-        )
-        message(sender, "  Cache Size: <#22D3EE>0</#22D3EE>")
-        message(sender, "  Punishments: <#22D3EE>0</#22D3EE>")
-        message(sender, "Updates/Docs at <#22D3EE>https://vanguard.redeye.ltd</#22D3EE>")
+        message(sender, "Running Vanguard <#22D3EE>${version}</#22D3EE>")
+        message(sender, "  This server's scope: <#22D3EE>$serverName</#22D3EE>")
+        message(sender, "  DB Driver: <#22D3EE>$dbDriver</#22D3EE>")
+        message(sender, "  Running in <#22D3EE>$networkMode</#22D3EE>.")
+        message(sender, "  Total Punishments: <#22D3EE>$punishments</#22D3EE>")
+        message(sender, "  Server Profile Cache Size: <#22D3EE>$cacheSize</#22D3EE>")
+        message(sender, "Docs & Updates at <#22D3EE>https://vanguard.redeye.ltd</#22D3EE>")
     }
 
 }

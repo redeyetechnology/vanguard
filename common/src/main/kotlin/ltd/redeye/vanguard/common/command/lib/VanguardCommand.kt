@@ -18,7 +18,9 @@
 
 package ltd.redeye.vanguard.common.command.lib
 
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
+import ltd.redeye.vanguard.common.command.lib.types.VanguardPlayerCommandSource
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
 import net.kyori.adventure.text.Component
@@ -42,6 +44,14 @@ abstract class VanguardCommand {
 
         target.sendMessage(Component.join(JoinConfiguration.noSeparators(), prefixComponent, messageComponent))
     }
+
+    fun getOrigin(commandSource: VanguardCommandSource<*>): VanguardOrigin {
+        return if (commandSource.isConsole()) VanguardOrigin.CONSOLE else {
+            val player = commandSource as VanguardPlayerCommandSource<*>
+            VanguardOrigin(player.uuid(), player.name())
+        }
+    }
+
 
 
 }
