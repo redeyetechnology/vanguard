@@ -24,17 +24,20 @@ import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.VanguardBanManager
 import ltd.redeye.vanguard.common.punishment.manager.VanguardKickManager
 import ltd.redeye.vanguard.common.punishment.manager.VanguardMuteManager
+import ltd.redeye.vanguard.common.punishment.manager.VanguardWarnManager
 import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
 import ltd.redeye.vanguard.common.punishment.manager.type.KickManager
 import ltd.redeye.vanguard.common.punishment.manager.type.MuteManager
+import ltd.redeye.vanguard.common.punishment.manager.type.WarnManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
 import ltd.redeye.vanguard.common.punishment.type.Mute
+import ltd.redeye.vanguard.common.punishment.type.Warning
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import net.kyori.adventure.text.Component
 import java.time.Duration
 import java.util.*
 
-class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, MuteManager, KickManager {
+class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, MuteManager, KickManager, WarnManager {
 
     companion object {
         const val GLOBAL_SCOPE = "global"
@@ -48,6 +51,7 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
     private val banManager = VanguardBanManager(core)
     private val muteManager = VanguardMuteManager(core)
     private val kickManager = VanguardKickManager(core)
+    private val warnManager = VanguardWarnManager(core)
 
     override fun ban(
         vanguardPlayer: VanguardPlayer,
@@ -185,5 +189,23 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
 
     override fun kick(uuid: UUID, message: Component, scope: String): Boolean {
         return kickManager.kick(uuid, message, scope)
+
+    override fun warn(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
+        return warnManager.warn(vanguardPlayer, reason, source, duration, scope)
     }
+
+    override fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning> {
+        return warnManager.getWarns(vanguardPlayer, scope)
+    }
+
+    override fun getWarns(uuid: UUID, scope: String): Set<Warning> {
+        return warnManager.getWarns(uuid, scope)
+    }
+    
 }
