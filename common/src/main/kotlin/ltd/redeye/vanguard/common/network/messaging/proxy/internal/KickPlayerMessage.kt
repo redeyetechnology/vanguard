@@ -22,4 +22,4 @@ import org.jetbrains.annotations.ApiStatus.Internal
 import java.util.*
 
 @Internal
-data class KickPlayerMessage(val uuid: UUID, val message: String)
+data class KickPlayerMessage(val uuid: UUID, val message: String, val scope: String)

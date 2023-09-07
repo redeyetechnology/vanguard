@@ -29,23 +29,40 @@ import java.time.Duration
 import java.util.*
 
 class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
+
+    companion object {
+        const val GLOBAL_SCOPE = "global"
+    }
+
     fun getPunishments(vanguardPlayer: VanguardPlayer): List<Punishment> {
-        val punishments = core.storageDriver.getPunishments(vanguardPlayer)
+        val punishments = core.storageDriver.getPunishments(vanguardPlayer, core.config.serverName)
         return punishments.sortedBy { it.created }
     }
 
     private val banManager = VanguardBanManager(core)
 
-    override fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?) {
-        banManager.ban(vanguardPlayer, reason, source, duration)
+    override fun ban(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
+        banManager.ban(vanguardPlayer, reason, source, duration, scope)
     }
 
-    override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?) {
-        banManager.unban(vanguardPlayer, source)
+    override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+        banManager.unban(vanguardPlayer, source, scope)
     }
 
-    override fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?) {
-        banManager.banIp(vanguardPlayer, reason, source, duration)
+    override fun banIp(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
+        banManager.banIp(vanguardPlayer, reason, source, duration, scope)
     }
 
     override fun banIp(
@@ -53,40 +70,41 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager {
         targetName: String,
         reason: String?,
         source: VanguardOrigin?,
-        duration: Duration?
+        duration: Duration?,
+        scope: String
     ) {
-        banManager.banIp(address, targetName, reason, source, duration)
+        banManager.banIp(address, targetName, reason, source, duration, scope)
     }
 
-    override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?) {
-        banManager.unbanIp(vanguardPlayer, source)
+    override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+        banManager.unbanIp(vanguardPlayer, source, scope)
     }
 
-    override fun unbanIp(address: String, source: VanguardOrigin?) {
-        banManager.unbanIp(address, source)
+    override fun unbanIp(address: String, source: VanguardOrigin?, scope: String) {
+        banManager.unbanIp(address, source, scope)
     }
 
-    override fun isBanned(vanguardPlayer: VanguardPlayer): Boolean {
-        return banManager.isBanned(vanguardPlayer)
+    override fun isBanned(vanguardPlayer: VanguardPlayer, scope: String): Boolean {
+        return banManager.isBanned(vanguardPlayer, scope)
     }
 
-    override fun isIpBanned(address: String): Boolean {
-        return banManager.isIpBanned(address)
+    override fun isIpBanned(address: String, scope: String): Boolean {
+        return banManager.isIpBanned(address, scope)
     }
 
-    override fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban? {
-        return banManager.getActiveBan(vanguardPlayer)
+    override fun getActiveBan(vanguardPlayer: VanguardPlayer, scope: String): Ban? {
+        return banManager.getActiveBan(vanguardPlayer, scope)
     }
 
-    override fun getActiveBan(address: String): Ban? {
-        return banManager.getActiveBan(address)
+    override fun getActiveBan(address: String, scope: String): Ban? {
+        return banManager.getActiveBan(address, scope)
     }
 
     /**
      * WARNING: This method blocks the thread it is called on, as it is designed for use in a player join event. You
      * should consider using the [VanguardPlayer] version of this method instead.
      */
-    override fun getActiveBan(uuid: UUID): Ban? {
-        return banManager.getActiveBan(uuid)
+    override fun getActiveBan(uuid: UUID, scope: String): Ban? {
+        return banManager.getActiveBan(uuid, scope)
     }
 }

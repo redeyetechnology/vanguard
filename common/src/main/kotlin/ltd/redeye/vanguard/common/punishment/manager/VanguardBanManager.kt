@@ -27,29 +27,35 @@ import java.time.Duration
 import java.util.*
 
 class VanguardBanManager(val core: VanguardCore) : BanManager {
-    override fun getActiveBan(uuid: UUID): Ban? {
-        return core.storageDriver.getActiveBan(uuid)
+    override fun getActiveBan(uuid: UUID, scope: String): Ban? {
+        return core.storageDriver.getActiveBan(uuid, scope)
     }
 
-    override fun isBanned(vanguardPlayer: VanguardPlayer): Boolean {
-        val activeBan = getActiveBan(vanguardPlayer.uuid)
+    override fun isBanned(vanguardPlayer: VanguardPlayer, scope: String): Boolean {
+        val activeBan = getActiveBan(vanguardPlayer.uuid, scope)
         return activeBan != null
     }
 
-    override fun isIpBanned(address: String): Boolean {
-        val activeBan = getActiveBan(address)
+    override fun isIpBanned(address: String, scope: String): Boolean {
+        val activeBan = getActiveBan(address, scope)
         return activeBan != null
     }
 
-    override fun getActiveBan(vanguardPlayer: VanguardPlayer): Ban? {
-        return getActiveBan(vanguardPlayer.uuid)
+    override fun getActiveBan(vanguardPlayer: VanguardPlayer, scope: String): Ban? {
+        return getActiveBan(vanguardPlayer.uuid, scope)
     }
 
-    override fun getActiveBan(address: String): Ban? {
-        return core.storageDriver.getActiveBan(address)
+    override fun getActiveBan(address: String, scope: String): Ban? {
+        return core.storageDriver.getActiveBan(address, scope)
     }
 
-    override fun ban(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?) {
+    override fun ban(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
 
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
@@ -67,14 +73,15 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
             updated = Date(),
             expires = expires,
             ip = false,
-            active = true
+            active = true,
+            scope = scope
         )
 
         core.storageDriver.addPunishment(ban)
     }
 
-    override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?) {
-        val activeBan = getActiveBan(vanguardPlayer)
+    override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+        val activeBan = getActiveBan(vanguardPlayer, scope)
         if (activeBan != null) {
             activeBan.active = false
             activeBan.updated = Date()
@@ -82,9 +89,15 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
         }
     }
 
-    override fun banIp(vanguardPlayer: VanguardPlayer, reason: String?, source: VanguardOrigin?, duration: Duration?) {
+    override fun banIp(
+        vanguardPlayer: VanguardPlayer,
+        reason: String?,
+        source: VanguardOrigin?,
+        duration: Duration?,
+        scope: String
+    ) {
         vanguardPlayer.knownIps.forEach {
-            banIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration)
+            banIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration, scope)
         }
     }
 
@@ -93,7 +106,8 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
         targetName: String,
         reason: String?,
         source: VanguardOrigin?,
-        duration: Duration?
+        duration: Duration?,
+        scope: String
     ) {
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
@@ -111,20 +125,21 @@ class VanguardBanManager(val core: VanguardCore) : BanManager {
             updated = Date(),
             expires = expires,
             ip = true,
-            active = true
+            active = true,
+            scope = scope
         )
 
         core.storageDriver.addPunishment(ban)
     }
 
-    override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?) {
+    override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
         vanguardPlayer.knownIps.forEach {
-            unbanIp(it, source)
+            unbanIp(it, source, scope)
         }
     }
 
-    override fun unbanIp(address: String, source: VanguardOrigin?) {
-        val activeBan = getActiveBan(address)
+    override fun unbanIp(address: String, source: VanguardOrigin?, scope: String) {
+        val activeBan = getActiveBan(address, scope)
         if (activeBan != null) {
             activeBan.active = false
             activeBan.updated = Date()

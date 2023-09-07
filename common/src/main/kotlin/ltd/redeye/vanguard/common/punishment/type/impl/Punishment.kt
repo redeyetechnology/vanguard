@@ -29,4 +29,5 @@ interface Punishment {
     val source: String?
     val created: Date
     val updated: Date
+    val scope: String
 }

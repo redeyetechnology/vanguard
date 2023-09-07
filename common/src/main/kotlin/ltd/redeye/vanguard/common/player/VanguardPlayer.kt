@@ -36,14 +36,14 @@ class VanguardPlayer(
     constructor() : this(UUID(0,0), mutableSetOf(), mutableSetOf(), null) {}
     constructor(uuid: UUID) : this(uuid, mutableSetOf(), mutableSetOf(), null)
 
-    val banned: Boolean
-        get() {
-            return VanguardCore.instance.punishmentManager.isBanned(this)
-        }
+    fun banned(scope: String): Boolean {
+        return VanguardCore.instance.punishmentManager.isBanned(this, scope)
+    }
 
     fun isOnline(): Boolean {
         return VanguardCore.instance.playerManager.isOnline(this)
     }
+
     fun audience(): Audience {
         return VanguardCore.instance.playerAdapter.audience(this)
     }

@@ -28,7 +28,7 @@ interface MessagingProxy {
 
     fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean
 
-    fun kickPlayer(player: UUID, message: Component): Boolean
+    fun kickPlayer(player: UUID, message: Component, scope: String): Boolean
 
     fun alertStaff(message: VanguardMessage, placeholders: TagResolver?)
 

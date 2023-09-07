@@ -18,9 +18,11 @@
 
 package ltd.redeye.vanguard.paper.network
 
+import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.message.VanguardMessage
 import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
 import ltd.redeye.vanguard.common.network.messaging.proxy.MessagingProxy
+import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import ltd.redeye.vanguard.common.util.Permissions
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -45,10 +47,10 @@ object PaperSingleMessagingProxy : MessagingProxy {
         }
     }
 
-    override fun kickPlayer(player: UUID, message: Component): Boolean {
+    override fun kickPlayer(player: UUID, message: Component, scope: String): Boolean {
         return ifPlayerOnline(player) {
             it.kick(message)
-        }
+        } && (scope == VanguardPunishmentManager.GLOBAL_SCOPE || VanguardCore.instance.config.serverName == scope)
     }
 
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
