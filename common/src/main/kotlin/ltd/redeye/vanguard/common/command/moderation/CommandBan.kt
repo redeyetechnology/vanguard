@@ -21,9 +21,12 @@ package ltd.redeye.vanguard.common.command.moderation
 import cloud.commandframework.annotations.*
 import cloud.commandframework.annotations.specifier.Greedy
 import ltd.redeye.vanguard.common.VanguardCore
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.command.lib.VanguardCommand
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
+import ltd.redeye.vanguard.common.command.lib.types.VanguardPlayerCommandSource
 import ltd.redeye.vanguard.common.player.VanguardPlayer
+import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import java.time.Duration
 
 class CommandBan : VanguardCommand() {
@@ -41,22 +44,21 @@ class CommandBan : VanguardCommand() {
             "player",
             description = "The player to ban"
         ) target: VanguardPlayer,
-        @Flag(
-            "silent",
-            permission = "vanguard.command.ban.silent",
-            aliases = ["s"],
-            description = "Only alert players with the silent alert permission"
-        ) silent: Boolean = false,
+        @Argument(
+            "reason",
+            description = "The reason why the player has been banned"
+        ) @Greedy reason: String?,
         @Flag(
             "scope",
             permission = "vanguard.command.ban.scoped",
             description = "Which server to ban the player on"
-        ) scope: String = "",
-        @Argument(
-            "reason",
-            description = "The reason why the player has been banned"
-        ) @Greedy reason: String,
+        ) scope: String?,
     ) {
+        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
+            val player = sender as VanguardPlayerCommandSource<*>
+            VanguardOrigin(player.uuid(), player.name())
+        }
+        VanguardCore.instance.punishmentManager.ban(target, reason, origin, null, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
     }
 
     @CommandMethod("tempban <player> <duration> [reason]")
@@ -75,17 +77,17 @@ class CommandBan : VanguardCommand() {
         @Argument(
             "reason",
             description = "The reason why the player has been banned"
-        ) @Greedy reason: String,
-        @Flag(
-            "silent",
-            aliases = ["s"],
-            description = "Only alert players with the silent alert permission"
-        ) silent: Boolean = false,
+        ) @Greedy reason: String?,
         @Flag(
             "scope",
             description = "Which server to ban the player on"
-        ) scope: String
+        ) scope: String?
     ) {
+        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
+            val player = sender as VanguardPlayerCommandSource<*>
+            VanguardOrigin(player.uuid(), player.name())
+        }
+        VanguardCore.instance.punishmentManager.ban(target, reason, origin, duration, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
     }
 
     @CommandMethod("banip <player> [reason]")
@@ -100,18 +102,17 @@ class CommandBan : VanguardCommand() {
         @Argument(
             "reason",
             description = "The reason why the player has been banned"
-        ) @Greedy reason: String,
-        @Flag(
-            "silent",
-            aliases = ["s"],
-            description = "Only alert players with the silent alert permission"
-        ) silent: Boolean = false,
+        ) @Greedy reason: String?,
         @Flag(
             "scope",
             description = "Which server to ban the player on"
-        ) scope: String
+        ) scope: String?
     ) {
-
+        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
+            val player = sender as VanguardPlayerCommandSource<*>
+            VanguardOrigin(player.uuid(), player.name())
+        }
+        VanguardCore.instance.punishmentManager.banIp(target, reason, origin, null, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
     }
 
     @CommandMethod("tempbanip <player> <duration> [reason]")
@@ -130,18 +131,17 @@ class CommandBan : VanguardCommand() {
         @Argument(
             "reason",
             description = "The reason why the player has been banned"
-        ) @Greedy reason: String,
-        @Flag(
-            "silent",
-            aliases = ["s"],
-            description = "Only alert players with the silent alert permission"
-        ) silent: Boolean = false,
+        ) @Greedy reason: String?,
         @Flag(
             "scope",
             description = "Which server to ban the player on"
-        ) scope: String
+        ) scope: String?
     ) {
-
+        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
+            val player = sender as VanguardPlayerCommandSource<*>
+            VanguardOrigin(player.uuid(), player.name())
+        }
+        VanguardCore.instance.punishmentManager.banIp(target, reason, origin, duration, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
     }
 
     @CommandMethod("unban <player>")
@@ -154,15 +154,14 @@ class CommandBan : VanguardCommand() {
             description = "The player to unban"
         ) target: VanguardPlayer,
         @Flag(
-            "silent",
-            aliases = ["s"],
-            description = "Only alert players with the silent alert permission"
-        ) silent: Boolean = false,
-        @Flag(
             "scope",
             description = "Which server to ban the player on"
-        ) scope: String
+        ) scope: String?
     ) {
-
+        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
+            val player = sender as VanguardPlayerCommandSource<*>
+            VanguardOrigin(player.uuid(), player.name())
+        }
+        VanguardCore.instance.punishmentManager.unban(target, origin, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
     }
 }
