@@ -16,7 +16,6 @@ dependencies {
         isTransitive = false
     }
     implementation(libs.cloud.brigadier)
-    implementation(libs.commodore)
 
     implementation(libs.morphia.core) {
         exclude("org.slf4j", "slf4j-api")

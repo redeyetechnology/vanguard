@@ -12,7 +12,6 @@ shadow = "8.1.1"
 adventure = "4.14.0"
 cloud = "1.9.0-SNAPSHOT"
 configurate = "4.1.2"
-commodore = "2.2"
 
 # Storage Drivers
 morphia = "2.3.6"
@@ -47,7 +46,6 @@ cloud-core = { module = "cloud.commandframework:cloud-core", version.ref = "clou
 cloud-minecraft-extras = { module = "cloud.commandframework:cloud-minecraft-extras", version.ref = "cloud" }
 cloud-annotations = { module = "cloud.commandframework:cloud-annotations", version.ref = "cloud" }
 cloud-brigadier = { module = "cloud.commandframework:cloud-brigadier", version.ref = "cloud" }
-commodore = {module = "me.lucko:commodore", version.ref = "commodore"}
 configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
 configurate-extra-kotlin = { module = "org.spongepowered:configurate-extra-kotlin", version.ref = "configurate" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version = "2.0.7" }

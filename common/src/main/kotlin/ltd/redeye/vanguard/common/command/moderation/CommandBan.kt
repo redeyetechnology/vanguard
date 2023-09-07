@@ -21,19 +21,15 @@ package ltd.redeye.vanguard.common.command.moderation
 import cloud.commandframework.annotations.*
 import cloud.commandframework.annotations.specifier.Greedy
 import ltd.redeye.vanguard.common.VanguardCore
-import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.command.lib.VanguardCommand
 import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
-import ltd.redeye.vanguard.common.command.lib.types.VanguardPlayerCommandSource
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import java.time.Duration
 
 class CommandBan : VanguardCommand() {
 
-    init {
-        val punishmentManager = VanguardCore.instance.punishmentManager
-    }
+    private val punishmentManager = VanguardCore.instance.punishmentManager
 
     @CommandMethod("ban <player> [reason]")
     @CommandPermission("vanguard.command.ban")
@@ -54,11 +50,14 @@ class CommandBan : VanguardCommand() {
             description = "Which server to ban the player on"
         ) scope: String?,
     ) {
-        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
-            val player = sender as VanguardPlayerCommandSource<*>
-            VanguardOrigin(player.uuid(), player.name())
-        }
-        VanguardCore.instance.punishmentManager.ban(target, reason, origin, null, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+        val origin = getOrigin(sender)
+        punishmentManager.ban(
+            target,
+            reason,
+            origin,
+            null,
+            scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
+        )
     }
 
     @CommandMethod("tempban <player> <duration> [reason]")
@@ -83,11 +82,14 @@ class CommandBan : VanguardCommand() {
             description = "Which server to ban the player on"
         ) scope: String?
     ) {
-        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
-            val player = sender as VanguardPlayerCommandSource<*>
-            VanguardOrigin(player.uuid(), player.name())
-        }
-        VanguardCore.instance.punishmentManager.ban(target, reason, origin, duration, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+        val origin = getOrigin(sender)
+        punishmentManager.ban(
+            target,
+            reason,
+            origin,
+            duration,
+            scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
+        )
     }
 
     @CommandMethod("banip <player> [reason]")
@@ -108,11 +110,14 @@ class CommandBan : VanguardCommand() {
             description = "Which server to ban the player on"
         ) scope: String?
     ) {
-        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
-            val player = sender as VanguardPlayerCommandSource<*>
-            VanguardOrigin(player.uuid(), player.name())
-        }
-        VanguardCore.instance.punishmentManager.banIp(target, reason, origin, null, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+        val origin = getOrigin(sender)
+        punishmentManager.banIp(
+            target,
+            reason,
+            origin,
+            null,
+            scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
+        )
     }
 
     @CommandMethod("tempbanip <player> <duration> [reason]")
@@ -137,11 +142,14 @@ class CommandBan : VanguardCommand() {
             description = "Which server to ban the player on"
         ) scope: String?
     ) {
-        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
-            val player = sender as VanguardPlayerCommandSource<*>
-            VanguardOrigin(player.uuid(), player.name())
-        }
-        VanguardCore.instance.punishmentManager.banIp(target, reason, origin, duration, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+        val origin = getOrigin(sender)
+        punishmentManager.banIp(
+            target,
+            reason,
+            origin,
+            duration,
+            scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
+        )
     }
 
     @CommandMethod("unban <player>")
@@ -158,10 +166,7 @@ class CommandBan : VanguardCommand() {
             description = "Which server to ban the player on"
         ) scope: String?
     ) {
-        val origin = if (sender.isConsole()) VanguardOrigin.CONSOLE else {
-            val player = sender as VanguardPlayerCommandSource<*>
-            VanguardOrigin(player.uuid(), player.name())
-        }
-        VanguardCore.instance.punishmentManager.unban(target, origin, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+        val origin = getOrigin(sender);
+        punishmentManager.unban(target, origin, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
     }
 }
