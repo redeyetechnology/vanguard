@@ -26,7 +26,7 @@ import ltd.redeye.vanguard.common.punishment.type.Ban
 import java.time.Duration
 import java.util.*
 
-class VanguardBanManager(val core: VanguardCore) : BanManager {
+class VanguardBanManager(private val core: VanguardCore) : BanManager {
     override fun getActiveBan(uuid: UUID, scope: String): Ban? {
         return core.storageDriver.getActiveBan(uuid, scope)
     }

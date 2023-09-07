@@ -187,6 +187,16 @@ class MongoStorageDriver : VanguardStorageDriver {
             .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).first()
     }
 
+    override fun getActiveMute(address: String, scope: String): Mute? {
+        return datastore.find(Mute::class.java)
+            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first()
+    }
+
+    override fun getActiveMute(uuid: UUID, scope: String): Mute? {
+        return datastore.find(Mute::class.java)
+            .filter(Filters.eq("id", uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+    }
+
     private fun scopeFilters(scope: String): Filter {
         return Filters.or(
             Filters.eq("scope", VanguardPunishmentManager.GLOBAL_SCOPE),
