@@ -155,6 +155,10 @@ class MongoStorageDriver : VanguardStorageDriver {
             .filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
     }
 
+    override fun getWarns(uuid: UUID, scope: String): Set<Warning> {
+        return datastore.find(Warning::class.java).filter(Filters.eq("target", uuid), scopeFilters(scope)).toSet()
+    }
+
     override fun getActivePunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<ActivePunishment> {
         val activeMutes = datastore.find(Mute::class.java)
             .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).toList()
