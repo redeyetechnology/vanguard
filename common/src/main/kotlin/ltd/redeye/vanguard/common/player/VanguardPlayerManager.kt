@@ -51,7 +51,7 @@ class VanguardPlayerManager(private val core: ltd.redeye.vanguard.common.Vanguar
         val message = core.messages.disallowedLoginBanned
         val noReasonProvided = core.messages.noReasonProvided
 
-        val originPlayer = core.playerManager.getPlayerName(activeBan.source)
+        val originPlayer = core.playerManager.getPlayerName(activeBan.source?.uuid?.toString())
 
         val expiresTextRaw =
             if (activeBan.expires == Date(0)) core.messages.expiryPlaceholders.permanent

@@ -20,6 +20,8 @@ package ltd.redeye.vanguard.common.config.file
 
 import ltd.redeye.vanguard.common.config.file.messages.AlertsMessages
 import ltd.redeye.vanguard.common.config.file.messages.ExpiryPlaceholders
+import ltd.redeye.vanguard.common.config.file.messages.PaginationMessages
+import ltd.redeye.vanguard.common.config.file.messages.PunishmentTypeBag
 import ltd.redeye.vanguard.common.message.VanguardMessage
 import ltd.redeye.vanguard.common.message.section.MessageSound
 import ltd.redeye.vanguard.common.message.section.MessageTitle
@@ -50,4 +52,14 @@ data class MessagesConfig(
 
     @Comment("This is the message displayed when a player attempts to login while banned. Placeholders: <reason>, <expiry>")
     var disallowedLoginBanned: List<String> = mutableListOf("<red>You are unable to login because you are banned.", "", "<gray>Reason: <white><reason>", "<gray>Expires: <white><expiry>"),
+
+    @Comment("The screen for /userhistory")
+    var userHistory: PaginationMessages = PaginationMessages(),
+
+    @Comment("Punishment present tense action messages")
+    val presentTense: PunishmentTypeBag = PunishmentTypeBag("Ban", "Kick", "Mute", "Warning", "Unban"),
+
+    @Comment("Punishment past tense action messages")
+    val pastTense: PunishmentTypeBag = PunishmentTypeBag("banned", "kicked", "muted", "warned", "unbanned")
+
 )

@@ -103,13 +103,13 @@ class MongoStorageDriver : VanguardStorageDriver {
         val punishments = mutableSetOf<Punishment>()
 
         val bans =
-            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid.toString()), scopeFilters(scope))
                 .toList()
         val mutes =
-            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid.toString()), scopeFilters(scope))
                 .toList()
         val warns =
-            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid.toString()), scopeFilters(scope))
                 .toList()
 
         punishments.addAll(bans)

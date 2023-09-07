@@ -18,7 +18,8 @@
 
 package ltd.redeye.vanguard.common.api.origin
 
-import java.util.UUID
+import dev.morphia.annotations.Entity
+import java.util.*
 
 /**
  * A VanguardOrigin is a representation of any entity which can perform a Vanguard action, such as a player, console,
@@ -27,10 +28,12 @@ import java.util.UUID
  * @param uuid The UUID of the origin. For non-player entities, including consoles, this should be the zero UUID.
  * @param name The display name/affiliated name of the origin.
  */
-class VanguardOrigin(val uuid: UUID, val name: String) {
+@Entity
+class VanguardOrigin(var uuid: UUID, var name: String) {
     companion object {
         val CONSOLE = VanguardOrigin(UUID(0, 0), "CONSOLE")
     }
 
     constructor(name: String) : this(UUID(0, 0), name)
+    constructor() : this(UUID(0, 0), "")
 }
