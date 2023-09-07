@@ -189,6 +189,7 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
 
     override fun kick(uuid: UUID, message: Component, scope: String): Boolean {
         return kickManager.kick(uuid, message, scope)
+    }
 
     override fun warn(
         vanguardPlayer: VanguardPlayer,
