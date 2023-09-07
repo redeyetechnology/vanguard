@@ -91,8 +91,10 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
         return CompletableFuture.supplyAsync { this.storageDriver.loadPlayer(uuid) }
     }
 
-    fun getVanguardPlayer(name: String): CompletableFuture<VanguardPlayer?> {
-        return CompletableFuture.supplyAsync { this.storageDriver.loadPlayer(name) }
+    fun getVanguardPlayer(name: String): CompletableFuture<Optional<VanguardPlayer>> {
+        return CompletableFuture.supplyAsync {
+            Optional.ofNullable(this.storageDriver.loadPlayer(name))
+        }
     }
 
 }

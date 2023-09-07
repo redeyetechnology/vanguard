@@ -50,7 +50,6 @@ tasks {
             "io.smallrye",
             "org.spongepowered",
             "edu.umd.cs",
-            "me.lucko",
             "javax.annotation",
             "net.bytebuddy",
             "nonapi.io.github.classgraph",
