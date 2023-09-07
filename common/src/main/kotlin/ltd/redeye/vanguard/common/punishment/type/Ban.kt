@@ -35,10 +35,10 @@ data class Ban(
     override var target: String,
     override var targetName: String,
     override var reason: String?,
-    override var source: VanguardOrigin?,
+    override var source: VanguardOrigin,
     override var created: Date,
     override var updated: Date,
     override val scope: String
 ) : ActivePunishment, Punishment {
-    constructor() : this(false, Date(), false, UUID(0, 0), "", "", "", null, Date(), Date(), "")
+    constructor() : this(false, Date(), false, UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
 }

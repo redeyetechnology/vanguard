@@ -31,10 +31,10 @@ data class Mute(
     override val target: String,
     override val targetName: String,
     override val reason: String?,
-    override val source: VanguardOrigin?,
+    override val source: VanguardOrigin,
     override val created: Date,
     override var updated: Date,
     override val scope: String
 ) : ActivePunishment, Punishment {
-    constructor() : this(false, Date(), false, UUID(0, 0), "", "", "", null, Date(), Date(), "")
+    constructor() : this(false, Date(), false, UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
 }

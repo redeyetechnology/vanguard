@@ -26,7 +26,7 @@ interface Punishment {
     val target: String
     val targetName: String
     val reason: String?
-    val source: VanguardOrigin?
+    val source: VanguardOrigin
     val created: Date
     val updated: Date
     val scope: String

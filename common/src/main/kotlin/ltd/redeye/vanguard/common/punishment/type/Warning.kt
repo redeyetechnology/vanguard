@@ -27,10 +27,10 @@ data class Warning(
     override val target: String,
     override val targetName: String,
     override val reason: String?,
-    override val source: VanguardOrigin?,
+    override val source: VanguardOrigin,
     override val created: Date,
     override val updated: Date,
     override val scope: String
 ) : Punishment {
-    constructor() : this(UUID(0, 0), "", "", "", null, Date(), Date(), "")
+    constructor() : this(UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
 }

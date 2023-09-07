@@ -52,7 +52,7 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
     override fun ban(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
     ) {
@@ -80,7 +80,7 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
         core.storageDriver.addPunishment(ban)
     }
 
-    override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+    override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
         val activeBan = getActiveBan(vanguardPlayer, scope)
         if (activeBan != null) {
             activeBan.active = false
@@ -92,7 +92,7 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
     override fun banIp(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
     ) {
@@ -105,7 +105,7 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
         address: String,
         targetName: String,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
     ) {
@@ -132,13 +132,13 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
         core.storageDriver.addPunishment(ban)
     }
 
-    override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+    override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
         vanguardPlayer.knownIps.forEach {
             unbanIp(it, source, scope)
         }
     }
 
-    override fun unbanIp(address: String, source: VanguardOrigin?, scope: String) {
+    override fun unbanIp(address: String, source: VanguardOrigin, scope: String) {
         val activeBan = getActiveBan(address, scope)
         if (activeBan != null) {
             activeBan.active = false

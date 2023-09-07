@@ -37,35 +37,35 @@ class VanguardApiImpl(val core: VanguardCore) : VanguardApi {
         TODO("Not yet implemented")
     }
 
-    override fun ban(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban {
+    override fun ban(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Ban {
         TODO("Not yet implemented")
     }
 
-    override fun unban(player: VanguardPlayer, origin: VanguardOrigin?): Boolean {
+    override fun unban(player: VanguardPlayer, origin: VanguardOrigin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun banIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban {
+    override fun banIp(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Ban {
         TODO("Not yet implemented")
     }
 
-    override fun banIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban {
+    override fun banIp(address: InetAddress, origin: VanguardOrigin, reason: String?, duration: Long?): Ban {
         TODO("Not yet implemented")
     }
 
-    override fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin?): Boolean {
+    override fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun unbanIp(address: InetAddress, origin: VanguardOrigin?): Boolean {
+    override fun unbanIp(address: InetAddress, origin: VanguardOrigin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun kick(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?): Kick {
+    override fun kick(player: VanguardPlayer, origin: VanguardOrigin, reason: String?): Kick {
         TODO("Not yet implemented")
     }
 
-    override fun kickAll(origin: VanguardOrigin?, reason: String?) {
+    override fun kickAll(origin: VanguardOrigin, reason: String?) {
         TODO("Not yet implemented")
     }
 
@@ -77,31 +77,31 @@ class VanguardApiImpl(val core: VanguardCore) : VanguardApi {
         TODO("Not yet implemented")
     }
 
-    override fun mute(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute {
+    override fun mute(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Mute {
         TODO("Not yet implemented")
     }
 
-    override fun unmute(player: VanguardPlayer, origin: VanguardOrigin?): Boolean {
+    override fun unmute(player: VanguardPlayer, origin: VanguardOrigin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun muteIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute? {
+    override fun muteIp(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Mute? {
         TODO("Not yet implemented")
     }
 
-    override fun muteIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute? {
+    override fun muteIp(address: InetAddress, origin: VanguardOrigin, reason: String?, duration: Long?): Mute? {
         TODO("Not yet implemented")
     }
 
-    override fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin?): Boolean {
+    override fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun unmuteIp(address: InetAddress, origin: VanguardOrigin?): Boolean {
+    override fun unmuteIp(address: InetAddress, origin: VanguardOrigin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun warn(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?): Warning {
+    override fun warn(player: VanguardPlayer, origin: VanguardOrigin, reason: String?): Warning {
         TODO("Not yet implemented")
     }
 
