@@ -113,6 +113,14 @@ interface VanguardStorageDriver {
     fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning>
 
     /**
+     * Retrieves all warnings associated with a uuid.
+     *
+     * @param uuid The player in question.
+     * @return A set of [Warning] objects representing all warnings tied to the specified player.
+     */
+    fun getWarns(uuid: UUID, scope: String): Set<Warning>
+
+    /**
      * Retrieves all currently active punishments associated with a player.
      *
      * @param vanguardPlayer The player in question.
