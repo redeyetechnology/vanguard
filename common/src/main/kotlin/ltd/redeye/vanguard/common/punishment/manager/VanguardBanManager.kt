@@ -85,24 +85,32 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
         )
 
         core.storageDriver.addPunishment(ban).thenAccept {
-            logger.info("Banned ${vanguardPlayer.uuid} for $reason")
 
-            val banMessage = core.playerManager.generateBanMessage(ban)
+            try {
+                logger.info("Banned ${vanguardPlayer.uuid} for $reason")
 
-            val resolver = TagResolver.resolver(
-                TagResolver.resolver("player", insertingTag(vanguardPlayer.knownNames.first())),
-                TagResolver.resolver("origin", insertingTag(source.toString())),
-                TagResolver.resolver("reason", insertingTag(reason ?: core.messages.unknown)),
-                TagResolver.resolver("duration", insertingTag(ban.getFormattedDuration()))
-            )
+                val banMessage = core.playerManager.generateBanMessage(ban)
 
-            if (duration == null) {
-                core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver)
-            } else {
-                core.messagingProxy.alertStaff(core.messages.alerts.temporarilyBanned, resolver)
+                val resolver = TagResolver.resolver(
+                    TagResolver.resolver("player", insertingTag(vanguardPlayer.knownNames.first())),
+                    TagResolver.resolver("origin", insertingTag(source.toString())),
+                    TagResolver.resolver("reason", insertingTag(reason ?: core.messages.unknown)),
+                    TagResolver.resolver("duration", insertingTag(ban.getFormattedDuration()))
+                )
+
+                if (duration == null) {
+                    logger.info("Duration is null")
+                    core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver)
+                } else {
+                    logger.info("Duration is not null")
+                    core.messagingProxy.alertStaff(core.messages.alerts.temporarilyBanned, resolver)
+                }
+
+                logger.info("Kicking ${vanguardPlayer.uuid} for $reason")
+                core.messagingProxy.kickPlayer(vanguardPlayer.uuid, banMessage, scope)
+            } catch (throwable: Exception) {
+                throwable.printStackTrace()
             }
-
-            core.messagingProxy.kickPlayer(vanguardPlayer.uuid, banMessage, scope)
         }
     }
 

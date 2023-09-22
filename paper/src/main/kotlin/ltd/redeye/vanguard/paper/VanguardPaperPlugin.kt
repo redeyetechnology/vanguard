@@ -82,7 +82,7 @@ class VanguardPaperPlugin : JavaPlugin(), VanguardPlugin {
     }
 
     override fun defaultMessagingProxy(): MessagingProxy {
-        return PaperSingleMessagingProxy
+        return PaperSingleMessagingProxy(this)
     }
 
 }

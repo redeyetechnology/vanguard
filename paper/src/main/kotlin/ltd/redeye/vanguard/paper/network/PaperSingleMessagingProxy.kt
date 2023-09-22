@@ -28,12 +28,13 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 /**
  * A messaging proxy for when no message broker is available
  */
-object PaperSingleMessagingProxy : MessagingProxy {
+class PaperSingleMessagingProxy(val plugin: JavaPlugin) : MessagingProxy {
     val logger = VanguardCore.instance.logger
 
 
@@ -53,7 +54,7 @@ object PaperSingleMessagingProxy : MessagingProxy {
         println("Kicking player $player with message $message")
 
         return ifPlayerOnline(player) {
-            it.kick(message)
+            Bukkit.getScheduler().runTask(plugin) { _ -> it.kick(message) }
         } && (scope == VanguardPunishmentManager.GLOBAL_SCOPE || VanguardCore.instance.config.serverName == scope)
     }
 

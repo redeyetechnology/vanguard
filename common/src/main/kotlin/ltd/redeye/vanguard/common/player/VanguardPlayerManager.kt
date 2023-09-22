@@ -25,6 +25,7 @@ import net.kyori.adventure.text.JoinConfiguration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.Tag
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -66,12 +67,12 @@ class VanguardPlayerManager(private val core: ltd.redeye.vanguard.common.Vanguar
             if (activeBan.expires == Date(0)) core.messages.expiryPlaceholders.permanent
             else core.messages.expiryPlaceholders.temporary
 
-        val dateTimeFormat = DateTimeFormatter.ofPattern(core.config.dateFormat)
-        val formattedDate = dateTimeFormat.format(LocalDateTime.from(activeBan.expires.toInstant()))
+        val formattedDate = Date.from(activeBan.expires.toInstant())
+        val formattedNew = SimpleDateFormat.getInstance().format(formattedDate)
         val countdown = CountdownUtil.countdownString(Date(), activeBan.expires)
 
         val expiresTagResolver = TagResolver.builder()
-            .tag("date", Tag.inserting(Component.text(formattedDate)))
+            .tag("date", Tag.inserting(Component.text(formattedNew)))
             .tag("countdown", Tag.inserting(Component.text(countdown)))
             .build()
 
