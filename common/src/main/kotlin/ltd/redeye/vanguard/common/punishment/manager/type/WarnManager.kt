@@ -29,7 +29,7 @@ interface WarnManager {
     fun warn(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
     )

@@ -20,19 +20,19 @@ package ltd.redeye.vanguard.common.punishment.manager
 
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
-import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
-import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
-import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.Tag
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
+import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.util.*
 
 class VanguardBanManager(private val core: VanguardCore) : BanManager {
+    val logger = LoggerFactory.getLogger(VanguardBanManager::class.java)
+
     override fun getActiveBan(uuid: UUID, scope: String): Ban? {
         return core.storageDriver.getActiveBan(uuid, scope)
     }
@@ -62,6 +62,7 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
         duration: Duration?,
         scope: String
     ) {
+        logger.info("Banning ${vanguardPlayer.uuid} for $reason")
 
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
@@ -84,6 +85,8 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
         )
 
         core.storageDriver.addPunishment(ban).thenAccept {
+            logger.info("Banned ${vanguardPlayer.uuid} for $reason")
+
             val banMessage = core.playerManager.generateBanMessage(ban)
 
             val resolver = TagResolver.resolver(

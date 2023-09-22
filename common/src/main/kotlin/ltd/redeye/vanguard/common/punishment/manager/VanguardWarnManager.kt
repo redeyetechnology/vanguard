@@ -31,7 +31,7 @@ class VanguardWarnManager(private val core: VanguardCore) : WarnManager {
     override fun warn(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
     ) {
@@ -41,7 +41,7 @@ class VanguardWarnManager(private val core: VanguardCore) : WarnManager {
             target = vanguardPlayer.uuid.toString(),
             targetName = vanguardPlayer.knownNames.first(),
             reason = reason,
-            source = source.toString(),
+            source = source,
             created = Date(),
             updated = Date(),
             scope = scope

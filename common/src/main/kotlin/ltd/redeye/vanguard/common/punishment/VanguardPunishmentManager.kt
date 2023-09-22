@@ -194,7 +194,7 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
     override fun warn(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
     ) {
