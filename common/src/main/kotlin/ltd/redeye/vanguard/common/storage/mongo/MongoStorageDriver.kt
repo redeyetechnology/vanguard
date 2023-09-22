@@ -188,7 +188,7 @@ class MongoStorageDriver : VanguardStorageDriver {
 
     override fun getActiveBan(uuid: UUID, scope: String): Ban? {
         return datastore.find(Ban::class.java)
-            .filter(Filters.eq("target", uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+            .filter(Filters.eq("target", uuid.toString()), Filters.eq("active", true), scopeFilters(scope)).first()
     }
 
     override fun getActiveBan(address: String, scope: String): Ban? {
