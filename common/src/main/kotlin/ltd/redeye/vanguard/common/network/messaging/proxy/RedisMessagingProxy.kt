@@ -97,6 +97,10 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
         return true
     }
 
+    override fun kickPlayer(address: String, message: Component, scope: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
         // Alert the staff on the origin server
         default.alertStaff(message, placeholders)

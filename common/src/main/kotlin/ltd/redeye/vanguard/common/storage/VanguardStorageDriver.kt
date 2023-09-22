@@ -27,6 +27,7 @@ import ltd.redeye.vanguard.common.punishment.type.Warning
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * This interface represents a storage driver for Vanguard.
@@ -124,6 +125,14 @@ interface VanguardStorageDriver {
     fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning>
 
     /**
+     * Retrieves all warnings associated with a uuid.
+     *
+     * @param uuid The player in question.
+     * @return A set of [Warning] objects representing all warnings tied to the specified player.
+     */
+    fun getWarns(uuid: UUID, scope: String): Set<Warning>
+
+    /**
      * Retrieves all currently active punishments associated with a player.
      *
      * @param vanguardPlayer The player in question.
@@ -177,9 +186,9 @@ interface VanguardStorageDriver {
      * Adds a punishment to the storage system.
      *
      * @param punishment The [Punishment] object to be added.
-     * @return Whether the punishment was successfully added.
+     * @return The punishment saved to the database.
      */
-    fun addPunishment(punishment: Punishment): Boolean
+    fun addPunishment(punishment: Punishment): CompletableFuture<Punishment>
 
     /**
      * Removes a punishment from the storage system, lifting it and removing it from any logs.

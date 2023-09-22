@@ -20,9 +20,15 @@ package ltd.redeye.vanguard.common.punishment.manager
 
 import ltd.redeye.vanguard.common.VanguardCore
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
+import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.type.BanManager
 import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
+import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.tag.Tag
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import java.time.Duration
 import java.util.*
 
@@ -77,7 +83,24 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
             scope = scope
         )
 
-        core.storageDriver.addPunishment(ban)
+        core.storageDriver.addPunishment(ban).thenAccept {
+            val banMessage = core.playerManager.generateBanMessage(ban)
+
+            val resolver = TagResolver.resolver(
+                TagResolver.resolver("player", insertingTag(vanguardPlayer.knownNames.first())),
+                TagResolver.resolver("origin", insertingTag(source.toString())),
+                TagResolver.resolver("reason", insertingTag(reason ?: core.messages.unknown)),
+                TagResolver.resolver("duration", insertingTag(ban.getFormattedDuration()))
+            )
+
+            if (duration == null) {
+                core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver)
+            } else {
+                core.messagingProxy.alertStaff(core.messages.alerts.temporarilyBanned, resolver)
+            }
+
+            core.messagingProxy.kickPlayer(vanguardPlayer.uuid, banMessage, scope)
+        }
     }
 
     override fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
@@ -129,7 +152,24 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
             scope = scope
         )
 
-        core.storageDriver.addPunishment(ban)
+        core.storageDriver.addPunishment(ban).thenAccept {
+            val banMessage = core.playerManager.generateBanMessage(ban)
+
+            val resolver = TagResolver.resolver(
+                TagResolver.resolver("player", insertingTag(address)),
+                TagResolver.resolver("origin", insertingTag(source.toString())),
+                TagResolver.resolver("reason", insertingTag(reason ?: core.messages.unknown)),
+                TagResolver.resolver("duration", insertingTag(ban.getFormattedDuration()))
+            )
+
+            if (duration == null) {
+                core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver)
+            } else {
+                core.messagingProxy.alertStaff(core.messages.alerts.temporarilyBanned, resolver)
+            }
+
+            core.messagingProxy.kickPlayer(address, banMessage, scope)
+        }
     }
 
     override fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
@@ -145,5 +185,9 @@ class VanguardBanManager(private val core: VanguardCore) : BanManager {
             activeBan.updated = Date()
             core.storageDriver.savePunishment(activeBan)
         }
+    }
+
+    private fun insertingTag(value: String): Tag {
+        return Tag.inserting(Component.text(value))
     }
 }

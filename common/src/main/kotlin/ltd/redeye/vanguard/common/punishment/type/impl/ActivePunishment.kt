@@ -18,9 +18,40 @@
 
 package ltd.redeye.vanguard.common.punishment.type.impl
 
+import ltd.redeye.vanguard.common.VanguardCore
+import java.text.SimpleDateFormat
 import java.util.Date
 
 interface ActivePunishment : Punishment {
     val expires: Date
     val active: Boolean
+
+    /**
+     * Returns the formatted remaining duration of the punishment
+     */
+    fun getFormattedDuration(): String {
+        val end = this.expires
+        val start = this.created
+        val diff = end.time - start.time
+        val seconds = diff / 1000 % 60
+        val minutes = diff / (60 * 1000) % 60
+        val hours = diff / (60 * 60 * 1000) % 24
+        val days = diff / (24 * 60 * 60 * 1000)
+        return "${days}d ${hours}h ${minutes}m ${seconds}s"
+    }
+
+    /**
+     * Returns the formatted expiry date/time of the punishment
+     */
+    fun getFormattedExpiry(): String {
+        return if (this.expires == Date(0)) {
+            "Never"
+        } else {
+            // format expiry date/time as
+            // 01 Jan 2021 11:00PM GMT
+            val date = this.expires
+            SimpleDateFormat(VanguardCore.instance.config.dateFormat).format(date)
+        }
+    }
+
 }

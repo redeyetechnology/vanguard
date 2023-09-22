@@ -16,26 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.common.network.messaging.proxy
+package ltd.redeye.vanguard.common.punishment.manager.type
 
-import ltd.redeye.vanguard.common.message.VanguardMessage
-import ltd.redeye.vanguard.common.message.serialization.SerializedVanguardMessage
+import ltd.redeye.vanguard.common.player.VanguardPlayer
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import java.util.UUID
 
-interface MessagingProxy {
+interface KickManager {
 
-    fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean
+    fun kick(vanguardPlayer: VanguardPlayer, message: Component, scope: String): Boolean
 
-    fun kickPlayer(player: UUID, message: Component, scope: String): Boolean
-
-    fun kickPlayer(address: String, message: Component, scope: String): Boolean
-
-    fun alertStaff(message: VanguardMessage, placeholders: TagResolver?)
-
-    fun alertPlayer(uuid: UUID, message: SerializedVanguardMessage)
-
-    fun alertStaff(message: SerializedVanguardMessage)
+    fun kick(uuid: UUID, message: Component, scope: String): Boolean
 
 }

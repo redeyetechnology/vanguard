@@ -37,6 +37,8 @@ data class VanguardMessage(
 
     constructor() : this(null, null, null, null)
 
+    constructor(message: String) : this(mutableListOf(message), null, null, null)
+
     fun send(target: Audience, tagResolver: TagResolver? = null) {
         if (chat != null && chat!!.size > 0) {
             for (message in chat!!) {

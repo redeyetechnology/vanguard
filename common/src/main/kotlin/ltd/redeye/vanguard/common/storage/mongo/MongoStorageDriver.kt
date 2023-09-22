@@ -38,6 +38,7 @@ import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import ltd.redeye.vanguard.common.storage.VanguardStorageDriver
 import org.bson.UuidRepresentation
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class MongoStorageDriver : VanguardStorageDriver {
 
@@ -119,9 +120,11 @@ class MongoStorageDriver : VanguardStorageDriver {
         return punishments
     }
 
-    override fun addPunishment(punishment: Punishment): Boolean {
-        datastore.save(punishment)
-        return true
+    override fun addPunishment(punishment: Punishment): CompletableFuture<Punishment> {
+        return CompletableFuture.supplyAsync { datastore.save(punishment) }.exceptionally {
+            VanguardCore.instance.logger.error("Failed to save punishment", it)
+            null
+        }
     }
 
     override fun removePunishment(punishment: Punishment): Boolean {
@@ -160,6 +163,10 @@ class MongoStorageDriver : VanguardStorageDriver {
     override fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning> {
         return datastore.find(Warning::class.java)
             .filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope)).toSet()
+    }
+
+    override fun getWarns(uuid: UUID, scope: String): Set<Warning> {
+        return datastore.find(Warning::class.java).filter(Filters.eq("target", uuid), scopeFilters(scope)).toSet()
     }
 
     override fun getActivePunishments(vanguardPlayer: VanguardPlayer, scope: String): Set<ActivePunishment> {
