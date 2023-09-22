@@ -24,7 +24,7 @@ import java.util.Date
 
 interface ActivePunishment : Punishment {
     val expires: Date
-    val active: Boolean
+    var active: Boolean
 
     /**
      * Returns the formatted remaining duration of the punishment
@@ -52,6 +52,15 @@ interface ActivePunishment : Punishment {
             val date = this.expires
             SimpleDateFormat(VanguardCore.instance.config.dateFormat).format(date)
         }
+    }
+
+    fun hasExpired(): Boolean {
+        val expired = this.expires.before(Date())
+        if (expired) {
+            this.active = false
+            VanguardCore.instance.storageDriver.savePunishment(this)
+        }
+        return expired
     }
 
 }
