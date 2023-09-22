@@ -24,6 +24,7 @@ import ltd.redeye.vanguard.common.network.NetworkManager
 import ltd.redeye.vanguard.common.network.messaging.RedisChannel
 import ltd.redeye.vanguard.common.network.messaging.proxy.internal.AlertPlayerMessage
 import ltd.redeye.vanguard.common.network.messaging.proxy.internal.AlertStaffMessage
+import ltd.redeye.vanguard.common.network.messaging.proxy.internal.KickAddressMessage
 import ltd.redeye.vanguard.common.network.messaging.proxy.internal.KickPlayerMessage
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -42,6 +43,7 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
     companion object {
         const val ALERT_PLAYER_CHANNEL = "vanguard/alert/player"
         const val KICK_PLAYER_CHANNEL = "vanguard/kick/player"
+        const val KICK_ADDRESS_CHANNEL = "vanguard/kick/address"
         const val ALERT_STAFF_CHANNEL = "vanguard/alert/staff"
     }
 
@@ -59,6 +61,17 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
     ) { message ->
         default.kickPlayer(
             message.uuid,
+            GsonComponentSerializer.gson().deserialize(message.message),
+            message.scope
+        )
+    }
+
+    private val kickAddressChannel = registerAndListen(
+        KICK_ADDRESS_CHANNEL,
+        KickAddressMessage::class
+    ) { message ->
+        default.kickPlayer(
+            message.address,
             GsonComponentSerializer.gson().deserialize(message.message),
             message.scope
         )
@@ -98,7 +111,15 @@ class RedisMessagingProxy(private val default: MessagingProxy) : MessagingProxy 
     }
 
     override fun kickPlayer(address: String, message: Component, scope: String): Boolean {
-        TODO("Not yet implemented")
+        default.kickPlayer(address, message, scope)
+        kickAddressChannel.send(
+            KickAddressMessage(
+                address,
+                GsonComponentSerializer.gson().serialize(message),
+                scope
+            )
+        )
+        return true
     }
 
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {

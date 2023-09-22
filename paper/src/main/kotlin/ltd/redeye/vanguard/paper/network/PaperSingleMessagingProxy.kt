@@ -59,7 +59,14 @@ class PaperSingleMessagingProxy(val plugin: JavaPlugin) : MessagingProxy {
     }
 
     override fun kickPlayer(address: String, message: Component, scope: String): Boolean {
-        TODO("Not yet implemented")
+        var kickedPlayer = false
+        Bukkit.getOnlinePlayers().forEach { player ->
+            if(player.address.hostString == address) {
+                Bukkit.getScheduler().runTask(plugin) { _ -> player.kick(message) }
+                kickedPlayer = true
+            }
+        }
+        return kickedPlayer
     }
 
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
