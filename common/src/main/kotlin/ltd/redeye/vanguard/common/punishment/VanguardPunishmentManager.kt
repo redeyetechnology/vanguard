@@ -183,8 +183,14 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
         return muteManager.getActiveMute(uuid, scope)
     }
 
-    override fun kick(vanguardPlayer: VanguardPlayer, message: Component, scope: String): Boolean {
-        return kickManager.kick(vanguardPlayer, message, scope)
+    override fun kick(
+        vanguardPlayer: VanguardPlayer,
+        origin: VanguardOrigin,
+        reason: String,
+        message: Component,
+        scope: String
+    ): Boolean {
+        return kickManager.kick(vanguardPlayer, origin, reason, message, scope)
     }
 
     override fun kick(uuid: UUID, message: Component, scope: String): Boolean {
