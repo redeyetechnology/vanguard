@@ -18,16 +18,19 @@
 
 package ltd.redeye.vanguard.paper.listener
 
+import io.papermc.paper.event.player.AsyncChatEvent
+import ltd.redeye.vanguard.common.VanguardCore
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import java.util.*
 
 class PlayerPaperEvents : Listener {
     @EventHandler
     fun preJoin(event: AsyncPlayerPreLoginEvent) {
-        val preventJoin = ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.generateBanMessage(event.uniqueId) ?: return
+        val preventJoin = VanguardCore.instance.playerManager.generateBanMessage(event.uniqueId) ?: return
 
         event.disallow(
             AsyncPlayerPreLoginEvent.Result.KICK_BANNED,
@@ -37,7 +40,7 @@ class PlayerPaperEvents : Listener {
 
     @EventHandler
     fun playerJoin(event: PlayerJoinEvent) {
-        ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.playerJoined(
+        VanguardCore.instance.playerManager.playerJoined(
             event.player.uniqueId,
             event.player.name,
             event.player.address.hostString
@@ -46,9 +49,24 @@ class PlayerPaperEvents : Listener {
 
     @EventHandler
     fun playerLeave(event: PlayerQuitEvent) {
-        ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.playerLeft(
+        VanguardCore.instance.playerManager.playerLeft(
             event.player.uniqueId
         )
+    }
+
+    @EventHandler
+    fun onAsyncChat(event: AsyncChatEvent) {
+        val player = event.player
+
+        val mute = VanguardCore.instance.punishmentManager.getActiveMute(
+            player.uniqueId,
+            VanguardCore.instance.config.serverName
+        ) ?: return
+
+        event.isCancelled = true
+
+        val muteMessage = VanguardCore.instance.playerManager.generateMuteMessage(mute)
+        player.sendMessage(muteMessage)
     }
 
 }

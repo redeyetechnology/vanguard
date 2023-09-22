@@ -53,6 +53,9 @@ data class MessagesConfig(
     @Comment("This is the message displayed when a player attempts to login while banned. Placeholders: <reason>, <expiry>")
     var disallowedLoginBanned: List<String> = mutableListOf("<red>You are unable to login because you are banned.", "", "<gray>Reason: <white><reason>", "<gray>Expires: <white><expiry>"),
 
+    @Comment("This is the message displayed when a player attempts to chat while muted. Placeholders: <reason>, <expiry>")
+    var disallowedChatMuted: List<String> = mutableListOf("<red>You are unable to chat because you are muted.", "", "<gray>Reason: <white><reason>", "<gray>Expires: <white><expiry>"),
+
     @Comment("The screen for /userhistory")
     var userHistory: PaginationMessages = PaginationMessages(),
 

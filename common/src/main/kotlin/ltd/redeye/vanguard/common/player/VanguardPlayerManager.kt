@@ -19,6 +19,8 @@
 package ltd.redeye.vanguard.common.player
 
 import ltd.redeye.vanguard.common.punishment.type.Ban
+import ltd.redeye.vanguard.common.punishment.type.Mute
+import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.util.CountdownUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.JoinConfiguration
@@ -63,25 +65,12 @@ class VanguardPlayerManager(private val core: ltd.redeye.vanguard.common.Vanguar
 
         val originPlayer = core.playerManager.getPlayerName(activeBan.source?.uuid?.toString())
 
-        val expiresTextRaw =
-            if (activeBan.expires == Date(0)) core.messages.expiryPlaceholders.permanent
-            else core.messages.expiryPlaceholders.temporary
-
-        val formattedDate = Date.from(activeBan.expires.toInstant())
-        val formattedNew = SimpleDateFormat.getInstance().format(formattedDate)
-        val countdown = CountdownUtil.countdownString(Date(), activeBan.expires)
-
-        val expiresTagResolver = TagResolver.builder()
-            .tag("date", Tag.inserting(Component.text(formattedNew)))
-            .tag("countdown", Tag.inserting(Component.text(countdown)))
-            .build()
-
-        val expiresTag = MiniMessage.miniMessage().deserialize(expiresTextRaw, expiresTagResolver)
+        val expiresTag = generateExpiryMessage(activeBan)
 
         val tagResolver = TagResolver.builder()
             .tag("reason", Tag.inserting(Component.text(activeBan.reason ?: noReasonProvided)))
             .tag("origin", Tag.inserting(Component.text(originPlayer)))
-            .tag("expires", Tag.inserting(expiresTag))
+            .tag("expiry", Tag.inserting(expiresTag))
             .build()
 
         val miniMessage = MiniMessage.miniMessage()
@@ -92,6 +81,48 @@ class VanguardPlayerManager(private val core: ltd.redeye.vanguard.common.Vanguar
         }
 
         return Component.join(JoinConfiguration.newlines(), components)
+    }
+
+    fun generateMuteMessage(activeMute: Mute): Component {
+        val message = core.messages.disallowedChatMuted
+        val noReasonProvided = core.messages.noReasonProvided
+
+        val originPlayer = core.playerManager.getPlayerName(activeMute.source.uuid.toString())
+
+        val expiresTag = generateExpiryMessage(activeMute)
+
+        val tagResolver = TagResolver.builder()
+            .tag("reason", Tag.inserting(Component.text(activeMute.reason ?: noReasonProvided)))
+            .tag("origin", Tag.inserting(Component.text(originPlayer)))
+            .tag("expiry", Tag.inserting(expiresTag))
+            .build()
+
+        val miniMessage = MiniMessage.miniMessage()
+
+        val components = mutableListOf<Component>()
+        message.forEach {
+            components.add(miniMessage.deserialize(it, tagResolver))
+        }
+
+        return Component.join(JoinConfiguration.newlines(), components)
+    }
+
+    private fun generateExpiryMessage(punishment: ActivePunishment): Component {
+
+        val expiresTextRaw =
+            if (punishment.expires == Date(0)) core.messages.expiryPlaceholders.permanent
+            else core.messages.expiryPlaceholders.temporary
+
+        val date = Date.from(punishment.expires.toInstant())
+        val formattedDate = SimpleDateFormat.getInstance().format(date)
+        val countdown = CountdownUtil.countdownString(Date(), punishment.expires)
+
+        val expiresTagResolver = TagResolver.builder()
+            .tag("date", Tag.inserting(Component.text(formattedDate)))
+            .tag("countdown", Tag.inserting(Component.text(countdown)))
+            .build()
+
+        return MiniMessage.miniMessage().deserialize(expiresTextRaw, expiresTagResolver)
     }
 
     private fun getPlayerName(source: String?): String {
