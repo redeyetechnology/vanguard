@@ -58,6 +58,10 @@ class CommandBan : VanguardCommand() {
             null,
             scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
         )
+
+        val core = VanguardCore.instance
+        val resolver = buildGenericTagResolver(target, reason, origin, null)
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver.build())
     }
 
     @CommandMethod("tempban <player> <duration> [reason]")
@@ -83,13 +87,17 @@ class CommandBan : VanguardCommand() {
         ) scope: String?
     ) {
         val origin = getOrigin(sender)
-        punishmentManager.ban(
+        val ban = punishmentManager.ban(
             target,
             reason,
             origin,
             duration,
             scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
         )
+
+        val core = VanguardCore.instance
+        val resolver = buildGenericTagResolver(target, reason, origin, ban.getFormattedDuration())
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver.build())
     }
 
     @CommandMethod("banip <player> [reason]")
@@ -111,13 +119,17 @@ class CommandBan : VanguardCommand() {
         ) scope: String?
     ) {
         val origin = getOrigin(sender)
-        punishmentManager.banIp(
+        val ban = punishmentManager.banIp(
             target,
             reason,
             origin,
             null,
             scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
         )
+
+        val core = VanguardCore.instance
+        val resolver = buildGenericTagResolver(target, reason, origin, null)
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyIpBanned, resolver.build())
     }
 
     @CommandMethod("tempbanip <player> <duration> [reason]")
@@ -143,13 +155,17 @@ class CommandBan : VanguardCommand() {
         ) scope: String?
     ) {
         val origin = getOrigin(sender)
-        punishmentManager.banIp(
+        val ban = punishmentManager.banIp(
             target,
             reason,
             origin,
             duration,
             scope ?: VanguardPunishmentManager.GLOBAL_SCOPE
         )
+
+        val core = VanguardCore.instance
+        val resolver = buildGenericTagResolver(target, reason, origin, ban.first().getFormattedDuration())
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver.build())
     }
 
     @CommandMethod("unban <player>")
@@ -168,5 +184,9 @@ class CommandBan : VanguardCommand() {
     ) {
         val origin = getOrigin(sender);
         punishmentManager.unban(target, origin, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+
+        val core = VanguardCore.instance
+        val resolver = buildGenericTagResolver(target, null, origin, null)
+        core.messagingProxy.alertStaff(core.messages.alerts.unbanned, resolver.build())
     }
 }

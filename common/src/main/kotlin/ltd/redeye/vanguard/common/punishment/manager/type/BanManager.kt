@@ -31,7 +31,7 @@ interface BanManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    )
+    ) : Ban
 
     fun unban(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String)
 
@@ -41,7 +41,7 @@ interface BanManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    )
+    ) : Set<Ban>
 
     fun unbanIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String)
 
@@ -52,7 +52,7 @@ interface BanManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    )
+    ) : Ban
 
     fun unbanIp(address: String, source: VanguardOrigin, scope: String)
 
