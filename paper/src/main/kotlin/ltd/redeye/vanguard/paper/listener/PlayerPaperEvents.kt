@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 class PlayerPaperEvents : Listener {
     @EventHandler
     fun preJoin(event: AsyncPlayerPreLoginEvent) {
-        val preventJoin = ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.shouldPreventLogin(event.uniqueId) ?: return
+        val preventJoin = ltd.redeye.vanguard.common.VanguardCore.instance.playerManager.generateBanMessage(event.uniqueId) ?: return
 
         event.disallow(
             AsyncPlayerPreLoginEvent.Result.KICK_BANNED,

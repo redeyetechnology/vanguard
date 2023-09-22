@@ -41,7 +41,7 @@ class VanguardPlayerParser<C> : ArgumentParser<C, VanguardPlayer> {
             )
 
         val player = VanguardCore.instance.getVanguardPlayer(input).get()
-        return if (player == null) {
+        return if (player.isEmpty) {
             ArgumentParseResult.failure(
                 VanguardPlayerParseException(
                     input,
@@ -50,7 +50,7 @@ class VanguardPlayerParser<C> : ArgumentParser<C, VanguardPlayer> {
             )
         } else {
             inputQueue.remove()
-            ArgumentParseResult.success(player)
+            ArgumentParseResult.success(player.get())
         }
 
     }

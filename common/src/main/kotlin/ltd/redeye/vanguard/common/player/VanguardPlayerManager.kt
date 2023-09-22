@@ -18,6 +18,7 @@
 
 package ltd.redeye.vanguard.common.player
 
+import ltd.redeye.vanguard.common.punishment.type.Ban
 import ltd.redeye.vanguard.common.util.CountdownUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.JoinConfiguration
@@ -45,9 +46,17 @@ class VanguardPlayerManager(private val core: ltd.redeye.vanguard.common.Vanguar
         serverCache.remove(uuid)
     }
 
-    fun shouldPreventLogin(uuid: UUID): Component? {
-        val activeBan = core.punishmentManager.getActiveBan(uuid, core.config.serverName) ?: return null
+    fun generateBanMessage(address: String): Component? {
+        val activeBan = core.punishmentManager.getActiveBan(address, core.config.serverName) ?: return null
+        return generateBanMessage(activeBan)
+    }
 
+    fun generateBanMessage(uuid: UUID): Component? {
+        val activeBan = core.punishmentManager.getActiveBan(uuid, core.config.serverName) ?: return null
+        return generateBanMessage(activeBan)
+    }
+
+    fun generateBanMessage(activeBan: Ban): Component {
         val message = core.messages.disallowedLoginBanned
         val noReasonProvided = core.messages.noReasonProvided
 

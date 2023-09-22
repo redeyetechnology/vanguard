@@ -37,7 +37,7 @@ data class VanguardConfig(
     val network: NetworkConfig = NetworkConfig(),
 
     @Comment("The date format used for punishments.")
-    val dateFormat: String = "dd/MM/yyyy HH:mm:ss",
+    val dateFormat: String = "dd MMM yyyy hh:mma z",
 
     @Comment("Send RedEye anonymous usage statistics to help improve Vanguard.")
     val sendAnonymousStats: Boolean = true,

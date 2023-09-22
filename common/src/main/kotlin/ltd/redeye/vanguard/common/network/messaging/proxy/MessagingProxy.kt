@@ -30,6 +30,8 @@ interface MessagingProxy {
 
     fun kickPlayer(player: UUID, message: Component, scope: String): Boolean
 
+    fun kickPlayer(address: String, message: Component, scope: String): Boolean
+
     fun alertStaff(message: VanguardMessage, placeholders: TagResolver?)
 
     fun alertPlayer(uuid: UUID, message: SerializedVanguardMessage)

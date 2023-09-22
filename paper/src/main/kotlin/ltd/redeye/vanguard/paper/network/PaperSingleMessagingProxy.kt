@@ -53,6 +53,10 @@ object PaperSingleMessagingProxy : MessagingProxy {
         } && (scope == VanguardPunishmentManager.GLOBAL_SCOPE || VanguardCore.instance.config.serverName == scope)
     }
 
+    override fun kickPlayer(address: String, message: Component, scope: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
         getStaff { staff -> staff.forEach { message.send(it, placeholders) } }
     }
