@@ -23,7 +23,6 @@ import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.type.WarnManager
 import ltd.redeye.vanguard.common.punishment.type.Warning
-import java.time.Duration
 import java.util.*
 
 class VanguardWarnManager(private val core: VanguardCore) : WarnManager {
@@ -32,7 +31,6 @@ class VanguardWarnManager(private val core: VanguardCore) : WarnManager {
         vanguardPlayer: VanguardPlayer,
         reason: String?,
         source: VanguardOrigin,
-        duration: Duration?,
         scope: String
     ) {
 
@@ -48,7 +46,6 @@ class VanguardWarnManager(private val core: VanguardCore) : WarnManager {
         )
 
         core.storageDriver.addPunishment(warning)
-
     }
 
     override fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning> {

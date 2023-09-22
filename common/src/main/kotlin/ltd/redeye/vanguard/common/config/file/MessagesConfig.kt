@@ -56,6 +56,9 @@ data class MessagesConfig(
     @Comment("This is the message displayed when a player attempts to chat while muted. Placeholders: <reason>, <expiry>")
     var disallowedChatMuted: List<String> = mutableListOf("<red>You are unable to chat because you are muted.", "", "<gray>Reason: <white><reason>", "<gray>Expires: <white><expiry>"),
 
+    @Comment("This is the message shown to players when they are kicked via /kick")
+    var kickedScreen: List<String> = mutableListOf("<red>You were kicked by <white><origin>", "", "<gray>Reason: <white><reason>"),
+
     @Comment("The screen for /userhistory")
     var userHistory: PaginationMessages = PaginationMessages(),
 

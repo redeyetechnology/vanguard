@@ -126,8 +126,8 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
-        muteManager.mute(vanguardPlayer, reason, source, duration, scope)
+    ): Mute {
+        return muteManager.mute(vanguardPlayer, reason, source, duration, scope)
     }
 
     override fun unmute(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
@@ -140,8 +140,8 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
-        muteManager.muteIp(vanguardPlayer, reason, source, duration, scope)
+    ): Set<Mute> {
+        return muteManager.muteIp(vanguardPlayer, reason, source, duration, scope)
     }
 
     override fun muteIp(
@@ -151,8 +151,8 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
-        muteManager.muteIp(address, targetName, reason, source, duration, scope)
+    ): Mute {
+        return muteManager.muteIp(address, targetName, reason, source, duration, scope)
     }
 
     override fun unmuteIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
@@ -201,10 +201,9 @@ class VanguardPunishmentManager(private val core: VanguardCore) : BanManager, Mu
         vanguardPlayer: VanguardPlayer,
         reason: String?,
         source: VanguardOrigin,
-        duration: Duration?,
         scope: String
     ) {
-        return warnManager.warn(vanguardPlayer, reason, source, duration, scope)
+        return warnManager.warn(vanguardPlayer, reason, source, scope)
     }
 
     override fun getWarns(vanguardPlayer: VanguardPlayer, scope: String): Set<Warning> {

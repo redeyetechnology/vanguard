@@ -27,31 +27,31 @@ import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.VanguardPunishmentManager
 import java.time.Duration
 
-class CommandBan : VanguardCommand() {
+class CommandMute : VanguardCommand() {
 
     private val punishmentManager = VanguardCore.instance.punishmentManager
 
-    @CommandMethod("ban <player> [reason]")
-    @CommandPermission("vanguard.command.ban")
-    @CommandDescription("Ban a player from the server.")
-    fun ban(
+    @CommandMethod("mute <player> [reason]")
+    @CommandPermission("vanguard.command.mute")
+    @CommandDescription("mute a player from the server.")
+    fun mute(
         sender: VanguardCommandSource<*>,
         @Argument(
             "player",
-            description = "The player to ban"
+            description = "The player to mute"
         ) target: VanguardPlayer,
         @Argument(
             "reason",
-            description = "The reason why the player has been banned"
+            description = "The reason why the player has been mutened"
         ) @Greedy reason: String?,
         @Flag(
             "scope",
-            permission = "vanguard.command.ban.scoped",
-            description = "Which server to ban the player on"
+            permission = "vanguard.command.mute.scoped",
+            description = "Which server to mute the player on"
         ) scope: String?,
     ) {
         val origin = getOrigin(sender)
-        punishmentManager.ban(
+        punishmentManager.mute(
             target,
             reason,
             origin,
@@ -61,33 +61,33 @@ class CommandBan : VanguardCommand() {
 
         val core = VanguardCore.instance
         val resolver = buildGenericTagResolver(target, reason, origin, null)
-        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver.build())
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyMuted, resolver.build())
     }
 
-    @CommandMethod("tempban <player> <duration> [reason]")
-    @CommandPermission("vanguard.command.tempban")
-    @CommandDescription("Temporarily ban a player from the server.")
-    fun banTemp(
+    @CommandMethod("tempmute <player> <duration> [reason]")
+    @CommandPermission("vanguard.command.tempmute")
+    @CommandDescription("Temporarily mute a player from the server.")
+    fun muteTemp(
         sender: VanguardCommandSource<*>,
         @Argument(
             "player",
-            description = "The player to ban"
+            description = "The player to mute"
         ) target: VanguardPlayer,
         @Argument(
             "duration",
-            description = "How long to ban the player for"
+            description = "How long to mute the player for"
         ) duration: Duration,
         @Argument(
             "reason",
-            description = "The reason why the player has been banned"
+            description = "The reason why the player has been mutened"
         ) @Greedy reason: String?,
         @Flag(
             "scope",
-            description = "Which server to ban the player on"
+            description = "Which server to mute the player on"
         ) scope: String?
     ) {
         val origin = getOrigin(sender)
-        val ban = punishmentManager.ban(
+        val mute = punishmentManager.mute(
             target,
             reason,
             origin,
@@ -96,30 +96,30 @@ class CommandBan : VanguardCommand() {
         )
 
         val core = VanguardCore.instance
-        val resolver = buildGenericTagResolver(target, reason, origin, ban.getFormattedDuration())
-        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyBanned, resolver.build())
+        val resolver = buildGenericTagResolver(target, reason, origin, mute.getFormattedDuration())
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyMuted, resolver.build())
     }
 
-    @CommandMethod("banip <player> [reason]")
-    @CommandPermission("vanguard.command.banip")
-    @CommandDescription("Ban a player's IP from the server.")
-    fun banIp(
+    @CommandMethod("muteip <player> [reason]")
+    @CommandPermission("vanguard.command.muteip")
+    @CommandDescription("mute a player's IP from the server.")
+    fun muteIp(
         sender: VanguardCommandSource<*>,
         @Argument(
             "player",
-            description = "The player to ban"
+            description = "The player to mute"
         ) target: VanguardPlayer,
         @Argument(
             "reason",
-            description = "The reason why the player has been banned"
+            description = "The reason why the player has been mutened"
         ) @Greedy reason: String?,
         @Flag(
             "scope",
-            description = "Which server to ban the player on"
+            description = "Which server to mute the player on"
         ) scope: String?
     ) {
         val origin = getOrigin(sender)
-        val ban = punishmentManager.banIp(
+        val mute = punishmentManager.muteIp(
             target,
             reason,
             origin,
@@ -129,33 +129,33 @@ class CommandBan : VanguardCommand() {
 
         val core = VanguardCore.instance
         val resolver = buildGenericTagResolver(target, reason, origin, null)
-        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyIpBanned, resolver.build())
+        core.messagingProxy.alertStaff(core.messages.alerts.permanentlyIpMuted, resolver.build())
     }
 
-    @CommandMethod("tempbanip <player> <duration> [reason]")
-    @CommandPermission("vanguard.command.tempbanip")
-    @CommandDescription("Temporarily ban a player's IP from the server.")
-    fun banIpTemp(
+    @CommandMethod("tempmuteip <player> <duration> [reason]")
+    @CommandPermission("vanguard.command.tempmuteip")
+    @CommandDescription("Temporarily mute a player's IP from the server.")
+    fun muteIpTemp(
         sender: VanguardCommandSource<*>,
         @Argument(
             "player",
-            description = "The player or IP to ban"
+            description = "The player or IP to mute"
         ) target: VanguardPlayer,
         @Argument(
             "duration",
-            description = "How long to ban the player for"
+            description = "How long to mute the player for"
         ) duration: Duration,
         @Argument(
             "reason",
-            description = "The reason why the player has been banned"
+            description = "The reason why the player has been mutened"
         ) @Greedy reason: String?,
         @Flag(
             "scope",
-            description = "Which server to ban the player on"
+            description = "Which server to mute the player on"
         ) scope: String?
     ) {
         val origin = getOrigin(sender)
-        val ban = punishmentManager.banIp(
+        val mute = punishmentManager.muteIp(
             target,
             reason,
             origin,
@@ -164,29 +164,29 @@ class CommandBan : VanguardCommand() {
         )
 
         val core = VanguardCore.instance
-        val resolver = buildGenericTagResolver(target, reason, origin, ban.first().getFormattedDuration())
-        core.messagingProxy.alertStaff(core.messages.alerts.temporarilyIpBanned, resolver.build())
+        val resolver = buildGenericTagResolver(target, reason, origin, mute.first().getFormattedDuration())
+        core.messagingProxy.alertStaff(core.messages.alerts.temporarilyIpMuted, resolver.build())
     }
 
-    @CommandMethod("unban <player>")
-    @CommandPermission("vanguard.command.unban")
-    @CommandDescription("Unban a player from the server.")
-    fun unban(
+    @CommandMethod("unmute <player>")
+    @CommandPermission("vanguard.command.unmute")
+    @CommandDescription("Unmute a player from the server.")
+    fun unmute(
         sender: VanguardCommandSource<*>,
         @Argument(
             "player",
-            description = "The player to unban"
+            description = "The player to unmute"
         ) target: VanguardPlayer,
         @Flag(
             "scope",
-            description = "Which server to ban the player on"
+            description = "Which server to mute the player on"
         ) scope: String?
     ) {
         val origin = getOrigin(sender);
-        punishmentManager.unban(target, origin, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
+        punishmentManager.unmute(target, origin, scope ?: VanguardPunishmentManager.GLOBAL_SCOPE)
 
         val core = VanguardCore.instance
         val resolver = buildGenericTagResolver(target, null, origin, null)
-        core.messagingProxy.alertStaff(core.messages.alerts.unbanned, resolver.build())
+        core.messagingProxy.alertStaff(core.messages.alerts.unmuted, resolver.build())
     }
 }

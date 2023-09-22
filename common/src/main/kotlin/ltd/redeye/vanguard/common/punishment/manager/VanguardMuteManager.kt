@@ -55,7 +55,7 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
+    ): Mute {
 
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
@@ -78,6 +78,8 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         )
 
         core.storageDriver.addPunishment(mute)
+
+        return mute
     }
 
     override fun unmute(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
@@ -95,10 +97,12 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
+    ): Set<Mute> {
+        val mutes = mutableSetOf<Mute>()
         vanguardPlayer.knownIps.forEach {
-            muteIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration, scope)
+            mutes.add(muteIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration, scope))
         }
+        return mutes
     }
 
     override fun muteIp(
@@ -108,7 +112,7 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
+    ): Mute {
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
         } else {
@@ -130,6 +134,8 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         )
 
         core.storageDriver.addPunishment(mute)
+
+        return mute
     }
 
     override fun unmuteIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {

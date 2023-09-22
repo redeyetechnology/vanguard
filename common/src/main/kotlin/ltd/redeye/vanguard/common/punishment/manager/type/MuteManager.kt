@@ -31,7 +31,7 @@ interface MuteManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    )
+    ): Mute
 
     fun unmute(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String)
 
@@ -41,7 +41,7 @@ interface MuteManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    )
+    ): Set<Mute>
 
     fun unmuteIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String)
 
@@ -52,7 +52,7 @@ interface MuteManager {
         source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    )
+    ): Mute
 
     fun unmuteIp(address: String, source: VanguardOrigin, scope: String)
 
