@@ -18,11 +18,13 @@
 
 package ltd.redeye.vanguard.common.punishment.type
 
+import dev.morphia.annotations.Entity
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.util.*
 
+@Entity("mutes")
 data class Mute(
     val ip: Boolean,
     override val expires: Date,
