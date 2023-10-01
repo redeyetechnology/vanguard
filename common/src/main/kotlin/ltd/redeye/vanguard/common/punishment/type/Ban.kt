@@ -20,10 +20,10 @@ package ltd.redeye.vanguard.common.punishment.type
 
 import dev.morphia.annotations.Entity
 import dev.morphia.annotations.Id
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
-import java.util.UUID
-import java.util.Date
+import java.util.*
 
 @Entity
 data class Ban(
@@ -35,8 +35,10 @@ data class Ban(
     override var target: String,
     override var targetName: String,
     override var reason: String?,
-    override var source: String?,
+    override var source: VanguardOrigin,
     override var created: Date,
     override var updated: Date,
     override val scope: String
-) : ActivePunishment, Punishment
+) : ActivePunishment, Punishment {
+    constructor() : this(false, Date(), false, UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
+}

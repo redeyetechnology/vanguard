@@ -19,14 +19,29 @@
 package ltd.redeye.vanguard.common.punishment.manager
 
 import ltd.redeye.vanguard.common.VanguardCore
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.manager.type.KickManager
+import ltd.redeye.vanguard.common.punishment.type.Kick
 import net.kyori.adventure.text.Component
 import java.util.*
 
 class VanguardKickManager(private val core: VanguardCore) : KickManager {
 
-    override fun kick(vanguardPlayer: VanguardPlayer, message: Component, scope: String): Boolean {
+    override fun kick(vanguardPlayer: VanguardPlayer, origin: VanguardOrigin, reason: String, message: Component, scope: String): Boolean {
+
+        val kick = Kick(
+            id = UUID.randomUUID(),
+            target = vanguardPlayer.uuid.toString(),
+            targetName = vanguardPlayer.knownNames.first(),
+            reason = reason,
+            source = origin,
+            created = Date(),
+            updated = Date(),
+            scope = scope
+        )
+
+        core.storageDriver.addPunishment(kick)
         return core.messagingProxy.kickPlayer(vanguardPlayer.uuid, message, scope)
     }
 

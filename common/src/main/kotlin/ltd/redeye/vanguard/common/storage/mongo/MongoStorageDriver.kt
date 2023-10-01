@@ -104,13 +104,16 @@ class MongoStorageDriver : VanguardStorageDriver {
         val punishments = mutableSetOf<Punishment>()
 
         val bans =
-            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            datastore.find(Ban::class.java)
+                .filter(Filters.eq("target", vanguardPlayer.uuid.toString()), scopeFilters(scope))
                 .toList()
         val mutes =
-            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            datastore.find(Ban::class.java)
+                .filter(Filters.eq("target", vanguardPlayer.uuid.toString()), scopeFilters(scope))
                 .toList()
         val warns =
-            datastore.find(Ban::class.java).filter(Filters.eq("target", vanguardPlayer.uuid), scopeFilters(scope))
+            datastore.find(Ban::class.java)
+                .filter(Filters.eq("target", vanguardPlayer.uuid.toString()), scopeFilters(scope))
                 .toList()
 
         punishments.addAll(bans)
@@ -176,8 +179,18 @@ class MongoStorageDriver : VanguardStorageDriver {
             .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).toList()
 
         val activePunishments = mutableSetOf<ActivePunishment>()
-        activePunishments.addAll(activeMutes)
-        activePunishments.addAll(activeBans)
+
+        activeBans.forEach { ban ->
+            if (!ban.hasExpired()) {
+                activePunishments.add(ban)
+            }
+        }
+
+        activeMutes.forEach { mute ->
+            if (!mute.hasExpired()) {
+                activePunishments.add(mute)
+            }
+        }
 
         return activePunishments
     }
@@ -187,28 +200,58 @@ class MongoStorageDriver : VanguardStorageDriver {
     }
 
     override fun getActiveBan(uuid: UUID, scope: String): Ban? {
-        return datastore.find(Ban::class.java)
-            .filter(Filters.eq("target", uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+        val ban = datastore.find(Ban::class.java)
+            .filter(Filters.eq("target", uuid.toString()), Filters.eq("active", true), scopeFilters(scope)).first() ?: return null
+
+        return if (ban.hasExpired()) {
+            null
+        } else {
+            ban
+        }
     }
 
     override fun getActiveBan(address: String, scope: String): Ban? {
-        return datastore.find(Ban::class.java)
-            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first()
+        val ban = datastore.find(Ban::class.java)
+            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first() ?: return null
+
+        return if (ban.hasExpired()) {
+            null
+        } else {
+            ban
+        }
     }
 
     override fun getActiveMute(vanguardPlayer: VanguardPlayer, scope: String): Mute? {
-        return datastore.find(Mute::class.java)
-            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+        val mute = datastore.find(Mute::class.java)
+            .filter(Filters.eq("target", vanguardPlayer.uuid), Filters.eq("active", true), scopeFilters(scope)).first() ?: return null
+
+        return if (mute.hasExpired()) {
+            null
+        } else {
+            mute
+        }
     }
 
     override fun getActiveMute(address: String, scope: String): Mute? {
-        return datastore.find(Mute::class.java)
-            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first()
+        val mute = datastore.find(Mute::class.java)
+            .filter(Filters.eq("target", address), Filters.eq("active", true), scopeFilters(scope)).first() ?: return null
+
+        return if (mute.hasExpired()) {
+            null
+        } else {
+            mute
+        }
     }
 
     override fun getActiveMute(uuid: UUID, scope: String): Mute? {
-        return datastore.find(Mute::class.java)
-            .filter(Filters.eq("id", uuid), Filters.eq("active", true), scopeFilters(scope)).first()
+        val mute = datastore.find(Mute::class.java)
+            .filter(Filters.eq("id", uuid), Filters.eq("active", true), scopeFilters(scope)).first() ?: return null
+
+        return if (mute.hasExpired()) {
+            null
+        } else {
+            mute
+        }
     }
 
     private fun scopeFilters(scope: String): Filter {

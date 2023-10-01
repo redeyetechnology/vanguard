@@ -81,8 +81,10 @@ class VanguardCore(private val vanguardPlugin: VanguardPlugin) {
 
     private fun selectMessagingProxy(): MessagingProxy {
         return if (config.network.enabled) {
+            logger.info("Using Redis messaging proxy")
             RedisMessagingProxy(vanguardPlugin.defaultMessagingProxy())
         } else {
+            logger.info("Using single server messaging proxy")
             vanguardPlugin.defaultMessagingProxy()
         }
     }

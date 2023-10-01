@@ -18,10 +18,13 @@
 
 package ltd.redeye.vanguard.common.punishment.type
 
+import dev.morphia.annotations.Entity
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.punishment.type.impl.ActivePunishment
 import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
 import java.util.*
 
+@Entity("mutes")
 data class Mute(
     val ip: Boolean,
     override val expires: Date,
@@ -30,8 +33,10 @@ data class Mute(
     override val target: String,
     override val targetName: String,
     override val reason: String?,
-    override val source: String?,
+    override val source: VanguardOrigin,
     override val created: Date,
     override var updated: Date,
     override val scope: String
-) : ActivePunishment, Punishment
+) : ActivePunishment, Punishment {
+    constructor() : this(false, Date(), false, UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
+}

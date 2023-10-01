@@ -18,15 +18,15 @@
 
 package ltd.redeye.vanguard.common.punishment.type.impl
 
-import java.util.Date
-import java.util.UUID
+import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
+import java.util.*
 
 interface Punishment {
     val id: UUID
     val target: String
     val targetName: String
     val reason: String?
-    val source: String?
+    val source: VanguardOrigin
     val created: Date
     val updated: Date
     val scope: String

@@ -16,21 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.common.punishment.type
+package ltd.redeye.vanguard.common.network.messaging.proxy.internal
 
-import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
-import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
-import java.util.*
+import org.jetbrains.annotations.ApiStatus
 
-data class Kick(
-    override val id: UUID,
-    override val target: String,
-    override val targetName: String,
-    override val reason: String?,
-    override val source: VanguardOrigin,
-    override val created: Date,
-    override val updated: Date,
-    override val scope: String
-) : Punishment {
-    constructor() : this(UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
-}
+@ApiStatus.Internal
+data class KickAddressMessage(val address: String, val message: String, val scope: String)

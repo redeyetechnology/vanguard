@@ -28,12 +28,15 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 /**
  * A messaging proxy for when no message broker is available
  */
-object PaperSingleMessagingProxy : MessagingProxy {
+class PaperSingleMessagingProxy(val plugin: JavaPlugin) : MessagingProxy {
+    val logger = VanguardCore.instance.logger
+
 
     override fun alertPlayer(uuid: UUID, message: VanguardMessage, placeholders: TagResolver?): Boolean {
         return ifPlayerOnline(uuid) {
@@ -48,16 +51,26 @@ object PaperSingleMessagingProxy : MessagingProxy {
     }
 
     override fun kickPlayer(player: UUID, message: Component, scope: String): Boolean {
+        println("Kicking player $player with message $message")
+
         return ifPlayerOnline(player) {
-            it.kick(message)
+            Bukkit.getScheduler().runTask(plugin) { _ -> it.kick(message) }
         } && (scope == VanguardPunishmentManager.GLOBAL_SCOPE || VanguardCore.instance.config.serverName == scope)
     }
 
     override fun kickPlayer(address: String, message: Component, scope: String): Boolean {
-        TODO("Not yet implemented")
+        var kickedPlayer = false
+        Bukkit.getOnlinePlayers().forEach { player ->
+            if(player.address.hostString == address) {
+                Bukkit.getScheduler().runTask(plugin) { _ -> player.kick(message) }
+                kickedPlayer = true
+            }
+        }
+        return kickedPlayer
     }
 
     override fun alertStaff(message: VanguardMessage, placeholders: TagResolver?) {
+        println("Alerting staff with message $message")
         getStaff { staff -> staff.forEach { message.send(it, placeholders) } }
     }
 
@@ -76,6 +89,7 @@ object PaperSingleMessagingProxy : MessagingProxy {
 
     private fun getStaff(staff: (List<Player>) -> Unit) {
         val players = Bukkit.getOnlinePlayers().filter { it.hasPermission(Permissions.STAFF.permission()) }
+        println(players.toString())
         if (players.isNotEmpty()) {
             staff.invoke(players)
         }

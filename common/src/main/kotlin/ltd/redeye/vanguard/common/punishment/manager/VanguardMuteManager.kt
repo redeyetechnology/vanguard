@@ -52,10 +52,10 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
     override fun mute(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
+    ): Mute {
 
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
@@ -68,7 +68,7 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
             target = vanguardPlayer.uuid.toString(),
             targetName = vanguardPlayer.knownNames.first(),
             reason = reason,
-            source = source.toString(),
+            source = source,
             created = Date(),
             updated = Date(),
             expires = expires,
@@ -78,9 +78,11 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         )
 
         core.storageDriver.addPunishment(mute)
+
+        return mute
     }
 
-    override fun unmute(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+    override fun unmute(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
         val activeMute = getActiveMute(vanguardPlayer, scope)
         if (activeMute != null) {
             activeMute.active = false
@@ -92,23 +94,25 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
     override fun muteIp(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
+    ): Set<Mute> {
+        val mutes = mutableSetOf<Mute>()
         vanguardPlayer.knownIps.forEach {
-            muteIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration, scope)
+            mutes.add(muteIp(it, vanguardPlayer.lastKnownName ?: core.messages.unknown, reason, source, duration, scope))
         }
+        return mutes
     }
 
     override fun muteIp(
         address: String,
         targetName: String,
         reason: String?,
-        source: VanguardOrigin?,
+        source: VanguardOrigin,
         duration: Duration?,
         scope: String
-    ) {
+    ): Mute {
         val expires: Date = if (duration != null) {
             Date.from(java.time.Instant.now().plus(duration))
         } else {
@@ -120,7 +124,7 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
             target = address,
             targetName = targetName,
             reason = reason,
-            source = source.toString(),
+            source = source,
             created = Date(),
             updated = Date(),
             expires = expires,
@@ -130,15 +134,17 @@ class VanguardMuteManager(private val core: VanguardCore) : MuteManager {
         )
 
         core.storageDriver.addPunishment(mute)
+
+        return mute
     }
 
-    override fun unmuteIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin?, scope: String) {
+    override fun unmuteIp(vanguardPlayer: VanguardPlayer, source: VanguardOrigin, scope: String) {
         vanguardPlayer.knownIps.forEach {
             unmuteIp(it, source, scope)
         }
     }
 
-    override fun unmuteIp(address: String, source: VanguardOrigin?, scope: String) {
+    override fun unmuteIp(address: String, source: VanguardOrigin, scope: String) {
         val activeMute = getActiveMute(address, scope)
         if (activeMute != null) {
             activeMute.active = false

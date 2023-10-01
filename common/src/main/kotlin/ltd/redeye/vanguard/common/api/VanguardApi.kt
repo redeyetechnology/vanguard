@@ -43,23 +43,23 @@ interface VanguardApi {
      * @return The current ban, or `null` if the player is not banned.
      */
     fun getCurrentBan(player: VanguardPlayer): Ban?
-    fun ban(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
-    fun unban(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
-    fun banIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
-    fun banIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?): Ban
-    fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
-    fun unbanIp(address: InetAddress, origin: VanguardOrigin?): Boolean
-    fun kick(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?): Kick
-    fun kickAll(origin: VanguardOrigin?, reason: String?)
+    fun ban(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Ban
+    fun unban(player: VanguardPlayer, origin: VanguardOrigin): Boolean
+    fun banIp(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Ban
+    fun banIp(address: InetAddress, origin: VanguardOrigin, reason: String?, duration: Long?): Ban
+    fun unbanIp(player: VanguardPlayer, origin: VanguardOrigin): Boolean
+    fun unbanIp(address: InetAddress, origin: VanguardOrigin): Boolean
+    fun kick(player: VanguardPlayer, origin: VanguardOrigin, reason: String?): Kick
+    fun kickAll(origin: VanguardOrigin, reason: String?)
     fun isMuted(player: VanguardPlayer): Boolean
     fun getCurrentMute(player: VanguardPlayer): Mute?
-    fun mute(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute
-    fun unmute(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
-    fun muteIp(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute?
-    fun muteIp(address: InetAddress, origin: VanguardOrigin?, reason: String?, duration: Long?): Mute?
-    fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin?): Boolean
-    fun unmuteIp(address: InetAddress, origin: VanguardOrigin?): Boolean
-    fun warn(player: VanguardPlayer, origin: VanguardOrigin?, reason: String?): Warning
+    fun mute(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Mute
+    fun unmute(player: VanguardPlayer, origin: VanguardOrigin): Boolean
+    fun muteIp(player: VanguardPlayer, origin: VanguardOrigin, reason: String?, duration: Long?): Mute?
+    fun muteIp(address: InetAddress, origin: VanguardOrigin, reason: String?, duration: Long?): Mute?
+    fun unmuteIp(player: VanguardPlayer, origin: VanguardOrigin): Boolean
+    fun unmuteIp(address: InetAddress, origin: VanguardOrigin): Boolean
+    fun warn(player: VanguardPlayer, origin: VanguardOrigin, reason: String?): Warning
     fun addNote(player: VanguardPlayer, origin: VanguardOrigin, note: String)
     fun addNoteIp(address: InetAddress, origin: VanguardOrigin, note: String)
     fun getPlayer(uuid: UUID): VanguardPlayer?

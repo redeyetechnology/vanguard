@@ -21,7 +21,6 @@ package ltd.redeye.vanguard.common.punishment.manager.type
 import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
 import ltd.redeye.vanguard.common.player.VanguardPlayer
 import ltd.redeye.vanguard.common.punishment.type.Warning
-import java.time.Duration
 import java.util.*
 
 interface WarnManager {
@@ -29,8 +28,7 @@ interface WarnManager {
     fun warn(
         vanguardPlayer: VanguardPlayer,
         reason: String?,
-        source: VanguardOrigin?,
-        duration: Duration?,
+        source: VanguardOrigin,
         scope: String
     )
 

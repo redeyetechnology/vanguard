@@ -16,21 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ltd.redeye.vanguard.common.punishment.type
+package ltd.redeye.vanguard.common.config.file.messages
 
-import ltd.redeye.vanguard.common.api.origin.VanguardOrigin
-import ltd.redeye.vanguard.common.punishment.type.impl.Punishment
-import java.util.*
+import org.spongepowered.configurate.objectmapping.ConfigSerializable
 
-data class Kick(
-    override val id: UUID,
-    override val target: String,
-    override val targetName: String,
-    override val reason: String?,
-    override val source: VanguardOrigin,
-    override val created: Date,
-    override val updated: Date,
-    override val scope: String
-) : Punishment {
-    constructor() : this(UUID(0, 0), "", "", "", VanguardOrigin(), Date(), Date(), "")
+@ConfigSerializable
+data class PunishmentTypeBag(
+    var ban: String,
+    var kick: String,
+    var mute: String,
+    var warn: String,
+    var unban: String
+) {
+    constructor() : this("", "", "", "", "") {}
 }

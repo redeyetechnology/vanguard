@@ -23,9 +23,16 @@ import ltd.redeye.vanguard.common.command.lib.types.VanguardCommandSource
 import ltd.redeye.vanguard.common.command.lib.types.VanguardPlayerCommandSource
 import ltd.redeye.vanguard.common.config.file.MessagesConfig
 import ltd.redeye.vanguard.common.config.file.VanguardConfig
+import ltd.redeye.vanguard.common.player.VanguardPlayer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.JoinConfiguration
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.Tag
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
+
+fun insertingTag(value: String): Tag {
+    return Tag.inserting(Component.text(value))
+}
 
 abstract class VanguardCommand {
     fun getMessages(): MessagesConfig {
@@ -52,6 +59,27 @@ abstract class VanguardCommand {
         }
     }
 
+    fun buildGenericTagResolver(player: VanguardPlayer? = null, reason: String? = null, origin: VanguardOrigin?, duration: String?): TagResolver.Builder {
+        val builder = TagResolver.builder()
+
+        if (player?.knownNames != null) {
+            builder.tag("player", insertingTag(player.knownNames.first()))
+        }
+
+        if (reason != null) {
+            builder.tag("reason", insertingTag(reason))
+        }
+
+        if (origin != null) {
+            builder.tag("origin", insertingTag(origin.name))
+        }
+
+        if (duration != null) {
+            builder.tag("duration", insertingTag(duration))
+        }
+
+        return builder
+    }
 
 
 }

@@ -21,14 +21,18 @@ package ltd.redeye.vanguard.common.command
 import ltd.redeye.vanguard.common.command.admin.CommandInfo
 import ltd.redeye.vanguard.common.command.admin.CommandShowExampleMessage
 import ltd.redeye.vanguard.common.command.lib.VanguardCommandManager
-import ltd.redeye.vanguard.common.command.moderation.CommandBan
+import ltd.redeye.vanguard.common.command.moderation.*
 
 object CommandRegistry {
     fun registerCommands(commandManager: VanguardCommandManager) {
         commandManager.registerCommands(
             CommandInfo(),
             CommandShowExampleMessage(),
-            CommandBan()
+            CommandBan(),
+            CommandMute(),
+            CommandWarn(),
+            CommandKick(),
+            CommandUserHistory()
         )
     }
 }
